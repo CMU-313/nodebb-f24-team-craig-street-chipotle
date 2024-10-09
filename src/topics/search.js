@@ -34,7 +34,7 @@ module.exports = function (Topics) {
 };
 
 
-// 'use strict'; 
+// 'use strict';
 
 // const _ = require('lodash');
 
@@ -45,16 +45,16 @@ module.exports = function (Topics) {
 
 // module.exports = function (Posts) {
 //     Posts.search = async function (data) {
-//         const query = data.query || ''; 
-//         const page = data.page || 1; 
-//         const pid = data.pid || 0; 
+//         const query = data.query || '';
+//         const page = data.page || 1;
+//         const pid = data.pid || 0;
 //         const paginate = data.hasOwnProperty('paginate') ? data.paginate : true;
-//         const searchBy = data.searchBy || 'keywords'; 
+//         const searchBy = data.searchBy || 'keywords';
 
 //         let pids = [];
 //         if (searchBy === 'keywords') {
 //             pids = await searchByKeywords(query);
-//         } 
+//         }
 //         // Add other searchBy options here
 
 //         const result = await plugins.hooks.fire('filter:posts.search', { pids: pids, pid: pid});
@@ -72,7 +72,7 @@ module.exports = function (Topics) {
 //             pids = pids.slice(start, stop);
 //         }
 
-//         return searchResult; 
+//         return searchResult;
 //     }
 
 //     async function searchByKeywords(query) {
@@ -80,12 +80,12 @@ module.exports = function (Topics) {
 //         keywordsArr = keywordsArr.map(keyword => keyword.toLowerCase());
 //         const topics = await db.getSortedSetRevRange('post:pid', 0, -1);
 //         topics = topics.filter(topic => {
-//             keywordsArr.some(keyword => 
-//                 topic.title.toLowerCase().includes(keyword) || 
+//             keywordsArr.some(keyword =>
+//                 topic.title.toLowerCase().includes(keyword) ||
 //                 topic.content.toLowerCase().includes(keyword))
 //         })
 
 //         const pids = topics.map(topic => topic.pid);
 //         return pids;
 //     }
-// }; 
+// };

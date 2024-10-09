@@ -55,7 +55,7 @@ module.exports = function (Posts) {
 		return hookResult.users;
 	};
 
-	//may need to handle something here, trying to figure out how this works to get a better understanding for anon
+	// may need to handle something here, trying to figure out how this works to get a better understanding for anon
 	Posts.overrideGuestHandle = function (postData, handle) {
 		if (meta.config.allowGuestHandles && postData && postData.user && parseInt(postData.uid, 10) === 0 && handle) {
 			postData.user.username = validator.escape(String(handle));
