@@ -1,11 +1,11 @@
 {
-    "title": "الحديثة",
-    "day": "يوم",
-    "week": "أسبوع",
-    "month": "شهر",
-    "year": "سنة",
-    "alltime": "دائمًا",
-    "no-recent-topics": "لايوجد مواضيع جديدة",
-    "no-popular-topics": "لا يوجد مواضيع شائعة",
-    "load-new-posts": "Load new posts"
+  "title": "الحديثة",
+  "day": "يوم",
+  "week": "أسبوع",
+  "month": "شهر",
+  "year": "سنة",
+  "alltime": "دائمًا",
+  "no-recent-topics": "لايوجد مواضيع جديدة",
+  "no-popular-topics": "لا يوجد مواضيع شائعة",
+  "load-new-posts": "Load new posts"
 }

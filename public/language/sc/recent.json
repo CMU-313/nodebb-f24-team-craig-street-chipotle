@@ -1,11 +1,11 @@
 {
-    "title": "Ùrtimos",
-    "day": "Die",
-    "week": "Chida",
-    "month": "Mese",
-    "year": "Year",
-    "alltime": "All Time",
-    "no-recent-topics": "Non bi sunt ùrtimas arresonadas.",
-    "no-popular-topics": "There are no popular topics.",
-    "load-new-posts": "Load new posts"
+  "title": "Ùrtimos",
+  "day": "Die",
+  "week": "Chida",
+  "month": "Mese",
+  "year": "Year",
+  "alltime": "All Time",
+  "no-recent-topics": "Non bi sunt ùrtimas arresonadas.",
+  "no-popular-topics": "There are no popular topics.",
+  "load-new-posts": "Load new posts"
 }

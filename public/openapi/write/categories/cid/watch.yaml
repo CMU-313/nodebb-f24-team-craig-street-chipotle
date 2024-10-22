@@ -36,10 +36,10 @@ put:
               example: 1
             state:
               type: string
-              enum: ['watching', 'notwatching', 'ignoring']
-              example: 'watching'
+              enum: ["watching", "notwatching", "ignoring"]
+              example: "watching"
   responses:
-    '200':
+    "200":
       description: categories watch state successfully updated
       content:
         application/json:
@@ -83,7 +83,7 @@ delete:
               description: This value is optional, it allows privileged uids to use this call to affect other user accounts.
               example: 1
   responses:
-    '200':
+    "200":
       description: categories watch state successfully updated
       content:
         application/json:

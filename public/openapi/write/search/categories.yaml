@@ -8,49 +8,49 @@ get:
     A number of filtering options are available, and can be passed in via query string.
   parameters:
     - in: query
-      name: 'search'
+      name: "search"
       schema:
         type: string
       required: false
       description: The keyword used in the category search
-      example: 'announcements'
+      example: "announcements"
     - in: query
-      name: 'query'
+      name: "query"
       schema:
         type: string
       required: false
       description: Likely unused — a URI-encoded JSON string containing values that are passed to `getRecentTopicReplies`.
-      example: ''
+      example: ""
     - in: query
-      name: 'parentCid'
+      name: "parentCid"
       schema:
         type: array
       required: false
       description: A list of category IDs. The values received are simply reflected back in the results. Matching cids will have "selected" set to true.
-      example: '0'
+      example: "0"
     - in: query
-      name: 'selectedCids'
+      name: "selectedCids"
       schema:
         type: array
       required: false
       description: Likely deprecated — the sorting method of topics (use `categoryTopicSort` instead.)
-      example: ''
+      example: ""
     - in: query
-      name: 'categoryTopicSort'
+      name: "categoryTopicSort"
       schema:
         type: string
       required: false
       description: The sorting method of topics
-      example: 'newest_to_oldest'
+      example: "newest_to_oldest"
     - in: query
-      name: 'direction'
+      name: "direction"
       schema:
         type: string
       required: false
       description: The sorting of returned results (if you scroll up you want the topics reversed). Set to "-1" for reversed results.
-      example: '1'
+      example: "1"
   responses:
-    '200':
+    "200":
       description: matching categories successfully retrieved
       content:
         application/json:

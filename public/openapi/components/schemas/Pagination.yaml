@@ -14,7 +14,7 @@ Pagination:
   properties:
     pagination:
       allOf:
-        - $ref: '#/PaginationProps'
+        - $ref: "#/PaginationProps"
         - type: object
           properties:
             prev:

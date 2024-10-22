@@ -8,7 +8,7 @@ get:
     Note that this API call is open-ended.
     It currently only returns the unread count, but can be expanded upon in the future.
   responses:
-    '200':
+    "200":
       description: Count of unread chat rooms successfully retrieved.
       content:
         application/json:

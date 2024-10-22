@@ -1,11 +1,11 @@
 {
-    "title": "Nesenie",
-    "day": "Šodien",
-    "week": "Šonedēļ",
-    "month": "Šomēnes",
-    "year": "Šogad",
-    "alltime": "Visu laiku",
-    "no-recent-topics": "Nav neseno tematu.",
-    "no-popular-topics": "Nav populāro tematu.",
-    "load-new-posts": "Load new posts"
+  "title": "Nesenie",
+  "day": "Šodien",
+  "week": "Šonedēļ",
+  "month": "Šomēnes",
+  "year": "Šogad",
+  "alltime": "Visu laiku",
+  "no-recent-topics": "Nav neseno tematu.",
+  "no-popular-topics": "Nav populāro tematu.",
+  "load-new-posts": "Load new posts"
 }

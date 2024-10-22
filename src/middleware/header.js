@@ -1,10 +1,10 @@
-'use strict';
+"use strict";
 
-const plugins = require('../plugins');
-const helpers = require('./helpers');
+const plugins = require("../plugins");
+const helpers = require("./helpers");
 
 const controllers = {
-	api: require('../controllers/api'),
+	api: require("../controllers/api"),
 };
 
 const middleware = module.exports;
@@ -21,10 +21,13 @@ middleware.buildHeaderAsync = async (req, res) => {
 async function doBuildHeader(req, res) {
 	res.locals.renderHeader = true;
 	res.locals.isAPI = false;
-	if (req.method === 'GET') {
-		await require('./index').applyCSRFasync(req, res);
+	if (req.method === "GET") {
+		await require("./index").applyCSRFasync(req, res);
 	}
 
-	await plugins.hooks.fire('filter:middleware.buildHeader', { req: req, locals: res.locals });
+	await plugins.hooks.fire("filter:middleware.buildHeader", {
+		req: req,
+		locals: res.locals,
+	});
 	res.locals.config = await controllers.api.loadConfig(req);
 }

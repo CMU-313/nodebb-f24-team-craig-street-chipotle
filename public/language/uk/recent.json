@@ -1,11 +1,11 @@
 {
-    "title": "Свіжі",
-    "day": "День",
-    "week": "Тиждень",
-    "month": "Місяць",
-    "year": "Рік",
-    "alltime": "Весь час",
-    "no-recent-topics": "Немає свіжих тем.",
-    "no-popular-topics": "Немає популярних тем.",
-    "load-new-posts": "Load new posts"
+  "title": "Свіжі",
+  "day": "День",
+  "week": "Тиждень",
+  "month": "Місяць",
+  "year": "Рік",
+  "alltime": "Весь час",
+  "no-recent-topics": "Немає свіжих тем.",
+  "no-popular-topics": "Немає популярних тем.",
+  "load-new-posts": "Load new posts"
 }

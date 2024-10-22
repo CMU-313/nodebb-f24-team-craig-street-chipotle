@@ -12,7 +12,7 @@ get:
       description: a valid post id
       example: 2
   responses:
-    '200':
+    "200":
       description: Data about upvoters and downvoters of the post
       content:
         application/json:
@@ -36,4 +36,3 @@ get:
                     type: array
                   downvoters:
                     type: array
-

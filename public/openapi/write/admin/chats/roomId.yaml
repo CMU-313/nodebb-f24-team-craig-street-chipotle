@@ -12,7 +12,7 @@ delete:
       example: 1
       required: true
   responses:
-    '200':
+    "200":
       description: Chat room deleted
       content:
         application/json:

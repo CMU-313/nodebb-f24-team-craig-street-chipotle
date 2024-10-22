@@ -23,7 +23,7 @@ get:
       description: index to start returning results from
       example: 0
   responses:
-    '200':
+    "200":
       description: Pinned messages successfully retrieved
       content:
         application/json:

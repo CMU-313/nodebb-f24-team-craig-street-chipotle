@@ -19,7 +19,7 @@ get:
       description: a valid chat message id
       example: 5
   responses:
-    '200':
+    "200":
       description: Chat message ip address retrieved
       content:
         application/json:

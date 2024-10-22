@@ -1,36 +1,68 @@
-'use strict';
+"use strict";
 
-const nconf = require('nconf');
-const url = require('url');
-const winston = require('winston');
-const sanitize = require('sanitize-html');
-const _ = require('lodash');
+const nconf = require("nconf");
+const url = require("url");
+const winston = require("winston");
+const sanitize = require("sanitize-html");
+const _ = require("lodash");
 
-const meta = require('../meta');
-const plugins = require('../plugins');
-const translator = require('../translator');
-const utils = require('../utils');
-const postCache = require('./cache');
+const meta = require("../meta");
+const plugins = require("../plugins");
+const translator = require("../translator");
+const utils = require("../utils");
+const postCache = require("./cache");
 
 let sanitizeConfig = {
 	allowedTags: sanitize.defaults.allowedTags.concat([
 		// Some safe-to-use tags to add
-		'ins', 'del', 'img', 'button',
-		'video', 'audio', 'source', 'iframe', 'embed',
+		"ins",
+		"del",
+		"img",
+		"button",
+		"video",
+		"audio",
+		"source",
+		"iframe",
+		"embed",
 	]),
 	allowedAttributes: {
 		...sanitize.defaults.allowedAttributes,
-		a: ['href', 'name', 'hreflang', 'media', 'rel', 'target', 'type'],
-		img: ['alt', 'height', 'ismap', 'src', 'usemap', 'width', 'srcset'],
-		iframe: ['height', 'name', 'src', 'width'],
-		video: ['autoplay', 'playsinline', 'controls', 'height', 'loop', 'muted', 'poster', 'preload', 'src', 'width'],
-		audio: ['autoplay', 'controls', 'loop', 'muted', 'preload', 'src'],
-		source: ['type', 'src', 'srcset', 'sizes', 'media', 'height', 'width'],
-		embed: ['height', 'src', 'type', 'width'],
+		a: ["href", "name", "hreflang", "media", "rel", "target", "type"],
+		img: ["alt", "height", "ismap", "src", "usemap", "width", "srcset"],
+		iframe: ["height", "name", "src", "width"],
+		video: [
+			"autoplay",
+			"playsinline",
+			"controls",
+			"height",
+			"loop",
+			"muted",
+			"poster",
+			"preload",
+			"src",
+			"width",
+		],
+		audio: ["autoplay", "controls", "loop", "muted", "preload", "src"],
+		source: ["type", "src", "srcset", "sizes", "media", "height", "width"],
+		embed: ["height", "src", "type", "width"],
 	},
-	globalAttributes: ['accesskey', 'class', 'contenteditable', 'dir',
-		'draggable', 'dropzone', 'hidden', 'id', 'lang', 'spellcheck', 'style',
-		'tabindex', 'title', 'translate', 'aria-expanded', 'data-*',
+	globalAttributes: [
+		"accesskey",
+		"class",
+		"contenteditable",
+		"dir",
+		"draggable",
+		"dropzone",
+		"hidden",
+		"id",
+		"lang",
+		"spellcheck",
+		"style",
+		"tabindex",
+		"title",
+		"translate",
+		"aria-expanded",
+		"data-*",
 	],
 	allowedClasses: {
 		...sanitize.defaults.allowedClasses,
@@ -52,7 +84,7 @@ module.exports = function (Posts) {
 		if (!postData) {
 			return postData;
 		}
-		postData.content = String(postData.content || '');
+		postData.content = String(postData.content || "");
 		const cache = postCache.getOrCreate();
 		const pid = String(postData.pid);
 		const cachedContent = cache.get(pid);
@@ -61,7 +93,9 @@ module.exports = function (Posts) {
 			return postData;
 		}
 
-		const data = await plugins.hooks.fire('filter:parse.post', { postData: postData });
+		const data = await plugins.hooks.fire("filter:parse.post", {
+			postData: postData,
+		});
 		data.postData.content = translator.escape(data.postData.content);
 		if (data.postData.pid) {
 			cache.set(pid, data.postData.content);
@@ -70,8 +104,11 @@ module.exports = function (Posts) {
 	};
 
 	Posts.parseSignature = async function (userData, uid) {
-		userData.signature = sanitizeSignature(userData.signature || '');
-		return await plugins.hooks.fire('filter:parse.signature', { userData: userData, uid: uid });
+		userData.signature = sanitizeSignature(userData.signature || "");
+		return await plugins.hooks.fire("filter:parse.signature", {
+			userData: userData,
+			uid: uid,
+		});
 	};
 
 	Posts.relativeToAbsolute = function (content, regex) {
@@ -87,17 +124,18 @@ module.exports = function (Posts) {
 				try {
 					parsed = url.parse(current[1]);
 					if (!parsed.protocol) {
-						if (current[1].startsWith('/')) {
+						if (current[1].startsWith("/")) {
 							// Internal link
-							absolute = nconf.get('base_url') + current[1];
+							absolute = nconf.get("base_url") + current[1];
 						} else {
 							// External link
 							absolute = `//${current[1]}`;
 						}
 
-						content = content.slice(0, current.index + regex.length) +
-						absolute +
-						content.slice(current.index + regex.length + current[1].length);
+						content =
+							content.slice(0, current.index + regex.length) +
+							absolute +
+							content.slice(current.index + regex.length + current[1].length);
 					}
 				} catch (err) {
 					winston.verbose(err.messsage);
@@ -122,35 +160,38 @@ module.exports = function (Posts) {
 		sanitizeConfig.allowedTags.forEach((tag) => {
 			sanitizeConfig.allowedAttributes[tag] = _.union(
 				sanitizeConfig.allowedAttributes[tag],
-				sanitizeConfig.globalAttributes
+				sanitizeConfig.globalAttributes,
 			);
 		});
 
 		// Some plugins might need to adjust or whitelist their own tags...
-		sanitizeConfig = await plugins.hooks.fire('filter:sanitize.config', sanitizeConfig);
+		sanitizeConfig = await plugins.hooks.fire(
+			"filter:sanitize.config",
+			sanitizeConfig,
+		);
 	};
 
 	Posts.registerHooks = () => {
-		plugins.hooks.register('core', {
-			hook: 'filter:parse.post',
+		plugins.hooks.register("core", {
+			hook: "filter:parse.post",
 			method: async (data) => {
 				data.postData.content = Posts.sanitize(data.postData.content);
 				return data;
 			},
 		});
 
-		plugins.hooks.register('core', {
-			hook: 'filter:parse.raw',
-			method: async content => Posts.sanitize(content),
+		plugins.hooks.register("core", {
+			hook: "filter:parse.raw",
+			method: async (content) => Posts.sanitize(content),
 		});
 
-		plugins.hooks.register('core', {
-			hook: 'filter:parse.aboutme',
-			method: async content => Posts.sanitize(content),
+		plugins.hooks.register("core", {
+			hook: "filter:parse.aboutme",
+			method: async (content) => Posts.sanitize(content),
 		});
 
-		plugins.hooks.register('core', {
-			hook: 'filter:parse.signature',
+		plugins.hooks.register("core", {
+			hook: "filter:parse.signature",
 			method: async (data) => {
 				data.userData.signature = Posts.sanitize(data.userData.signature);
 				return data;
@@ -162,12 +203,12 @@ module.exports = function (Posts) {
 		signature = translator.escape(signature);
 		const tagsToStrip = [];
 
-		if (meta.config['signatures:disableLinks']) {
-			tagsToStrip.push('a');
+		if (meta.config["signatures:disableLinks"]) {
+			tagsToStrip.push("a");
 		}
 
-		if (meta.config['signatures:disableImages']) {
-			tagsToStrip.push('img');
+		if (meta.config["signatures:disableImages"]) {
+			tagsToStrip.push("img");
 		}
 
 		return utils.stripHTMLTags(signature, tagsToStrip);

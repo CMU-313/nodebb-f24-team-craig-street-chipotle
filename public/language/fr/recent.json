@@ -1,11 +1,11 @@
 {
-    "title": "Récent",
-    "day": "Jour",
-    "week": "Semaine",
-    "month": "Mois",
-    "year": "An",
-    "alltime": "Toujours",
-    "no-recent-topics": "Il n'y a aucun sujet récent.",
-    "no-popular-topics": "Il n'y a pas de sujet populaire.",
-    "load-new-posts": "Charger les nouveaux messages"
+  "title": "Récent",
+  "day": "Jour",
+  "week": "Semaine",
+  "month": "Mois",
+  "year": "An",
+  "alltime": "Toujours",
+  "no-recent-topics": "Il n'y a aucun sujet récent.",
+  "no-popular-topics": "Il n'y a pas de sujet populaire.",
+  "load-new-posts": "Charger les nouveaux messages"
 }

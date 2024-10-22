@@ -16,7 +16,7 @@ FiltersArray:
   type: array
   items:
     anyOf:
-      - $ref: '#/FiltersObject'
+      - $ref: "#/FiltersObject"
       - type: object
         properties:
           separator:

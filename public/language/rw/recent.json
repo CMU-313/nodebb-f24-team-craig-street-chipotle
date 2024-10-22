@@ -1,11 +1,11 @@
 {
-    "title": "Ubuheruka",
-    "day": "Umunsi",
-    "week": "Icyumweru",
-    "month": "Ukwezi",
-    "year": "Umwaka",
-    "alltime": "Ibihe Byose",
-    "no-recent-topics": "Nta biganiro biheruka.",
-    "no-popular-topics": "Nta biganiro bikunzwe.",
-    "load-new-posts": "Load new posts"
+  "title": "Ubuheruka",
+  "day": "Umunsi",
+  "week": "Icyumweru",
+  "month": "Ukwezi",
+  "year": "Umwaka",
+  "alltime": "Ibihe Byose",
+  "no-recent-topics": "Nta biganiro biheruka.",
+  "no-popular-topics": "Nta biganiro bikunzwe.",
+  "load-new-posts": "Load new posts"
 }

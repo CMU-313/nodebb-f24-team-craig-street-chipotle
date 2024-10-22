@@ -1,16 +1,16 @@
-'use strict';
+"use strict";
 
 module.exports = function (module) {
-	const helpers = require('./helpers');
-	const util = require('util');
-	const Cursor = require('pg-cursor');
+	const helpers = require("./helpers");
+	const util = require("util");
+	const Cursor = require("pg-cursor");
 	Cursor.prototype.readAsync = util.promisify(Cursor.prototype.read);
 	const sleep = util.promisify(setTimeout);
 
-	require('./sorted/add')(module);
-	require('./sorted/remove')(module);
-	require('./sorted/union')(module);
-	require('./sorted/intersect')(module);
+	require("./sorted/add")(module);
+	require("./sorted/remove")(module);
+	require("./sorted/union")(module);
+	require("./sorted/intersect")(module);
 
 	module.getSortedSetRange = async function (key, start, stop) {
 		return await getSortedSetRange(key, start, stop, 1, false);
@@ -59,7 +59,7 @@ module.exports = function (module) {
 		}
 
 		const res = await module.pool.query({
-			name: `getSortedSetRangeWithScores${sort > 0 ? 'Asc' : 'Desc'}`,
+			name: `getSortedSetRangeWithScores${sort > 0 ? "Asc" : "Desc"}`,
 			text: `
 SELECT z."value",
        z."score"
@@ -68,7 +68,7 @@ SELECT z."value",
          ON o."_key" = z."_key"
         AND o."type" = z."type"
  WHERE o."_key" = ANY($1::TEXT[])
- ORDER BY z."score" ${sort > 0 ? 'ASC' : 'DESC'}
+ ORDER BY z."score" ${sort > 0 ? "ASC" : "DESC"}
  LIMIT $3::INTEGER
 OFFSET $2::INTEGER`,
 			values: [key, start, limit],
@@ -79,31 +79,90 @@ OFFSET $2::INTEGER`,
 		}
 
 		if (withScores) {
-			res.rows = res.rows.map(r => ({ value: r.value, score: parseFloat(r.score) }));
+			res.rows = res.rows.map((r) => ({
+				value: r.value,
+				score: parseFloat(r.score),
+			}));
 		} else {
-			res.rows = res.rows.map(r => r.value);
+			res.rows = res.rows.map((r) => r.value);
 		}
 
 		return res.rows;
 	}
 
-	module.getSortedSetRangeByScore = async function (key, start, count, min, max) {
-		return await getSortedSetRangeByScore(key, start, count, min, max, 1, false);
+	module.getSortedSetRangeByScore = async function (
+		key,
+		start,
+		count,
+		min,
+		max,
+	) {
+		return await getSortedSetRangeByScore(
+			key,
+			start,
+			count,
+			min,
+			max,
+			1,
+			false,
+		);
 	};
 
-	module.getSortedSetRevRangeByScore = async function (key, start, count, max, min) {
-		return await getSortedSetRangeByScore(key, start, count, min, max, -1, false);
+	module.getSortedSetRevRangeByScore = async function (
+		key,
+		start,
+		count,
+		max,
+		min,
+	) {
+		return await getSortedSetRangeByScore(
+			key,
+			start,
+			count,
+			min,
+			max,
+			-1,
+			false,
+		);
 	};
 
-	module.getSortedSetRangeByScoreWithScores = async function (key, start, count, min, max) {
+	module.getSortedSetRangeByScoreWithScores = async function (
+		key,
+		start,
+		count,
+		min,
+		max,
+	) {
 		return await getSortedSetRangeByScore(key, start, count, min, max, 1, true);
 	};
 
-	module.getSortedSetRevRangeByScoreWithScores = async function (key, start, count, max, min) {
-		return await getSortedSetRangeByScore(key, start, count, min, max, -1, true);
+	module.getSortedSetRevRangeByScoreWithScores = async function (
+		key,
+		start,
+		count,
+		max,
+		min,
+	) {
+		return await getSortedSetRangeByScore(
+			key,
+			start,
+			count,
+			min,
+			max,
+			-1,
+			true,
+		);
 	};
 
-	async function getSortedSetRangeByScore(key, start, count, min, max, sort, withScores) {
+	async function getSortedSetRangeByScore(
+		key,
+		start,
+		count,
+		min,
+		max,
+		sort,
+		withScores,
+	) {
 		if (!key) {
 			return;
 		}
@@ -116,15 +175,15 @@ OFFSET $2::INTEGER`,
 			count = null;
 		}
 
-		if (min === '-inf') {
+		if (min === "-inf") {
 			min = null;
 		}
-		if (max === '+inf') {
+		if (max === "+inf") {
 			max = null;
 		}
 
 		const res = await module.pool.query({
-			name: `getSortedSetRangeByScoreWithScores${sort > 0 ? 'Asc' : 'Desc'}`,
+			name: `getSortedSetRangeByScoreWithScores${sort > 0 ? "Asc" : "Desc"}`,
 			text: `
 SELECT z."value",
        z."score"
@@ -135,16 +194,19 @@ SELECT z."value",
  WHERE o."_key" = ANY($1::TEXT[])
    AND (z."score" >= $4::NUMERIC OR $4::NUMERIC IS NULL)
    AND (z."score" <= $5::NUMERIC OR $5::NUMERIC IS NULL)
- ORDER BY z."score" ${sort > 0 ? 'ASC' : 'DESC'}
+ ORDER BY z."score" ${sort > 0 ? "ASC" : "DESC"}
  LIMIT $3::INTEGER
 OFFSET $2::INTEGER`,
 			values: [key, start, count, min, max],
 		});
 
 		if (withScores) {
-			res.rows = res.rows.map(r => ({ value: r.value, score: parseFloat(r.score) }));
+			res.rows = res.rows.map((r) => ({
+				value: r.value,
+				score: parseFloat(r.score),
+			}));
 		} else {
-			res.rows = res.rows.map(r => r.value);
+			res.rows = res.rows.map((r) => r.value);
 		}
 
 		return res.rows;
@@ -155,15 +217,15 @@ OFFSET $2::INTEGER`,
 			return;
 		}
 
-		if (min === '-inf') {
+		if (min === "-inf") {
 			min = null;
 		}
-		if (max === '+inf') {
+		if (max === "+inf") {
 			max = null;
 		}
 
 		const res = await module.pool.query({
-			name: 'sortedSetCount',
+			name: "sortedSetCount",
 			text: `
 SELECT COUNT(*) c
   FROM "legacy_object_live" o
@@ -185,7 +247,7 @@ SELECT COUNT(*) c
 		}
 
 		const res = await module.pool.query({
-			name: 'sortedSetCard',
+			name: "sortedSetCard",
 			text: `
 SELECT COUNT(*) c
   FROM "legacy_object_live" o
@@ -205,7 +267,7 @@ SELECT COUNT(*) c
 		}
 
 		const res = await module.pool.query({
-			name: 'sortedSetsCard',
+			name: "sortedSetsCard",
 			text: `
 SELECT o."_key" k,
        COUNT(*) c
@@ -218,10 +280,12 @@ SELECT o."_key" k,
 			values: [keys],
 		});
 
-		return keys.map(k => parseInt((res.rows.find(r => r.k === k) || { c: 0 }).c, 10));
+		return keys.map((k) =>
+			parseInt((res.rows.find((r) => r.k === k) || { c: 0 }).c, 10),
+		);
 	};
 
-	module.sortedSetsCardSum = async function (keys, min = '-inf', max = '+inf') {
+	module.sortedSetsCardSum = async function (keys, min = "-inf", max = "+inf") {
 		if (!keys || (Array.isArray(keys) && !keys.length)) {
 			return 0;
 		}
@@ -229,16 +293,16 @@ SELECT o."_key" k,
 			keys = [keys];
 		}
 		let counts = [];
-		if (min !== '-inf' || max !== '+inf') {
-			if (min === '-inf') {
+		if (min !== "-inf" || max !== "+inf") {
+			if (min === "-inf") {
 				min = null;
 			}
-			if (max === '+inf') {
+			if (max === "+inf") {
 				max = null;
 			}
 
 			const res = await module.pool.query({
-				name: 'sortedSetsCardSum',
+				name: "sortedSetsCardSum",
 				text: `
 	SELECT o."_key" k,
 		COUNT(*) c
@@ -252,7 +316,9 @@ SELECT o."_key" k,
 	GROUP BY o."_key"`,
 				values: [keys, min, max],
 			});
-			counts = keys.map(k => parseInt((res.rows.find(r => r.k === k) || { c: 0 }).c, 10));
+			counts = keys.map((k) =>
+				parseInt((res.rows.find((r) => r.k === k) || { c: 0 }).c, 10),
+			);
 		} else {
 			counts = await module.sortedSetsCard(keys);
 		}
@@ -260,12 +326,12 @@ SELECT o."_key" k,
 	};
 
 	module.sortedSetRank = async function (key, value) {
-		const result = await getSortedSetRank('ASC', [key], [value]);
+		const result = await getSortedSetRank("ASC", [key], [value]);
 		return result ? result[0] : null;
 	};
 
 	module.sortedSetRevRank = async function (key, value) {
-		const result = await getSortedSetRank('DESC', [key], [value]);
+		const result = await getSortedSetRank("DESC", [key], [value]);
 		return result ? result[0] : null;
 	};
 
@@ -290,7 +356,7 @@ SELECT (SELECT r
 			values: [keys, values],
 		});
 
-		return res.rows.map(r => (r.r === null ? null : parseFloat(r.r)));
+		return res.rows.map((r) => (r.r === null ? null : parseFloat(r.r)));
 	}
 
 	module.sortedSetsRanks = async function (keys, values) {
@@ -298,7 +364,7 @@ SELECT (SELECT r
 			return [];
 		}
 
-		return await getSortedSetRank('ASC', keys, values);
+		return await getSortedSetRank("ASC", keys, values);
 	};
 
 	module.sortedSetsRevRanks = async function (keys, values) {
@@ -306,7 +372,7 @@ SELECT (SELECT r
 			return [];
 		}
 
-		return await getSortedSetRank('DESC', keys, values);
+		return await getSortedSetRank("DESC", keys, values);
 	};
 
 	module.sortedSetRanks = async function (key, values) {
@@ -314,7 +380,11 @@ SELECT (SELECT r
 			return [];
 		}
 
-		return await getSortedSetRank('ASC', new Array(values.length).fill(key), values);
+		return await getSortedSetRank(
+			"ASC",
+			new Array(values.length).fill(key),
+			values,
+		);
 	};
 
 	module.sortedSetRevRanks = async function (key, values) {
@@ -322,7 +392,11 @@ SELECT (SELECT r
 			return [];
 		}
 
-		return await getSortedSetRank('DESC', new Array(values.length).fill(key), values);
+		return await getSortedSetRank(
+			"DESC",
+			new Array(values.length).fill(key),
+			values,
+		);
 	};
 
 	module.sortedSetScore = async function (key, value) {
@@ -333,7 +407,7 @@ SELECT (SELECT r
 		value = helpers.valueToString(value);
 
 		const res = await module.pool.query({
-			name: 'sortedSetScore',
+			name: "sortedSetScore",
 			text: `
 SELECT z."score" s
   FROM "legacy_object_live" o
@@ -358,7 +432,7 @@ SELECT z."score" s
 		value = helpers.valueToString(value);
 
 		const res = await module.pool.query({
-			name: 'sortedSetsScore',
+			name: "sortedSetsScore",
 			text: `
 SELECT o."_key" k,
        z."score" s
@@ -372,7 +446,7 @@ SELECT o."_key" k,
 		});
 
 		return keys.map((k) => {
-			const s = res.rows.find(r => r.k === k);
+			const s = res.rows.find((r) => r.k === k);
 			return s ? parseFloat(s.s) : null;
 		});
 	};
@@ -387,7 +461,7 @@ SELECT o."_key" k,
 		values = values.map(helpers.valueToString);
 
 		const res = await module.pool.query({
-			name: 'sortedSetScores',
+			name: "sortedSetScores",
 			text: `
 SELECT z."value" v,
        z."score" s
@@ -401,7 +475,7 @@ SELECT z."value" v,
 		});
 
 		return values.map((v) => {
-			const s = res.rows.find(r => r.v === v);
+			const s = res.rows.find((r) => r.v === v);
 			return s ? parseFloat(s.s) : null;
 		});
 	};
@@ -414,7 +488,7 @@ SELECT z."value" v,
 		value = helpers.valueToString(value);
 
 		const res = await module.pool.query({
-			name: 'isSortedSetMember',
+			name: "isSortedSetMember",
 			text: `
 SELECT 1
   FROM "legacy_object_live" o
@@ -440,7 +514,7 @@ SELECT 1
 		values = values.map(helpers.valueToString);
 
 		const res = await module.pool.query({
-			name: 'isSortedSetMembers',
+			name: "isSortedSetMembers",
 			text: `
 SELECT z."value" v
   FROM "legacy_object_live" o
@@ -452,7 +526,7 @@ SELECT z."value" v
 			values: [key, values],
 		});
 
-		return values.map(v => res.rows.some(r => r.v === v));
+		return values.map((v) => res.rows.some((r) => r.v === v));
 	};
 
 	module.isMemberOfSortedSets = async function (keys, value) {
@@ -463,7 +537,7 @@ SELECT z."value" v
 		value = helpers.valueToString(value);
 
 		const res = await module.pool.query({
-			name: 'isMemberOfSortedSets',
+			name: "isMemberOfSortedSets",
 			text: `
 SELECT o."_key" k
   FROM "legacy_object_live" o
@@ -475,7 +549,7 @@ SELECT o."_key" k
 			values: [keys, value],
 		});
 
-		return keys.map(k => res.rows.some(r => r.k === k));
+		return keys.map((k) => res.rows.some((r) => r.k === k));
 	};
 
 	module.getSortedSetMembers = async function (key) {
@@ -494,7 +568,7 @@ SELECT o."_key" k
 		}
 
 		const res = await module.pool.query({
-			name: 'getSortedSetsMembers',
+			name: "getSortedSetsMembers",
 			text: `
 SELECT "_key" k,
        "nodebb_get_sorted_set_members"("_key") m
@@ -502,7 +576,7 @@ SELECT "_key" k,
 			values: [keys],
 		});
 
-		return keys.map(k => (res.rows.find(r => r.k === k) || {}).m || []);
+		return keys.map((k) => (res.rows.find((r) => r.k === k) || {}).m || []);
 	};
 
 	module.getSortedSetsMembersWithScores = async function (keys) {
@@ -511,7 +585,7 @@ SELECT "_key" k,
 		}
 
 		const res = await module.pool.query({
-			name: 'getSortedSetsMembersWithScores',
+			name: "getSortedSetsMembersWithScores",
 			text: `
 SELECT "_key" k,
        "nodebb_get_sorted_set_members_withscores"("_key") m
@@ -519,7 +593,7 @@ SELECT "_key" k,
 			values: [keys],
 		});
 
-		return keys.map(k => (res.rows.find(r => r.k === k) || {}).m || []);
+		return keys.map((k) => (res.rows.find((r) => r.k === k) || {}).m || []);
 	};
 
 	module.sortedSetIncrBy = async function (key, increment, value) {
@@ -531,9 +605,9 @@ SELECT "_key" k,
 		increment = parseFloat(increment);
 
 		return await module.transaction(async (client) => {
-			await helpers.ensureLegacyObjectType(client, key, 'zset');
+			await helpers.ensureLegacyObjectType(client, key, "zset");
 			const res = await client.query({
-				name: 'sortedSetIncrBy',
+				name: "sortedSetIncrBy",
 				text: `
 INSERT INTO "legacy_zset" ("_key", "value", "score")
 VALUES ($1::TEXT, $2::TEXT, $3::NUMERIC)
@@ -548,14 +622,22 @@ RETURNING "score" s`,
 
 	module.sortedSetIncrByBulk = async function (data) {
 		// TODO: perf single query?
-		return await Promise.all(data.map(item => module.sortedSetIncrBy(item[0], item[1], item[2])));
+		return await Promise.all(
+			data.map((item) => module.sortedSetIncrBy(item[0], item[1], item[2])),
+		);
 	};
 
 	module.getSortedSetRangeByLex = async function (key, min, max, start, count) {
 		return await sortedSetLex(key, min, max, 1, start, count);
 	};
 
-	module.getSortedSetRevRangeByLex = async function (key, max, min, start, count) {
+	module.getSortedSetRevRangeByLex = async function (
+		key,
+		max,
+		min,
+		start,
+		count,
+	) {
 		return await sortedSetLex(key, min, max, -1, start, count);
 	};
 
@@ -585,7 +667,7 @@ SELECT COUNT(*) c
 		q.values.push(start);
 		q.values.push(count <= 0 ? null : count);
 		const res = await module.pool.query({
-			name: `sortedSetLex${sort > 0 ? 'Asc' : 'Desc'}${q.suffix}`,
+			name: `sortedSetLex${sort > 0 ? "Asc" : "Desc"}${q.suffix}`,
 			text: `
 SELECT z."value" v
   FROM "legacy_object_live" o
@@ -593,13 +675,13 @@ SELECT z."value" v
          ON o."_key" = z."_key"
         AND o."type" = z."type"
  WHERE ${q.where}
- ORDER BY z."value" ${sort > 0 ? 'ASC' : 'DESC'}
+ ORDER BY z."value" ${sort > 0 ? "ASC" : "DESC"}
  LIMIT $${q.values.length}::INTEGER
 OFFSET $${q.values.length - 1}::INTEGER`,
 			values: q.values,
 		});
 
-		return res.rows.map(r => r.v);
+		return res.rows.map((r) => r.v);
 	}
 
 	module.sortedSetRemoveRangeByLex = async function (key, min, max) {
@@ -618,39 +700,39 @@ DELETE FROM "legacy_zset" z
 
 	function buildLexQuery(key, min, max) {
 		const q = {
-			suffix: '',
+			suffix: "",
 			where: `o."_key" = $1::TEXT`,
 			values: [key],
 		};
 
-		if (min !== '-') {
+		if (min !== "-") {
 			if (min.match(/^\(/)) {
 				q.values.push(min.slice(1));
-				q.suffix += 'GT';
+				q.suffix += "GT";
 				q.where += ` AND z."value" > $${q.values.length}::TEXT COLLATE "C"`;
 			} else if (min.match(/^\[/)) {
 				q.values.push(min.slice(1));
-				q.suffix += 'GE';
+				q.suffix += "GE";
 				q.where += ` AND z."value" >= $${q.values.length}::TEXT COLLATE "C"`;
 			} else {
 				q.values.push(min);
-				q.suffix += 'GE';
+				q.suffix += "GE";
 				q.where += ` AND z."value" >= $${q.values.length}::TEXT COLLATE "C"`;
 			}
 		}
 
-		if (max !== '+') {
+		if (max !== "+") {
 			if (max.match(/^\(/)) {
 				q.values.push(max.slice(1));
-				q.suffix += 'LT';
+				q.suffix += "LT";
 				q.where += ` AND z."value" < $${q.values.length}::TEXT COLLATE "C"`;
 			} else if (max.match(/^\[/)) {
 				q.values.push(max.slice(1));
-				q.suffix += 'LE';
+				q.suffix += "LE";
 				q.where += ` AND z."value" <= $${q.values.length}::TEXT COLLATE "C"`;
 			} else {
 				q.values.push(max);
-				q.suffix += 'LE';
+				q.suffix += "LE";
 				q.where += ` AND z."value" <= $${q.values.length}::TEXT COLLATE "C"`;
 			}
 		}
@@ -660,11 +742,11 @@ DELETE FROM "legacy_zset" z
 
 	module.getSortedSetScan = async function (params) {
 		let { match } = params;
-		if (match.startsWith('*')) {
+		if (match.startsWith("*")) {
 			match = `%${match.substring(1)}`;
 		}
 
-		if (match.endsWith('*')) {
+		if (match.endsWith("*")) {
 			match = `${match.substring(0, match.length - 1)}%`;
 		}
 
@@ -682,18 +764,23 @@ SELECT z."value",
 			values: [params.key, params.limit],
 		});
 		if (!params.withScores) {
-			return res.rows.map(r => r.value);
+			return res.rows.map((r) => r.value);
 		}
-		return res.rows.map(r => ({ value: r.value, score: parseFloat(r.score) }));
+		return res.rows.map((r) => ({
+			value: r.value,
+			score: parseFloat(r.score),
+		}));
 	};
 
 	module.processSortedSet = async function (setKey, process, options) {
 		const client = await module.pool.connect();
 		const batchSize = (options || {}).batch || 100;
-		const sort = options.reverse ? 'DESC' : 'ASC';
-		const min = options.min && options.min !== '-inf' ? options.min : null;
-		const max = options.max && options.max !== '+inf' ? options.max : null;
-		const cursor = client.query(new Cursor(`
+		const sort = options.reverse ? "DESC" : "ASC";
+		const min = options.min && options.min !== "-inf" ? options.min : null;
+		const max = options.max && options.max !== "+inf" ? options.max : null;
+		const cursor = client.query(
+			new Cursor(
+				`
 SELECT z."value", z."score"
   FROM "legacy_object_live" o
  INNER JOIN "legacy_zset" z
@@ -702,9 +789,16 @@ SELECT z."value", z."score"
  WHERE o."_key" = $1::TEXT
    AND (z."score" >= $2::NUMERIC OR $2::NUMERIC IS NULL)
    AND (z."score" <= $3::NUMERIC OR $3::NUMERIC IS NULL)
- ORDER BY z."score" ${sort}, z."value" ${sort}`, [setKey, min, max]));
+ ORDER BY z."score" ${sort}, z."value" ${sort}`,
+				[setKey, min, max],
+			),
+		);
 
-		if (process && process.constructor && process.constructor.name !== 'AsyncFunction') {
+		if (
+			process &&
+			process.constructor &&
+			process.constructor.name !== "AsyncFunction"
+		) {
 			process = util.promisify(process);
 		}
 		let iteration = 1;
@@ -717,9 +811,12 @@ SELECT z."value", z."score"
 			}
 
 			if (options.withScores) {
-				rows = rows.map(r => ({ value: r.value, score: parseFloat(r.score) }));
+				rows = rows.map((r) => ({
+					value: r.value,
+					score: parseFloat(r.score),
+				}));
 			} else {
-				rows = rows.map(r => r.value);
+				rows = rows.map((r) => r.value);
 			}
 			try {
 				if (iteration > 1 && options.interval) {

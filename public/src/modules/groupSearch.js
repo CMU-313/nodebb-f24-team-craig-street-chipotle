@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-define('groupSearch', function () {
+define("groupSearch", function () {
 	const groupSearch = {};
 
 	groupSearch.init = function (el) {
@@ -11,51 +11,55 @@ define('groupSearch', function () {
 		if (!searchEl.length) {
 			return;
 		}
-		const toggleVisibility = searchEl.parent('[component="group-selector"]').length > 0;
+		const toggleVisibility =
+			searchEl.parent('[component="group-selector"]').length > 0;
 
 		const groupEls = el.find('[component="group-list"] [data-name]');
-		el.on('show.bs.dropdown', function () {
+		el.on("show.bs.dropdown", function () {
 			function updateList() {
-				const val = searchEl.find('input').val().toLowerCase();
+				const val = searchEl.find("input").val().toLowerCase();
 				let noMatch = true;
 				groupEls.each(function () {
 					const liEl = $(this);
-					const isMatch = liEl.attr('data-name').toLowerCase().indexOf(val) !== -1;
+					const isMatch =
+						liEl.attr("data-name").toLowerCase().indexOf(val) !== -1;
 					if (noMatch && isMatch) {
 						noMatch = false;
 					}
 
-					liEl.toggleClass('hidden', !isMatch);
+					liEl.toggleClass("hidden", !isMatch);
 				});
 
-				el.find('[component="group-list"] [component="group-no-matches"]').toggleClass('hidden', !noMatch);
+				el.find(
+					'[component="group-list"] [component="group-no-matches"]',
+				).toggleClass("hidden", !noMatch);
 			}
 			if (toggleVisibility) {
-				el.find('.dropdown-toggle').css({ visibility: 'hidden' });
-				searchEl.removeClass('hidden');
+				el.find(".dropdown-toggle").css({ visibility: "hidden" });
+				searchEl.removeClass("hidden");
 				searchEl.css({
-					'z-index': el.find('.dropdown-toggle').css('z-index') + 1,
+					"z-index": el.find(".dropdown-toggle").css("z-index") + 1,
 				});
 			}
 
-			searchEl.on('click', function (ev) {
+			searchEl.on("click", function (ev) {
 				ev.preventDefault();
 				ev.stopPropagation();
 			});
-			searchEl.find('input').val('').on('keyup', updateList);
+			searchEl.find("input").val("").on("keyup", updateList);
 			updateList();
 		});
 
-		el.on('shown.bs.dropdown', function () {
-			searchEl.find('input').focus();
+		el.on("shown.bs.dropdown", function () {
+			searchEl.find("input").focus();
 		});
 
-		el.on('hide.bs.dropdown', function () {
+		el.on("hide.bs.dropdown", function () {
 			if (toggleVisibility) {
-				el.find('.dropdown-toggle').css({ visibility: 'inherit' });
-				searchEl.addClass('hidden');
+				el.find(".dropdown-toggle").css({ visibility: "inherit" });
+				searchEl.addClass("hidden");
 			}
-			searchEl.off('click').find('input').off('keyup');
+			searchEl.off("click").find("input").off("keyup");
 		});
 	};
 

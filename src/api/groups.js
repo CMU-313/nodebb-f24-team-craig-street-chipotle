@@ -1,14 +1,14 @@
-'use strict';
+"use strict";
 
-const validator = require('validator');
+const validator = require("validator");
 
-const privileges = require('../privileges');
-const events = require('../events');
-const groups = require('../groups');
-const user = require('../user');
-const meta = require('../meta');
-const notifications = require('../notifications');
-const slugify = require('../slugify');
+const privileges = require("../privileges");
+const events = require("../events");
+const groups = require("../groups");
+const user = require("../user");
+const meta = require("../meta");
+const notifications = require("../notifications");
+const slugify = require("../slugify");
 
 const groupsAPI = module.exports;
 
@@ -23,21 +23,24 @@ groupsAPI.list = async (caller, data) => {
 
 groupsAPI.create = async function (caller, data) {
 	if (!caller.uid) {
-		throw new Error('[[error:no-privileges]]');
+		throw new Error("[[error:no-privileges]]");
 	} else if (!data) {
-		throw new Error('[[error:invalid-data]]');
-	} else if (typeof data.name !== 'string' || groups.isPrivilegeGroup(data.name)) {
-		throw new Error('[[error:invalid-group-name]]');
+		throw new Error("[[error:invalid-data]]");
+	} else if (
+		typeof data.name !== "string" ||
+		groups.isPrivilegeGroup(data.name)
+	) {
+		throw new Error("[[error:invalid-group-name]]");
 	}
 
-	const canCreate = await privileges.global.can('group:create', caller.uid);
+	const canCreate = await privileges.global.can("group:create", caller.uid);
 	if (!canCreate) {
-		throw new Error('[[error:no-privileges]]');
+		throw new Error("[[error:no-privileges]]");
 	}
 	data.ownerUid = caller.uid;
 	data.system = false;
 	const groupData = await groups.create(data);
-	logGroupEvent(caller, 'group-create', {
+	logGroupEvent(caller, "group-create", {
 		groupName: data.name,
 	});
 
@@ -46,7 +49,7 @@ groupsAPI.create = async function (caller, data) {
 
 groupsAPI.update = async function (caller, data) {
 	if (!data) {
-		throw new Error('[[error:invalid-data]]');
+		throw new Error("[[error:invalid-data]]");
 	}
 	const groupName = await groups.getGroupNameByGroupSlug(data.slug);
 	await isOwner(caller, groupName);
@@ -64,11 +67,11 @@ groupsAPI.delete = async function (caller, data) {
 		groups.systemGroups.includes(groupName) ||
 		groups.ephemeralGroups.includes(groupName)
 	) {
-		throw new Error('[[error:not-allowed]]');
+		throw new Error("[[error:not-allowed]]");
 	}
 
 	await groups.destroy(groupName);
-	logGroupEvent(caller, 'group-delete', {
+	logGroupEvent(caller, "group-delete", {
 		groupName: groupName,
 	});
 };
@@ -78,8 +81,8 @@ groupsAPI.listMembers = async (caller, data) => {
 	const groupName = await groups.getGroupNameByGroupSlug(data.slug);
 
 	await canSearchMembers(caller.uid, groupName);
-	if (!await privileges.global.can('search:users', caller.uid)) {
-		throw new Error('[[error:no-privileges]]');
+	if (!(await privileges.global.can("search:users", caller.uid))) {
+		throw new Error("[[error:no-privileges]]");
 	}
 
 	const { query } = data;
@@ -94,7 +97,12 @@ groupsAPI.listMembers = async (caller, data) => {
 		response.nextStart = null;
 	} else {
 		response = {
-			users: await groups.getOwnersAndMembers(groupName, caller.uid, after, after + 19),
+			users: await groups.getOwnersAndMembers(
+				groupName,
+				caller.uid,
+				after,
+				after + 19,
+			),
 			nextStart: after + 20,
 			matchCount: null,
 			timing: null,
@@ -105,38 +113,43 @@ groupsAPI.listMembers = async (caller, data) => {
 };
 
 async function canSearchMembers(uid, groupName) {
-	const [isHidden, isMember, hasAdminPrivilege, isGlobalMod, viewGroups] = await Promise.all([
-		groups.isHidden(groupName),
-		groups.isMember(uid, groupName),
-		privileges.admin.can('admin:groups', uid),
-		user.isGlobalModerator(uid),
-		privileges.global.can('view:groups', uid),
-	]);
+	const [isHidden, isMember, hasAdminPrivilege, isGlobalMod, viewGroups] =
+		await Promise.all([
+			groups.isHidden(groupName),
+			groups.isMember(uid, groupName),
+			privileges.admin.can("admin:groups", uid),
+			user.isGlobalModerator(uid),
+			privileges.global.can("view:groups", uid),
+		]);
 
-	if (!viewGroups || (isHidden && !isMember && !hasAdminPrivilege && !isGlobalMod)) {
-		throw new Error('[[error:no-privileges]]');
+	if (
+		!viewGroups ||
+		(isHidden && !isMember && !hasAdminPrivilege && !isGlobalMod)
+	) {
+		throw new Error("[[error:no-privileges]]");
 	}
 }
 
 groupsAPI.join = async function (caller, data) {
 	if (!data) {
-		throw new Error('[[error:invalid-data]]');
+		throw new Error("[[error:invalid-data]]");
 	}
 	if (caller.uid <= 0 || !data.uid) {
-		throw new Error('[[error:invalid-uid]]');
+		throw new Error("[[error:invalid-uid]]");
 	}
 
 	const groupName = await groups.getGroupNameByGroupSlug(data.slug);
 	if (!groupName) {
-		throw new Error('[[error:no-group]]');
+		throw new Error("[[error:no-group]]");
 	}
 
-	const isCallerAdmin = await privileges.admin.can('admin:groups', caller.uid);
-	if (!isCallerAdmin && (
-		groups.systemGroups.includes(groupName) ||
-		groups.isPrivilegeGroup(groupName)
-	)) {
-		throw new Error('[[error:not-allowed]]');
+	const isCallerAdmin = await privileges.admin.can("admin:groups", caller.uid);
+	if (
+		!isCallerAdmin &&
+		(groups.systemGroups.includes(groupName) ||
+			groups.isPrivilegeGroup(groupName))
+	) {
+		throw new Error("[[error:not-allowed]]");
 	}
 
 	const [groupData, userExists] = await Promise.all([
@@ -145,60 +158,65 @@ groupsAPI.join = async function (caller, data) {
 	]);
 
 	if (!userExists) {
-		throw new Error('[[error:invalid-uid]]');
+		throw new Error("[[error:invalid-uid]]");
 	}
 
 	const isSelf = parseInt(caller.uid, 10) === parseInt(data.uid, 10);
 	if (!meta.config.allowPrivateGroups && isSelf) {
 		// all groups are public!
 		await groups.join(groupName, data.uid);
-		logGroupEvent(caller, 'group-join', {
+		logGroupEvent(caller, "group-join", {
 			groupName: groupName,
 			targetUid: data.uid,
 		});
 		return;
 	}
 
-	if (!isCallerAdmin && isSelf && groupData.private && groupData.disableJoinRequests) {
-		throw new Error('[[error:group-join-disabled]]');
+	if (
+		!isCallerAdmin &&
+		isSelf &&
+		groupData.private &&
+		groupData.disableJoinRequests
+	) {
+		throw new Error("[[error:group-join-disabled]]");
 	}
 
 	if ((!groupData.private && isSelf) || isCallerAdmin) {
 		await groups.join(groupName, data.uid);
-		logGroupEvent(caller, `group-${isSelf ? 'join' : 'add-member'}`, {
+		logGroupEvent(caller, `group-${isSelf ? "join" : "add-member"}`, {
 			groupName: groupName,
 			targetUid: data.uid,
 		});
 	} else if (isSelf) {
 		await groups.requestMembership(groupName, caller.uid);
-		logGroupEvent(caller, 'group-request-membership', {
+		logGroupEvent(caller, "group-request-membership", {
 			groupName: groupName,
 			targetUid: data.uid,
 		});
 	} else {
-		throw new Error('[[error:not-allowed]]');
+		throw new Error("[[error:not-allowed]]");
 	}
 };
 
 groupsAPI.leave = async function (caller, data) {
 	if (!data) {
-		throw new Error('[[error:invalid-data]]');
+		throw new Error("[[error:invalid-data]]");
 	}
 	if (caller.uid <= 0) {
-		throw new Error('[[error:invalid-uid]]');
+		throw new Error("[[error:invalid-uid]]");
 	}
 	const isSelf = parseInt(caller.uid, 10) === parseInt(data.uid, 10);
 	const groupName = await groups.getGroupNameByGroupSlug(data.slug);
 	if (!groupName) {
-		throw new Error('[[error:no-group]]');
+		throw new Error("[[error:no-group]]");
 	}
 
-	if (typeof groupName !== 'string') {
-		throw new Error('[[error:invalid-group-name]]');
+	if (typeof groupName !== "string") {
+		throw new Error("[[error:invalid-group-name]]");
 	}
 
-	if (groupName === 'administrators' && isSelf) {
-		throw new Error('[[error:cant-remove-self-as-admin]]');
+	if (groupName === "administrators" && isSelf) {
+		throw new Error("[[error:cant-remove-self-as-admin]]");
 	}
 
 	const [groupData, isCallerOwner, userExists, isMember] = await Promise.all([
@@ -209,27 +227,27 @@ groupsAPI.leave = async function (caller, data) {
 	]);
 
 	if (!isMember) {
-		throw new Error('[[error:group-not-member]]');
+		throw new Error("[[error:group-not-member]]");
 	}
 
 	if (!userExists) {
-		throw new Error('[[error:invalid-uid]]');
+		throw new Error("[[error:invalid-uid]]");
 	}
 
 	if (groupData.disableLeave && isSelf) {
-		throw new Error('[[error:group-leave-disabled]]');
+		throw new Error("[[error:group-leave-disabled]]");
 	}
 
 	if (isSelf || isCallerOwner) {
 		await groups.leave(groupName, data.uid);
 	} else {
-		throw new Error('[[error:no-privileges]]');
+		throw new Error("[[error:no-privileges]]");
 	}
 
-	const { displayname } = await user.getUserFields(data.uid, ['username']);
+	const { displayname } = await user.getUserFields(data.uid, ["username"]);
 
 	const notification = await notifications.create({
-		type: 'group-leave',
+		type: "group-leave",
 		bodyShort: `[[groups:membership.leave.notification-title, ${displayname}, ${groupName}]]`,
 		nid: `group:${validator.escape(groupName)}:uid:${data.uid}:group-leave`,
 		path: `/groups/${slugify(groupName)}`,
@@ -238,7 +256,7 @@ groupsAPI.leave = async function (caller, data) {
 	const uids = await groups.getOwners(groupName);
 	await notifications.push(notification, uids);
 
-	logGroupEvent(caller, `group-${isSelf ? 'leave' : 'kick'}`, {
+	logGroupEvent(caller, `group-${isSelf ? "leave" : "kick"}`, {
 		groupName: groupName,
 		targetUid: data.uid,
 	});
@@ -249,7 +267,7 @@ groupsAPI.grant = async (caller, data) => {
 	await isOwner(caller, groupName);
 
 	await groups.ownership.grant(data.uid, groupName);
-	logGroupEvent(caller, 'group-owner-grant', {
+	logGroupEvent(caller, "group-owner-grant", {
 		groupName: groupName,
 		targetUid: data.uid,
 	});
@@ -260,7 +278,7 @@ groupsAPI.rescind = async (caller, data) => {
 	await isOwner(caller, groupName);
 
 	await groups.ownership.rescind(data.uid, groupName);
-	logGroupEvent(caller, 'group-owner-rescind', {
+	logGroupEvent(caller, "group-owner-rescind", {
 		groupName,
 		targetUid: data.uid,
 	});
@@ -279,11 +297,11 @@ groupsAPI.accept = async (caller, { slug, uid }) => {
 	await isOwner(caller, groupName);
 	const isPending = await groups.isPending(uid, groupName);
 	if (!isPending) {
-		throw new Error('[[error:group-user-not-pending]]');
+		throw new Error("[[error:group-user-not-pending]]");
 	}
 
 	await groups.acceptMembership(groupName, uid);
-	logGroupEvent(caller, 'group-accept-membership', {
+	logGroupEvent(caller, "group-accept-membership", {
 		groupName,
 		targetUid: uid,
 	});
@@ -295,11 +313,11 @@ groupsAPI.reject = async (caller, { slug, uid }) => {
 	await isOwner(caller, groupName);
 	const isPending = await groups.isPending(uid, groupName);
 	if (!isPending) {
-		throw new Error('[[error:group-user-not-pending]]');
+		throw new Error("[[error:group-user-not-pending]]");
 	}
 
 	await groups.rejectMembership(groupName, uid);
-	logGroupEvent(caller, 'group-reject-membership', {
+	logGroupEvent(caller, "group-reject-membership", {
 		groupName,
 		targetUid: uid,
 	});
@@ -317,7 +335,7 @@ groupsAPI.issueInvite = async (caller, { slug, uid }) => {
 	await isOwner(caller, groupName);
 
 	await groups.invite(groupName, uid);
-	logGroupEvent(caller, 'group-invite', {
+	logGroupEvent(caller, "group-invite", {
 		groupName,
 		targetUid: uid,
 	});
@@ -329,14 +347,14 @@ groupsAPI.acceptInvite = async (caller, { slug, uid }) => {
 	// Can only be called by the invited user
 	const invited = await groups.isInvited(uid, groupName);
 	if (caller.uid !== parseInt(uid, 10)) {
-		throw new Error('[[error:not-allowed]]');
+		throw new Error("[[error:not-allowed]]");
 	}
 	if (!invited) {
-		throw new Error('[[error:not-invited]]');
+		throw new Error("[[error:not-invited]]");
 	}
 
 	await groups.acceptMembership(groupName, uid);
-	logGroupEvent(caller, 'group-invite-accept', { groupName });
+	logGroupEvent(caller, "group-invite-accept", { groupName });
 };
 
 groupsAPI.rejectInvite = async (caller, { slug, uid }) => {
@@ -347,32 +365,34 @@ groupsAPI.rejectInvite = async (caller, { slug, uid }) => {
 	const invited = await groups.isInvited(uid, groupName);
 
 	if (!owner && caller.uid !== parseInt(uid, 10)) {
-		throw new Error('[[error:not-allowed]]');
+		throw new Error("[[error:not-allowed]]");
 	}
 	if (!invited) {
-		throw new Error('[[error:not-invited]]');
+		throw new Error("[[error:not-invited]]");
 	}
 
 	await groups.rejectMembership(groupName, uid);
 	if (!owner) {
-		logGroupEvent(caller, 'group-invite-reject', { groupName });
+		logGroupEvent(caller, "group-invite-reject", { groupName });
 	}
 };
 
 async function isOwner(caller, groupName, throwOnFalse = true) {
-	if (typeof groupName !== 'string') {
-		throw new Error('[[error:invalid-group-name]]');
+	if (typeof groupName !== "string") {
+		throw new Error("[[error:invalid-group-name]]");
 	}
-	const [hasAdminPrivilege, isGlobalModerator, isOwner, group] = await Promise.all([
-		privileges.admin.can('admin:groups', caller.uid),
-		user.isGlobalModerator(caller.uid),
-		groups.ownership.isOwner(caller.uid, groupName),
-		groups.getGroupData(groupName),
-	]);
+	const [hasAdminPrivilege, isGlobalModerator, isOwner, group] =
+		await Promise.all([
+			privileges.admin.can("admin:groups", caller.uid),
+			user.isGlobalModerator(caller.uid),
+			groups.ownership.isOwner(caller.uid, groupName),
+			groups.getGroupData(groupName),
+		]);
 
-	const check = isOwner || hasAdminPrivilege || (isGlobalModerator && !group.system);
+	const check =
+		isOwner || hasAdminPrivilege || (isGlobalModerator && !group.system);
 	if (!check && throwOnFalse) {
-		throw new Error('[[error:no-privileges]]');
+		throw new Error("[[error:no-privileges]]");
 	}
 
 	return check;

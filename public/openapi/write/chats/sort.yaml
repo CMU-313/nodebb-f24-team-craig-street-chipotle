@@ -19,7 +19,7 @@ put:
               description: A list of sort orders associated with the passed-in `roomIds`
               example: [0]
   responses:
-    '200':
+    "200":
       description: Public chat rooms successfully re-ordered.
       content:
         application/json:

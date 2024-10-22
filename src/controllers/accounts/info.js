@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
-const db = require('../../database');
-const user = require('../../user');
-const helpers = require('../helpers');
-const pagination = require('../../pagination');
+const db = require("../../database");
+const user = require("../../user");
+const helpers = require("../helpers");
+const pagination = require("../../pagination");
 
 const infoController = module.exports;
 
@@ -15,15 +15,20 @@ infoController.get = async function (req, res) {
 
 	const payload = res.locals.userData;
 	const { username, userslug } = payload;
-	const [isPrivileged, history, sessions, usernames, emails] = await Promise.all([
-		user.isPrivileged(req.uid),
-		user.getModerationHistory(res.locals.uid),
-		user.auth.getSessions(res.locals.uid, req.sessionID),
-		user.getHistory(`user:${res.locals.uid}:usernames`),
-		user.getHistory(`user:${res.locals.uid}:emails`),
-	]);
+	const [isPrivileged, history, sessions, usernames, emails] =
+		await Promise.all([
+			user.isPrivileged(req.uid),
+			user.getModerationHistory(res.locals.uid),
+			user.auth.getSessions(res.locals.uid, req.sessionID),
+			user.getHistory(`user:${res.locals.uid}:usernames`),
+			user.getHistory(`user:${res.locals.uid}:emails`),
+		]);
 
-	const notes = await getNotes({ uid: res.locals.uid, isPrivileged }, start, stop);
+	const notes = await getNotes(
+		{ uid: res.locals.uid, isPrivileged },
+		start,
+		stop,
+	);
 
 	payload.history = history;
 	payload.sessions = sessions;
@@ -35,10 +40,13 @@ infoController.get = async function (req, res) {
 		const pageCount = Math.ceil(notes.count / itemsPerPage);
 		payload.pagination = pagination.create(page, pageCount, req.query);
 	}
-	payload.title = '[[pages:account/info]]';
-	payload.breadcrumbs = helpers.buildBreadcrumbs([{ text: username, url: `/user/${userslug}` }, { text: '[[user:account-info]]' }]);
+	payload.title = "[[pages:account/info]]";
+	payload.breadcrumbs = helpers.buildBreadcrumbs([
+		{ text: username, url: `/user/${userslug}` },
+		{ text: "[[user:account-info]]" },
+	]);
 
-	res.render('account/info', payload);
+	res.render("account/info", payload);
 };
 
 async function getNotes({ uid, isPrivileged }, start, stop) {

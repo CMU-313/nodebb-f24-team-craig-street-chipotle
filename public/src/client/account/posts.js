@@ -1,7 +1,10 @@
-'use strict';
+"use strict";
 
-
-define('forum/account/posts', ['forum/account/header', 'forum/infinitescroll', 'hooks'], function (header, infinitescroll, hooks) {
+define("forum/account/posts", [
+	"forum/account/header",
+	"forum/infinitescroll",
+	"hooks",
+], function (header, infinitescroll, hooks) {
 	const AccountPosts = {};
 
 	let template;
@@ -10,9 +13,11 @@ define('forum/account/posts', ['forum/account/header', 'forum/infinitescroll', '
 	AccountPosts.init = function () {
 		header.init();
 
-		$('[component="post/content"] img:not(.not-responsive)').addClass('img-fluid');
+		$('[component="post/content"] img:not(.not-responsive)').addClass(
+			"img-fluid",
+		);
 
-		AccountPosts.handleInfiniteScroll('account/posts');
+		AccountPosts.handleInfiniteScroll("account/posts");
 	};
 
 	AccountPosts.handleInfiniteScroll = function (_template) {
@@ -41,11 +46,11 @@ define('forum/account/posts', ['forum/account/header', 'forum/infinitescroll', '
 	}
 
 	function onPostsLoaded(posts, callback) {
-		app.parseAndTranslate(template, 'posts', { posts: posts }, function (html) {
+		app.parseAndTranslate(template, "posts", { posts: posts }, function (html) {
 			$('[component="posts"]').append(html);
-			html.find('img:not(.not-responsive)').addClass('img-fluid');
-			html.find('.timeago').timeago();
-			hooks.fire('action:posts.loaded', { posts: posts });
+			html.find("img:not(.not-responsive)").addClass("img-fluid");
+			html.find(".timeago").timeago();
+			hooks.fire("action:posts.loaded", { posts: posts });
 			callback();
 		});
 	}

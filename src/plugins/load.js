@@ -1,13 +1,13 @@
-'use strict';
+"use strict";
 
-const semver = require('semver');
-const async = require('async');
-const winston = require('winston');
-const nconf = require('nconf');
-const _ = require('lodash');
+const semver = require("semver");
+const async = require("async");
+const winston = require("winston");
+const nconf = require("nconf");
+const _ = require("lodash");
 
-const meta = require('../meta');
-const { themeNamePattern } = require('../constants');
+const meta = require("../meta");
+const { themeNamePattern } = require("../constants");
 
 module.exports = function (Plugins) {
 	async function registerPluginAssets(pluginData, fields) {
@@ -20,19 +20,19 @@ module.exports = function (Plugins) {
 				Plugins.data.getStaticDirectories(pluginData, next);
 			},
 			cssFiles: function (next) {
-				Plugins.data.getFiles(pluginData, 'css', next);
+				Plugins.data.getFiles(pluginData, "css", next);
 			},
 			scssFiles: function (next) {
-				Plugins.data.getFiles(pluginData, 'scss', next);
+				Plugins.data.getFiles(pluginData, "scss", next);
 			},
 			acpScssFiles: function (next) {
-				Plugins.data.getFiles(pluginData, 'acpScss', next);
+				Plugins.data.getFiles(pluginData, "acpScss", next);
 			},
 			clientScripts: function (next) {
-				Plugins.data.getScripts(pluginData, 'client', next);
+				Plugins.data.getScripts(pluginData, "client", next);
 			},
 			acpScripts: function (next) {
-				Plugins.data.getScripts(pluginData, 'acp', next);
+				Plugins.data.getScripts(pluginData, "acp", next);
 			},
 			modules: function (next) {
 				Plugins.data.getModules(pluginData, next);
@@ -61,8 +61,14 @@ module.exports = function (Plugins) {
 		add(Plugins.acpScripts, results.acpScripts);
 		Object.assign(meta.js.scripts.modules, results.modules || {});
 		if (results.languageData) {
-			Plugins.languageData.languages = _.union(Plugins.languageData.languages, results.languageData.languages);
-			Plugins.languageData.namespaces = _.union(Plugins.languageData.namespaces, results.languageData.namespaces);
+			Plugins.languageData.languages = _.union(
+				Plugins.languageData.languages,
+				results.languageData.languages,
+			);
+			Plugins.languageData.namespaces = _.union(
+				Plugins.languageData.namespaces,
+				results.languageData.namespaces,
+			);
 			pluginData.languageData = results.languageData;
 		}
 		Plugins.pluginsData[pluginData.id] = pluginData;
@@ -70,38 +76,40 @@ module.exports = function (Plugins) {
 
 	Plugins.prepareForBuild = async function (targets) {
 		const map = {
-			'plugin static dirs': ['staticDirs'],
-			'requirejs modules': ['modules'],
-			'client js bundle': ['clientScripts'],
-			'admin js bundle': ['acpScripts'],
-			'client side styles': ['cssFiles', 'scssFiles'],
-			'admin control panel styles': ['cssFiles', 'scssFiles', 'acpScssFiles'],
-			languages: ['languageData'],
+			"plugin static dirs": ["staticDirs"],
+			"requirejs modules": ["modules"],
+			"client js bundle": ["clientScripts"],
+			"admin js bundle": ["acpScripts"],
+			"client side styles": ["cssFiles", "scssFiles"],
+			"admin control panel styles": ["cssFiles", "scssFiles", "acpScssFiles"],
+			languages: ["languageData"],
 		};
 
-		const fields = _.uniq(_.flatMap(targets, target => map[target] || []));
+		const fields = _.uniq(_.flatMap(targets, (target) => map[target] || []));
 
 		// clear old data before build
 		fields.forEach((field) => {
 			switch (field) {
-				case 'clientScripts':
-				case 'acpScripts':
-				case 'cssFiles':
-				case 'scssFiles':
-				case 'acpScssFiles':
+				case "clientScripts":
+				case "acpScripts":
+				case "cssFiles":
+				case "scssFiles":
+				case "acpScssFiles":
 					Plugins[field].length = 0;
 					break;
-				case 'languageData':
+				case "languageData":
 					Plugins.languageData.languages = [];
 					Plugins.languageData.namespaces = [];
 					break;
-			// do nothing for modules and staticDirs
+				// do nothing for modules and staticDirs
 			}
 		});
 
-		winston.verbose(`[plugins] loading the following fields from plugin data: ${fields.join(', ')}`);
+		winston.verbose(
+			`[plugins] loading the following fields from plugin data: ${fields.join(", ")}`,
+		);
 		const plugins = await Plugins.data.getActive();
-		await Promise.all(plugins.map(p => registerPluginAssets(p, fields)));
+		await Promise.all(plugins.map((p) => registerPluginAssets(p, fields)));
 	};
 
 	Plugins.loadPlugin = async function (pluginPath) {
@@ -109,7 +117,7 @@ module.exports = function (Plugins) {
 		try {
 			pluginData = await Plugins.data.loadPluginInfo(pluginPath);
 		} catch (err) {
-			if (err.message === '[[error:parse-error]]') {
+			if (err.message === "[[error:parse-error]]") {
 				return;
 			}
 			if (!themeNamePattern.test(pluginPath)) {
@@ -145,8 +153,14 @@ module.exports = function (Plugins) {
 			}
 		}
 
-		if (pluginData.nbbpm && pluginData.nbbpm.compatibility && semver.validRange(pluginData.nbbpm.compatibility)) {
-			if (!semver.satisfies(nconf.get('version'), pluginData.nbbpm.compatibility)) {
+		if (
+			pluginData.nbbpm &&
+			pluginData.nbbpm.compatibility &&
+			semver.validRange(pluginData.nbbpm.compatibility)
+		) {
+			if (
+				!semver.satisfies(nconf.get("version"), pluginData.nbbpm.compatibility)
+			) {
 				add();
 			}
 		} else {
@@ -161,7 +175,9 @@ module.exports = function (Plugins) {
 			}
 
 			if (Array.isArray(pluginData.hooks)) {
-				pluginData.hooks.forEach(hook => Plugins.hooks.register(pluginData.id, hook));
+				pluginData.hooks.forEach((hook) =>
+					Plugins.hooks.register(pluginData.id, hook),
+				);
 			}
 		} catch (err) {
 			winston.warn(`[plugins] Unable to load library for: ${pluginData.id}`);

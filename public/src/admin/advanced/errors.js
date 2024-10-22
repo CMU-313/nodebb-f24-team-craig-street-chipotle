@@ -7,10 +7,10 @@ import {
 	PointElement,
 	Tooltip,
 	Filler,
-} from 'chart.js';
+} from "chart.js";
 
-import * as bootbox from 'bootbox';
-import * as alerts from '../../modules/alerts';
+import * as bootbox from "bootbox";
+import * as alerts from "../../modules/alerts";
 
 Chart.register(
 	LineController,
@@ -19,35 +19,34 @@ Chart.register(
 	LineElement,
 	PointElement,
 	Tooltip,
-	Filler
+	Filler,
 );
-
 
 // eslint-disable-next-line import/prefer-default-export
 export function init() {
 	setupCharts();
 
-	$('[data-action="clear"]').on('click', clear404);
+	$('[data-action="clear"]').on("click", clear404);
 }
 
 function clear404() {
-	bootbox.confirm('[[admin/advanced/errors:clear404-confirm]]', function (ok) {
+	bootbox.confirm("[[admin/advanced/errors:clear404-confirm]]", function (ok) {
 		if (ok) {
-			socket.emit('admin.errors.clear', {}, function (err) {
+			socket.emit("admin.errors.clear", {}, function (err) {
 				if (err) {
 					return alerts.error(err);
 				}
 
 				ajaxify.refresh();
-				alerts.success('[[admin/advanced/errors:clear404-success]]');
+				alerts.success("[[admin/advanced/errors:clear404-success]]");
 			});
 		}
 	});
 }
 
 function setupCharts() {
-	const notFoundCanvas = document.getElementById('not-found');
-	const tooBusyCanvas = document.getElementById('toobusy');
+	const notFoundCanvas = document.getElementById("not-found");
+	const tooBusyCanvas = document.getElementById("toobusy");
 	let dailyLabels = utils.getDaysArray();
 
 	dailyLabels = dailyLabels.slice(-7);
@@ -57,20 +56,20 @@ function setupCharts() {
 	}
 
 	const data = {
-		'not-found': {
+		"not-found": {
 			labels: dailyLabels,
 			datasets: [
 				{
-					label: '',
-					fill: 'origin',
+					label: "",
+					fill: "origin",
 					tension: 0.25,
-					backgroundColor: 'rgba(186,139,175,0.2)',
-					borderColor: 'rgba(186,139,175,1)',
-					pointBackgroundColor: 'rgba(186,139,175,1)',
-					pointHoverBackgroundColor: '#fff',
-					pointBorderColor: '#fff',
-					pointHoverBorderColor: 'rgba(186,139,175,1)',
-					data: ajaxify.data.analytics['not-found'],
+					backgroundColor: "rgba(186,139,175,0.2)",
+					borderColor: "rgba(186,139,175,1)",
+					pointBackgroundColor: "rgba(186,139,175,1)",
+					pointHoverBackgroundColor: "#fff",
+					pointBorderColor: "#fff",
+					pointHoverBorderColor: "rgba(186,139,175,1)",
+					data: ajaxify.data.analytics["not-found"],
 				},
 			],
 		},
@@ -78,15 +77,15 @@ function setupCharts() {
 			labels: dailyLabels,
 			datasets: [
 				{
-					label: '',
-					fill: 'origin',
+					label: "",
+					fill: "origin",
 					tension: 0.25,
-					backgroundColor: 'rgba(151,187,205,0.2)',
-					borderColor: 'rgba(151,187,205,1)',
-					pointBackgroundColor: 'rgba(151,187,205,1)',
-					pointHoverBackgroundColor: '#fff',
-					pointBorderColor: '#fff',
-					pointHoverBorderColor: 'rgba(151,187,205,1)',
+					backgroundColor: "rgba(151,187,205,0.2)",
+					borderColor: "rgba(151,187,205,1)",
+					pointBackgroundColor: "rgba(151,187,205,1)",
+					pointHoverBackgroundColor: "#fff",
+					pointBorderColor: "#fff",
+					pointHoverBorderColor: "rgba(151,187,205,1)",
 					data: ajaxify.data.analytics.toobusy,
 				},
 			],
@@ -106,14 +105,14 @@ function setupCharts() {
 		},
 	};
 
-	new Chart(notFoundCanvas.getContext('2d'), {
-		type: 'line',
-		data: data['not-found'],
+	new Chart(notFoundCanvas.getContext("2d"), {
+		type: "line",
+		data: data["not-found"],
 		options: chartOptions,
 	});
 
-	new Chart(tooBusyCanvas.getContext('2d'), {
-		type: 'line',
+	new Chart(tooBusyCanvas.getContext("2d"), {
+		type: "line",
 		data: data.toobusy,
 		options: chartOptions,
 	});

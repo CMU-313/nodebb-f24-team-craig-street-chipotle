@@ -16,9 +16,9 @@ head:
         type: string
       required: true
       description: status of the user to confirm
-      example: 'online'
+      example: "online"
   responses:
-    '200':
+    "200":
       description: user status is the value in path
-    '404':
+    "404":
       description: user status is not the value in path

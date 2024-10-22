@@ -27,7 +27,7 @@ put:
           required:
             - typing
   responses:
-    '200':
+    "200":
       description: Chat room typing state updated.
       content:
         application/json:

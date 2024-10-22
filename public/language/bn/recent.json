@@ -1,11 +1,11 @@
 {
-    "title": "সাম্প্রতিক",
-    "day": "দিন",
-    "week": "সপ্তাহ",
-    "month": "মাস",
-    "year": "বছর",
-    "alltime": "সবসময়",
-    "no-recent-topics": "কোন সাম্প্রতিক টপিক নেই।",
-    "no-popular-topics": "There are no popular topics.",
-    "load-new-posts": "Load new posts"
+  "title": "সাম্প্রতিক",
+  "day": "দিন",
+  "week": "সপ্তাহ",
+  "month": "মাস",
+  "year": "বছর",
+  "alltime": "সবসময়",
+  "no-recent-topics": "কোন সাম্প্রতিক টপিক নেই।",
+  "no-popular-topics": "There are no popular topics.",
+  "load-new-posts": "Load new posts"
 }

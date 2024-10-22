@@ -15,42 +15,42 @@ get:
       description: a valid category id, `0` for global privileges, `admin` for admin privileges
       example: 1
     - in: query
-      name: 'query'
+      name: "query"
       schema:
         type: string
       required: false
       description: Likely unused — a URI-encoded JSON string containing values that are passed to `getCategoryTopics`.
-      example: ''
+      example: ""
     - in: query
-      name: 'after'
+      name: "after"
       schema:
         type: string
       required: false
       description: The index to start at when querying for the next set of topics. This parameter would be more aptly named `start`.
-      example: '0'
+      example: "0"
     - in: query
-      name: 'sort'
+      name: "sort"
       schema:
         type: string
       required: false
       description: Likely deprecated — the sorting method of topics (use `categoryTopicSort` instead.)
-      example: ''
+      example: ""
     - in: query
-      name: 'categoryTopicSort'
+      name: "categoryTopicSort"
       schema:
         type: string
       required: false
       description: The sorting method of topics
-      example: 'newest_to_oldest'
+      example: "newest_to_oldest"
     - in: query
-      name: 'direction'
+      name: "direction"
       schema:
         type: string
       required: false
       description: The sorting of returned results (if you scroll up you want the topics reversed). Set to "-1" for reversed results.
-      example: '1'
+      example: "1"
   responses:
-    '200':
+    "200":
       description: categories topics successfully retrieved
       content:
         application/json:

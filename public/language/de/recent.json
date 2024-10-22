@@ -1,11 +1,11 @@
 {
-    "title": "Aktuell",
-    "day": "Tag",
-    "week": "Woche",
-    "month": "Monat",
-    "year": "Jahr",
-    "alltime": "Gesamter Zeitraum",
-    "no-recent-topics": "Es gibt keine aktuellen Themen.",
-    "no-popular-topics": "Es gibt keine beliebten Themen.",
-    "load-new-posts": "Neue Beiträge laden"
+  "title": "Aktuell",
+  "day": "Tag",
+  "week": "Woche",
+  "month": "Monat",
+  "year": "Jahr",
+  "alltime": "Gesamter Zeitraum",
+  "no-recent-topics": "Es gibt keine aktuellen Themen.",
+  "no-popular-topics": "Es gibt keine beliebten Themen.",
+  "load-new-posts": "Neue Beiträge laden"
 }

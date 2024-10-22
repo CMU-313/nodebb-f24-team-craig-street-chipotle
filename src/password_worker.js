@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-const workerpool = require('workerpool');
-const bcrypt = require('bcryptjs');
+const workerpool = require("workerpool");
+const bcrypt = require("bcryptjs");
 
 async function hash(password, rounds) {
 	const salt = await bcrypt.genSalt(parseInt(rounds, 10));
@@ -9,7 +9,7 @@ async function hash(password, rounds) {
 }
 
 async function compare(password, hash) {
-	return await bcrypt.compare(String(password || ''), String(hash || ''));
+	return await bcrypt.compare(String(password || ""), String(hash || ""));
 }
 
 workerpool.worker({

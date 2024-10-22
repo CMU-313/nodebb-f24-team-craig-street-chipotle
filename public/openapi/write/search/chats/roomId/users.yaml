@@ -12,14 +12,14 @@ get:
       description: room ID to check
       example: 1
     - in: query
-      name: 'query'
+      name: "query"
       schema:
         type: string
       required: false
       description: The keyword used in the user search
-      example: 'admin'
+      example: "admin"
   responses:
-    '200':
+    "200":
       description: matching users successfully retrieved
       content:
         application/json:

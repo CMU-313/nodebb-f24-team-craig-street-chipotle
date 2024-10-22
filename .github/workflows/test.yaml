@@ -11,18 +11,18 @@ defaults:
     shell: bash
 
 permissions:
-  checks: write  # for coverallsapp/github-action to create new checks
-  contents: read  # for actions/checkout to fetch code
+  checks: write # for coverallsapp/github-action to create new checks
+  contents: read # for actions/checkout to fetch code
 
 jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      TEST_ENV: 'production'
+      TEST_ENV: "production"
 
     services:
       redis:
-        image: 'redis:7.2.4'
+        image: "redis:7.2.4"
         # Set health checks to wait until redis has started
         options: >-
           --health-cmd "redis-cli ping"

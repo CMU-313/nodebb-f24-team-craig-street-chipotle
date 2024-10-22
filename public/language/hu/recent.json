@@ -1,11 +1,11 @@
 {
-    "title": "Legrissebb",
-    "day": "Nap",
-    "week": "Hét",
-    "month": "Hónap",
-    "year": "Év",
-    "alltime": "Bármikor",
-    "no-recent-topics": "Nincs friss témakör.",
-    "no-popular-topics": "Nincs népszerű témakör.",
-    "load-new-posts": "Új bejegyzések betöltése"
+  "title": "Legrissebb",
+  "day": "Nap",
+  "week": "Hét",
+  "month": "Hónap",
+  "year": "Év",
+  "alltime": "Bármikor",
+  "no-recent-topics": "Nincs friss témakör.",
+  "no-popular-topics": "Nincs népszerű témakör.",
+  "load-new-posts": "Új bejegyzések betöltése"
 }

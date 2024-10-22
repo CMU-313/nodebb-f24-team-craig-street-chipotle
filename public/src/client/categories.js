@@ -1,16 +1,15 @@
-'use strict';
+"use strict";
 
-
-define('forum/categories', ['categorySelector'], function (categorySelector) {
+define("forum/categories", ["categorySelector"], function (categorySelector) {
 	const categories = {};
 
 	categories.init = function () {
-		app.enterRoom('categories');
+		app.enterRoom("categories");
 
 		categorySelector.init($('[component="category-selector"]'), {
-			privilege: 'find',
+			privilege: "find",
 			onSelect: function (category) {
-				ajaxify.go('/category/' + category.cid);
+				ajaxify.go("/category/" + category.cid);
 			},
 		});
 	};

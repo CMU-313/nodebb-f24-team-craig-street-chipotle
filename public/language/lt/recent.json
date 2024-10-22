@@ -1,11 +1,11 @@
 {
-    "title": "Naujausi",
-    "day": "Diena",
-    "week": "Savaitė",
-    "month": "Mėnesis",
-    "year": "Metai",
-    "alltime": "Per visą laiką",
-    "no-recent-topics": "Paskutinių temų nėra",
-    "no-popular-topics": "Populiarių temų nėra.",
-    "load-new-posts": "Load new posts"
+  "title": "Naujausi",
+  "day": "Diena",
+  "week": "Savaitė",
+  "month": "Mėnesis",
+  "year": "Metai",
+  "alltime": "Per visą laiką",
+  "no-recent-topics": "Paskutinių temų nėra",
+  "no-popular-topics": "Populiarių temų nėra.",
+  "load-new-posts": "Load new posts"
 }

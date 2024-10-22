@@ -1,11 +1,11 @@
 {
-    "title": "Recenti",
-    "day": "Giorno",
-    "week": "Settimana",
-    "month": "Mese",
-    "year": "Anno",
-    "alltime": "Sempre",
-    "no-recent-topics": "Non ci sono discussioni recenti.",
-    "no-popular-topics": "Non ci sono discussioni popolari.",
-    "load-new-posts": "Carica nuovi post"
+  "title": "Recenti",
+  "day": "Giorno",
+  "week": "Settimana",
+  "month": "Mese",
+  "year": "Anno",
+  "alltime": "Sempre",
+  "no-recent-topics": "Non ci sono discussioni recenti.",
+  "no-popular-topics": "Non ci sono discussioni popolari.",
+  "load-new-posts": "Carica nuovi post"
 }

@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const translator = require('./modules/translator');
+const translator = require("./modules/translator");
 
 window.overrides = window.overrides || {};
 
@@ -13,18 +13,18 @@ function translate(elements, type, str) {
 	});
 }
 
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
 	(function ($) {
 		$.fn.getCursorPosition = function () {
 			const el = $(this).get(0);
 			let pos = 0;
-			if ('selectionStart' in el) {
+			if ("selectionStart" in el) {
 				pos = el.selectionStart;
-			} else if ('selection' in document) {
+			} else if ("selection" in document) {
 				el.focus();
 				const Sel = document.selection.createRange();
 				const SelLength = document.selection.createRange().text.length;
-				Sel.moveStart('character', -el.value.length);
+				Sel.moveStart("character", -el.value.length);
 				pos = Sel.text.length - SelLength;
 			}
 			return pos;
@@ -41,8 +41,8 @@ if (typeof window !== 'undefined') {
 				} else if (this.createTextRange) {
 					const range = this.createTextRange();
 					range.collapse(true);
-					range.moveEnd('character', end);
-					range.moveStart('character', start);
+					range.moveEnd("character", end);
+					range.moveStart("character", start);
 					range.select();
 				}
 			});
@@ -64,15 +64,15 @@ if (typeof window !== 'undefined') {
 		};
 
 		$.fn.translateHtml = function (str) {
-			return translate(this, 'html', str);
+			return translate(this, "html", str);
 		};
 
 		$.fn.translateText = function (str) {
-			return translate(this, 'text', str);
+			return translate(this, "text", str);
 		};
 
 		$.fn.translateVal = function (str) {
-			return translate(this, 'val', str);
+			return translate(this, "val", str);
 		};
 
 		$.fn.translateAttr = function (attr, str) {
@@ -83,11 +83,14 @@ if (typeof window !== 'undefined') {
 				});
 			});
 		};
-	}(jQuery || { fn: {} }));
+	})(jQuery || { fn: {} });
 
 	let timeagoFn;
 	overrides.overrideTimeagoCutoff = function () {
-		const cutoff = parseInt(ajaxify.data.timeagoCutoff || config.timeagoCutoff, 10);
+		const cutoff = parseInt(
+			ajaxify.data.timeagoCutoff || config.timeagoCutoff,
+			10,
+		);
 		if (cutoff === 0) {
 			$.timeago.settings.cutoff = 1;
 		} else if (cutoff > 0) {
@@ -103,13 +106,19 @@ if (typeof window !== 'undefined') {
 		overrides.overrideTimeagoCutoff();
 
 		$.timeago.settings.allowFuture = true;
-		const userLang = config.userLang.replace('_', '-');
-		const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+		const userLang = config.userLang.replace("_", "-");
+		const options = {
+			year: "numeric",
+			month: "short",
+			day: "numeric",
+			hour: "numeric",
+			minute: "numeric",
+		};
 		let formatFn = function (date) {
 			return date.toLocaleString(userLang, options);
 		};
 		try {
-			if (typeof Intl !== 'undefined') {
+			if (typeof Intl !== "undefined") {
 				const dtFormat = new Intl.DateTimeFormat(userLang, options);
 				formatFn = dtFormat.format;
 			}
@@ -123,11 +132,11 @@ if (typeof window !== 'undefined') {
 			const els = $(this);
 			// Convert "old" format to new format (#5108)
 			els.each(function () {
-				iso = this.getAttribute('title');
+				iso = this.getAttribute("title");
 				if (!iso) {
 					return;
 				}
-				this.setAttribute('datetime', iso);
+				this.setAttribute("datetime", iso);
 				date = new Date(iso);
 				if (!isNaN(date)) {
 					this.textContent = formatFn(date);

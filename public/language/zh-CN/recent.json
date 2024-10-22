@@ -1,11 +1,11 @@
 {
-    "title": "最新",
-    "day": "日",
-    "week": "周",
-    "month": "月",
-    "year": "年",
-    "alltime": "总计",
-    "no-recent-topics": "暂无主题。",
-    "no-popular-topics": "暂无热门主题。",
-    "load-new-posts": "加载新的帖子"
+  "title": "最新",
+  "day": "日",
+  "week": "周",
+  "month": "月",
+  "year": "年",
+  "alltime": "总计",
+  "no-recent-topics": "暂无主题。",
+  "no-popular-topics": "暂无热门主题。",
+  "load-new-posts": "加载新的帖子"
 }

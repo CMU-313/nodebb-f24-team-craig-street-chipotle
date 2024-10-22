@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
-const _ = require('lodash');
-const plugins = require('./plugins');
-const db = require('./database');
-const meta = require('./meta');
+const _ = require("lodash");
+const plugins = require("./plugins");
+const db = require("./database");
+const meta = require("./meta");
 
 const social = module.exports;
 
@@ -16,34 +16,35 @@ social.getPostSharing = async function () {
 
 	let networks = [
 		{
-			id: 'facebook',
-			name: 'Facebook',
-			class: 'fa-brands fa-facebook',
+			id: "facebook",
+			name: "Facebook",
+			class: "fa-brands fa-facebook",
 		},
 		{
-			id: 'twitter',
-			name: 'X (Twitter)',
-			class: 'fa-brands fa-x-twitter',
+			id: "twitter",
+			name: "X (Twitter)",
+			class: "fa-brands fa-x-twitter",
 		},
 		{
-			id: 'whatsapp',
-			name: 'Whatsapp',
-			class: 'fa-brands fa-whatsapp',
+			id: "whatsapp",
+			name: "Whatsapp",
+			class: "fa-brands fa-whatsapp",
 		},
 		{
-			id: 'telegram',
-			name: 'Telegram',
-			class: 'fa-brands fa-telegram',
+			id: "telegram",
+			name: "Telegram",
+			class: "fa-brands fa-telegram",
 		},
 		{
-			id: 'linkedin',
-			name: 'LinkedIn',
-			class: 'fa-brands fa-linkedin',
+			id: "linkedin",
+			name: "LinkedIn",
+			class: "fa-brands fa-linkedin",
 		},
 	];
-	networks = await plugins.hooks.fire('filter:social.posts', networks);
+	networks = await plugins.hooks.fire("filter:social.posts", networks);
 	networks.forEach((network) => {
-		network.activated = parseInt(meta.config[`post-sharing-${network.id}`], 10) === 1;
+		network.activated =
+			parseInt(meta.config[`post-sharing-${network.id}`], 10) === 1;
 	});
 
 	social.postSharing = networks;
@@ -52,7 +53,7 @@ social.getPostSharing = async function () {
 
 social.getActivePostSharing = async function () {
 	const networks = await social.getPostSharing();
-	return networks.filter(network => network && network.activated);
+	return networks.filter((network) => network && network.activated);
 };
 
 social.setActivePostSharingNetworks = async function (networkIDs) {
@@ -65,7 +66,7 @@ social.setActivePostSharingNetworks = async function (networkIDs) {
 	networkIDs.forEach((id) => {
 		data[`post-sharing-${id}`] = 1;
 	});
-	await db.setObject('config', data);
+	await db.setObject("config", data);
 };
 
-require('./promisify')(social);
+require("./promisify")(social);

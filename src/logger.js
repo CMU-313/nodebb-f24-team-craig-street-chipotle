@@ -1,18 +1,17 @@
-'use strict';
+"use strict";
 
 /*
  * Logger module: ability to dynamically turn on/off logging for http requests & socket.io events
  */
 
-const fs = require('fs');
-const path = require('path');
-const winston = require('winston');
-const util = require('util');
-const morgan = require('morgan');
+const fs = require("fs");
+const path = require("path");
+const winston = require("winston");
+const util = require("util");
+const morgan = require("morgan");
 
-const file = require('./file');
-const meta = require('./meta');
-
+const file = require("./file");
+const meta = require("./meta");
 
 const opts = {
 	/*
@@ -38,7 +37,7 @@ Logger.init = function (app) {
 };
 
 Logger.setup = function () {
-	Logger.setup_one('loggerPath', meta.config.loggerPath);
+	Logger.setup_one("loggerPath", meta.config.loggerPath);
 };
 
 Logger.setup_one = function (key, value) {
@@ -46,7 +45,7 @@ Logger.setup_one = function (key, value) {
 	 * 1. Open the logger stream: stdout or file
 	 * 2. Re-initialize the express logger hijack
 	 */
-	if (key === 'loggerPath') {
+	if (key === "loggerPath") {
 		Logger.setup_one_log(value);
 		Logger.express_open();
 	}
@@ -77,17 +76,19 @@ Logger.open = function (value) {
 			const stats = fs.statSync(value);
 			if (stats) {
 				if (stats.isDirectory()) {
-					stream = fs.createWriteStream(path.join(value, 'nodebb.log'), { flags: 'a' });
+					stream = fs.createWriteStream(path.join(value, "nodebb.log"), {
+						flags: "a",
+					});
 				} else {
-					stream = fs.createWriteStream(value, { flags: 'a' });
+					stream = fs.createWriteStream(value, { flags: "a" });
 				}
 			}
 		} else {
-			stream = fs.createWriteStream(value, { flags: 'a' });
+			stream = fs.createWriteStream(value, { flags: "a" });
 		}
 
 		if (stream) {
-			stream.on('error', (err) => {
+			stream.on("error", (err) => {
 				winston.error(err.stack);
 			});
 		}
@@ -121,7 +122,7 @@ Logger.express_open = function () {
 	/*
 	 * Always initialize "ofn" (original function) with the original logger function
 	 */
-	opts.express.ofn = morgan('combined', { stream: opts.streams.log.f });
+	opts.express.ofn = morgan("combined", { stream: opts.streams.log.f });
 };
 
 Logger.expressLogger = function (req, res, next) {
@@ -145,8 +146,8 @@ Logger.prepare_io_string = function (_type, _uid, _args) {
 	try {
 		return `io: ${_uid} ${_type} ${util.inspect(Array.prototype.slice.call(_args), { depth: 3 })}\n`;
 	} catch (err) {
-		winston.info('Logger.prepare_io_string: Failed', err);
-		return 'error';
+		winston.info("Logger.prepare_io_string: Failed", err);
+		return "error";
 	}
 };
 
@@ -154,7 +155,12 @@ Logger.io_close = function (socket) {
 	/*
 	 * Restore all hijacked sockets to their original emit/on functions
 	 */
-	if (!socket || !socket.io || !socket.io.sockets || !socket.io.sockets.sockets) {
+	if (
+		!socket ||
+		!socket.io ||
+		!socket.io.sockets ||
+		!socket.io.sockets.sockets
+	) {
 		return;
 	}
 
@@ -176,7 +182,12 @@ Logger.io = function (socket) {
 	 * Go through all of the currently established sockets & hook their .emit/.on
 	 */
 
-	if (!socket || !socket.io || !socket.io.sockets || !socket.io.sockets.sockets) {
+	if (
+		!socket ||
+		!socket.io ||
+		!socket.io.sockets ||
+		!socket.io.sockets.sockets
+	) {
 		return;
 	}
 
@@ -208,10 +219,14 @@ Logger.io_one = function (socket, uid) {
 		// courtesy of: http://stackoverflow.com/a/9674248
 		socket.oEmit = socket.emit;
 		const { emit } = socket;
-		socket.emit = override(emit, 'emit', 'Logger.io_one: emit.apply: Failed');
+		socket.emit = override(emit, "emit", "Logger.io_one: emit.apply: Failed");
 
 		socket.$onvent = socket.onevent;
 		const $onevent = socket.onevent;
-		socket.onevent = override($onevent, 'on', 'Logger.io_one: $emit.apply: Failed');
+		socket.onevent = override(
+			$onevent,
+			"on",
+			"Logger.io_one: $emit.apply: Failed",
+		);
 	}
 };

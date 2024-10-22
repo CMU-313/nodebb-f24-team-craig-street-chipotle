@@ -1,11 +1,11 @@
 /* eslint-disable no-await-in-loop */
 
-'use strict';
+"use strict";
 
-const db = require('../../database');
+const db = require("../../database");
 
 module.exports = {
-	name: 'Set messageCount on chat rooms',
+	name: "Set messageCount on chat rooms",
 	timestamp: Date.UTC(2023, 6, 27),
 	method: async function () {
 		const { progress } = this;

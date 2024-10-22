@@ -17,9 +17,9 @@ post:
             description:
               type: string
               description: Optional descriptor to differentiate tokens.
-              example: 'My new token.'
+              example: "My new token."
   responses:
-    '200':
+    "200":
       description: token successfully created
       content:
         application/json:

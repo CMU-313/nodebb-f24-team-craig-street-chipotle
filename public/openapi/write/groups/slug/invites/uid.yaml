@@ -20,7 +20,7 @@ post:
       description: a user id
       example: 1
   responses:
-    '200':
+    "200":
       description: Membership invitation issued.
       content:
         application/json:
@@ -55,7 +55,7 @@ put:
       description: a user id
       example: 1
   responses:
-    '200':
+    "200":
       description: Membership invitation accepted.
       content:
         application/json:
@@ -92,7 +92,7 @@ delete:
       description: a user id
       example: 1
   responses:
-    '200':
+    "200":
       description: Membership invitation declined.
       content:
         application/json:

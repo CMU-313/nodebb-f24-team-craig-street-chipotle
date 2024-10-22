@@ -1,17 +1,17 @@
-'use strict';
+"use strict";
 
-const fs = require('fs');
-const os = require('os');
-const async = require('async');
-const winston = require('winston');
-const postcss = require('postcss');
-const autoprefixer = require('autoprefixer');
-const clean = require('postcss-clean');
-const rtlcss = require('rtlcss');
-const sass = require('../utils').getSass();
+const fs = require("fs");
+const os = require("os");
+const async = require("async");
+const winston = require("winston");
+const postcss = require("postcss");
+const autoprefixer = require("autoprefixer");
+const clean = require("postcss-clean");
+const rtlcss = require("rtlcss");
+const sass = require("../utils").getSass();
 
-const fork = require('./debugFork');
-require('../file'); // for graceful-fs
+const fork = require("./debugFork");
+require("../file"); // for graceful-fs
 
 const Minifier = module.exports;
 
@@ -20,14 +20,16 @@ const free = [];
 
 let maxThreads = 0;
 
-Object.defineProperty(Minifier, 'maxThreads', {
+Object.defineProperty(Minifier, "maxThreads", {
 	get: function () {
 		return maxThreads;
 	},
 	set: function (val) {
 		maxThreads = val;
 		if (!process.env.minifier_child) {
-			winston.verbose(`[minifier] utilizing a maximum of ${maxThreads} additional threads`);
+			winston.verbose(
+				`[minifier] utilizing a maximum of ${maxThreads} additional threads`,
+			);
 		}
 	},
 	configurable: true,
@@ -38,7 +40,7 @@ Minifier.maxThreads = Math.max(1, os.cpus().length - 1);
 
 Minifier.killAll = function () {
 	pool.forEach((child) => {
-		child.kill('SIGTERM');
+		child.kill("SIGTERM");
 	});
 
 	pool.length = 0;
@@ -76,25 +78,25 @@ function removeChild(proc) {
 function forkAction(action) {
 	return new Promise((resolve, reject) => {
 		const proc = getChild();
-		proc.on('message', (message) => {
+		proc.on("message", (message) => {
 			freeChild(proc);
 
-			if (message.type === 'error') {
+			if (message.type === "error") {
 				return reject(new Error(message.message));
 			}
 
-			if (message.type === 'end') {
+			if (message.type === "end") {
 				resolve(message.result);
 			}
 		});
-		proc.on('error', (err) => {
+		proc.on("error", (err) => {
 			proc.kill();
 			removeChild(proc);
 			reject(err);
 		});
 
 		proc.send({
-			type: 'action',
+			type: "action",
 			action: action,
 		});
 	});
@@ -103,26 +105,26 @@ function forkAction(action) {
 const actions = {};
 
 if (process.env.minifier_child) {
-	process.on('message', async (message) => {
-		if (message.type === 'action') {
+	process.on("message", async (message) => {
+		if (message.type === "action") {
 			const { action } = message;
-			if (typeof actions[action.act] !== 'function') {
+			if (typeof actions[action.act] !== "function") {
 				process.send({
-					type: 'error',
-					message: 'Unknown action',
+					type: "error",
+					message: "Unknown action",
 				});
 				return;
 			}
 			try {
 				const result = await actions[action.act](action);
 				process.send({
-					type: 'end',
+					type: "end",
 					result: result,
 				});
 			} catch (err) {
 				process.send({
-					type: 'error',
-					message: err.stack || err.message || 'unknown error',
+					type: "error",
+					message: err.stack || err.message || "unknown error",
 				});
 			}
 		}
@@ -130,35 +132,42 @@ if (process.env.minifier_child) {
 }
 
 async function executeAction(action, fork) {
-	if (fork && (pool.length - free.length) < Minifier.maxThreads) {
+	if (fork && pool.length - free.length < Minifier.maxThreads) {
 		return await forkAction(action);
 	}
-	if (typeof actions[action.act] !== 'function') {
-		throw new Error('Unknown action');
+	if (typeof actions[action.act] !== "function") {
+		throw new Error("Unknown action");
 	}
 	return await actions[action.act](action);
 }
 
 actions.concat = async function concat(data) {
 	if (data.files && data.files.length) {
-		const files = await async.mapLimit(data.files, 1000, async ref => await fs.promises.readFile(ref.srcPath, 'utf8'));
-		const output = files.join('\n;');
+		const files = await async.mapLimit(
+			data.files,
+			1000,
+			async (ref) => await fs.promises.readFile(ref.srcPath, "utf8"),
+		);
+		const output = files.join("\n;");
 		await fs.promises.writeFile(data.destPath, output);
 	}
 };
 
 Minifier.js = {};
 Minifier.js.bundle = async function (data, fork) {
-	return await executeAction({
-		act: 'concat',
-		files: data.files,
-		filename: data.filename,
-		destPath: data.destPath,
-	}, fork);
+	return await executeAction(
+		{
+			act: "concat",
+			files: data.files,
+			filename: data.filename,
+			destPath: data.destPath,
+		},
+		fork,
+	);
 };
 
 actions.buildCSS = async function buildCSS(data) {
-	let css = '';
+	let css = "";
 	try {
 		const scssOutput = await sass.compileStringAsync(data.source, {
 			loadPaths: data.paths,
@@ -168,18 +177,19 @@ actions.buildCSS = async function buildCSS(data) {
 		console.error(err.stack);
 	}
 
-
 	async function processScss(direction) {
-		if (direction === 'rtl') {
+		if (direction === "rtl") {
 			css = await postcss([rtlcss()]).process(css, {
 				from: undefined,
 			});
 		}
 		const postcssArgs = [autoprefixer];
 		if (data.minify) {
-			postcssArgs.push(clean({
-				processImportFrom: ['local'],
-			}));
+			postcssArgs.push(
+				clean({
+					processImportFrom: ["local"],
+				}),
+			);
 		}
 		return await postcss(postcssArgs).process(css, {
 			from: undefined,
@@ -187,8 +197,8 @@ actions.buildCSS = async function buildCSS(data) {
 	}
 
 	const [ltrresult, rtlresult] = await Promise.all([
-		processScss('ltr'),
-		processScss('rtl'),
+		processScss("ltr"),
+		processScss("rtl"),
 	]);
 
 	return {
@@ -199,12 +209,15 @@ actions.buildCSS = async function buildCSS(data) {
 
 Minifier.css = {};
 Minifier.css.bundle = async function (source, paths, minify, fork) {
-	return await executeAction({
-		act: 'buildCSS',
-		source: source,
-		paths: paths,
-		minify: minify,
-	}, fork);
+	return await executeAction(
+		{
+			act: "buildCSS",
+			source: source,
+			paths: paths,
+			minify: minify,
+		},
+		fork,
+	);
 };
 
-require('../promisify')(exports);
+require("../promisify")(exports);

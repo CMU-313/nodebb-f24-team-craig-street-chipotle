@@ -1,11 +1,11 @@
 {
-    "title": "Nedávne",
-    "day": "Deň",
-    "week": "Týždeň",
-    "month": "Mesiac",
-    "year": "Rok",
-    "alltime": "Vždy",
-    "no-recent-topics": "Neboli nájdené žiadne nové témy.",
-    "no-popular-topics": "Neexistujú žiadne populárne témy.",
-    "load-new-posts": "Load new posts"
+  "title": "Nedávne",
+  "day": "Deň",
+  "week": "Týždeň",
+  "month": "Mesiac",
+  "year": "Rok",
+  "alltime": "Vždy",
+  "no-recent-topics": "Neboli nájdené žiadne nové témy.",
+  "no-popular-topics": "Neexistujú žiadne populárne témy.",
+  "load-new-posts": "Load new posts"
 }

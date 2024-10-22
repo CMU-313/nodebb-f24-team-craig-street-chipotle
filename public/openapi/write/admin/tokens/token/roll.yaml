@@ -12,7 +12,7 @@ post:
       description: a valid API token
       example: 4eb506f8-a173-4693-a41b-e23604bc973a
   responses:
-    '200':
+    "200":
       description: Token regenerated.
       content:
         application/json:

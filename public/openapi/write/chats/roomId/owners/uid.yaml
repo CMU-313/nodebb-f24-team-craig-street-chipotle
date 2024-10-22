@@ -19,7 +19,7 @@ put:
       description: a valid user id
       example: 4
   responses:
-    '200':
+    "200":
       description: user successfully added as room owner.
       content:
         application/json:
@@ -50,7 +50,7 @@ delete:
       description: a valid user id
       example: 4
   responses:
-    '200':
+    "200":
       description: user successfully removed as room owner.
       content:
         application/json:

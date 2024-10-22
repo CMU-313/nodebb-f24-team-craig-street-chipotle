@@ -1,11 +1,11 @@
 {
-    "title": "Nedavno",
-    "day": "Dan",
-    "week": "Tjedan",
-    "month": "Mjesec",
-    "year": "Godina",
-    "alltime": "Sve vrijeme",
-    "no-recent-topics": "Nema nedavnih tema.",
-    "no-popular-topics": "Nema popularnih tema.",
-    "load-new-posts": "Load new posts"
+  "title": "Nedavno",
+  "day": "Dan",
+  "week": "Tjedan",
+  "month": "Mjesec",
+  "year": "Godina",
+  "alltime": "Sve vrijeme",
+  "no-recent-topics": "Nema nedavnih tema.",
+  "no-popular-topics": "Nema popularnih tema.",
+  "load-new-posts": "Load new posts"
 }

@@ -19,7 +19,7 @@ put:
       description: a user id
       example: 1
   responses:
-    '200':
+    "200":
       description: Membership request approved.
       content:
         application/json:
@@ -52,7 +52,7 @@ delete:
       description: a user id
       example: 1
   responses:
-    '200':
+    "200":
       description: Membership request rejected.
       content:
         application/json:

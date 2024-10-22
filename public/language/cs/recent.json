@@ -1,11 +1,11 @@
 {
-    "title": "Nedávné",
-    "day": "Den",
-    "week": "Týden",
-    "month": "Měsíc",
-    "year": "Rok",
-    "alltime": "Pořád",
-    "no-recent-topics": "Nebyly nalezeny žádné nové téma.",
-    "no-popular-topics": "Žádná oblíbená téma.",
-    "load-new-posts": "Load new posts"
+  "title": "Nedávné",
+  "day": "Den",
+  "week": "Týden",
+  "month": "Měsíc",
+  "year": "Rok",
+  "alltime": "Pořád",
+  "no-recent-topics": "Nebyly nalezeny žádné nové téma.",
+  "no-popular-topics": "Žádná oblíbená téma.",
+  "load-new-posts": "Load new posts"
 }

@@ -1,14 +1,14 @@
-'use strict';
+"use strict";
 
-const assert = require('assert');
-const nconf = require('nconf');
+const assert = require("assert");
+const nconf = require("nconf");
 
-const db = require('./mocks/databasemock');
-const api = require('../src/api');
-const user = require('../src/user');
-const utils = require('../src/utils');
+const db = require("./mocks/databasemock");
+const api = require("../src/api");
+const user = require("../src/user");
+const utils = require("../src/utils");
 
-describe('API tokens', () => {
+describe("API tokens", () => {
 	let token;
 
 	beforeEach(async () => {
@@ -16,8 +16,8 @@ describe('API tokens', () => {
 		token = await api.utils.tokens.generate({ uid: 0 });
 	});
 
-	describe('.list()', () => {
-		it('should list available tokens', async () => {
+	describe(".list()", () => {
+		it("should list available tokens", async () => {
 			await api.utils.tokens.generate({ uid: 0 });
 			const tokens = await api.utils.tokens.list();
 
@@ -28,13 +28,17 @@ describe('API tokens', () => {
 		});
 	});
 
-	describe('.create()', () => {
-		it('should fail to create a token for a user that does not exist', async () => {
-			await assert.rejects(api.utils.tokens.generate({ uid: 1 }), { message: '[[error:no-user]]' });
+	describe(".create()", () => {
+		it("should fail to create a token for a user that does not exist", async () => {
+			await assert.rejects(api.utils.tokens.generate({ uid: 1 }), {
+				message: "[[error:no-user]]",
+			});
 		});
 
-		it('should create a token for a user that exists', async () => {
-			const uid = await user.create({ username: utils.generateUUID().slice(0, 8) });
+		it("should create a token for a user that exists", async () => {
+			const uid = await user.create({
+				username: utils.generateUUID().slice(0, 8),
+			});
 			const token = await api.utils.tokens.generate({ uid });
 			const tokenObj = await api.utils.tokens.get(token);
 
@@ -43,15 +47,15 @@ describe('API tokens', () => {
 		});
 	});
 
-	describe('.get()', () => {
-		it('should retrieve a token', async () => {
+	describe(".get()", () => {
+		it("should retrieve a token", async () => {
 			const tokenObj = await api.utils.tokens.get(token);
 
 			assert(tokenObj);
 			assert.strictEqual(parseInt(tokenObj.uid, 10), 0);
 		});
 
-		it('should retrieve multiple tokens', async () => {
+		it("should retrieve multiple tokens", async () => {
 			const second = await api.utils.tokens.generate({ uid: 0 });
 			const tokens = await api.utils.tokens.get([token, second]);
 
@@ -62,20 +66,22 @@ describe('API tokens', () => {
 			});
 		});
 
-		it('should fail if you pass in invalid data', async () => {
-			await assert.rejects(api.utils.tokens.get(null), { message: '[[error:invalid-data]]' });
+		it("should fail if you pass in invalid data", async () => {
+			await assert.rejects(api.utils.tokens.get(null), {
+				message: "[[error:invalid-data]]",
+			});
 		});
 
-		it('should show lastSeen and lastSeenISO as undefined/null if it is a new token', async () => {
+		it("should show lastSeen and lastSeenISO as undefined/null if it is a new token", async () => {
 			const { lastSeen, lastSeenISO } = await api.utils.tokens.get(token);
 
 			assert.strictEqual(lastSeen, null);
 			assert.strictEqual(lastSeenISO, null);
 		});
 
-		it('should show lastSeenISO as an ISO formatted datetime string if the token has been used', async () => {
+		it("should show lastSeenISO as an ISO formatted datetime string if the token has been used", async () => {
 			const now = new Date();
-			await db.sortedSetAdd('tokens:lastSeen', now.getTime(), token);
+			await db.sortedSetAdd("tokens:lastSeen", now.getTime(), token);
 			const { lastSeen, lastSeenISO } = await api.utils.tokens.get(token);
 
 			assert.strictEqual(lastSeen, now.getTime());
@@ -83,8 +89,8 @@ describe('API tokens', () => {
 		});
 	});
 
-	describe('.generate()', () => {
-		it('should generate a new token', async () => {
+	describe(".generate()", () => {
+		it("should generate a new token", async () => {
 			const second = await api.utils.tokens.generate({ uid: 0 });
 			const token = await api.utils.tokens.get(second);
 
@@ -95,30 +101,30 @@ describe('API tokens', () => {
 		});
 	});
 
-	describe('.update()', () => {
-		it('should update the description of a token', async () => {
-			await api.utils.tokens.update(token, { uid: 0, description: 'foobar' });
+	describe(".update()", () => {
+		it("should update the description of a token", async () => {
+			await api.utils.tokens.update(token, { uid: 0, description: "foobar" });
 			const tokenObj = await api.utils.tokens.get(token);
 
 			assert(tokenObj);
 			assert.strictEqual(parseInt(tokenObj.uid, 10), 0);
-			assert.strictEqual(tokenObj.description, 'foobar');
+			assert.strictEqual(tokenObj.description, "foobar");
 		});
 
-		it('should update the uid of a token', async () => {
-			await api.utils.tokens.update(token, { uid: 1, description: 'foobar' });
+		it("should update the uid of a token", async () => {
+			await api.utils.tokens.update(token, { uid: 1, description: "foobar" });
 			const tokenObj = await api.utils.tokens.get(token);
-			const uid = await db.sortedSetScore('tokens:uid', token);
+			const uid = await db.sortedSetScore("tokens:uid", token);
 
 			assert(tokenObj);
 			assert.strictEqual(parseInt(tokenObj.uid, 10), 1);
 			assert.strictEqual(parseInt(uid, 10), 1);
-			assert.strictEqual(tokenObj.description, 'foobar');
+			assert.strictEqual(tokenObj.description, "foobar");
 		});
 	});
 
-	describe('.roll()', () => {
-		it('should invalidate the old token', async () => {
+	describe(".roll()", () => {
+		it("should invalidate the old token", async () => {
 			const newToken = await api.utils.tokens.roll(token);
 			assert(newToken);
 
@@ -127,37 +133,43 @@ describe('API tokens', () => {
 			assert(gets[1]);
 		});
 
-		it('should change a token but leave all other metadata intact', async () => {
-			await api.utils.tokens.update(token, { uid: 1, description: 'foobar' });
+		it("should change a token but leave all other metadata intact", async () => {
+			await api.utils.tokens.update(token, { uid: 1, description: "foobar" });
 			const newToken = await api.utils.tokens.roll(token);
 			const tokenObj = await api.utils.tokens.get(newToken);
 
 			assert.strictEqual(parseInt(tokenObj.uid, 10), 1);
-			assert.strictEqual(tokenObj.description, 'foobar');
+			assert.strictEqual(tokenObj.description, "foobar");
 		});
 	});
 
-	describe('.delete()', () => {
-		it('should delete a token from a system', async () => {
+	describe(".delete()", () => {
+		it("should delete a token from a system", async () => {
 			await api.utils.tokens.delete(token);
 
 			assert.strictEqual(await db.exists(`token:${token}`), false);
 			assert.strictEqual(await db.sortedSetScore(`tokens:uid`, token), null);
-			assert.strictEqual(await db.sortedSetScore(`tokens:createtime`, token), null);
-			assert.strictEqual(await db.sortedSetScore(`tokens:lastSeen`, token), null);
+			assert.strictEqual(
+				await db.sortedSetScore(`tokens:createtime`, token),
+				null,
+			);
+			assert.strictEqual(
+				await db.sortedSetScore(`tokens:lastSeen`, token),
+				null,
+			);
 		});
 	});
 
-	describe('.log()', () => {
-		it('should record the current time as the last seen time of that token', async () => {
+	describe(".log()", () => {
+		it("should record the current time as the last seen time of that token", async () => {
 			await api.utils.tokens.log(token);
 
 			assert(await db.sortedSetScore(`tokens:lastSeen`, token));
 		});
 	});
 
-	describe('.getLastSeen()', () => {
-		it('should retrieve the time the token was last seen', async () => {
+	describe(".getLastSeen()", () => {
+		it("should retrieve the time the token was last seen", async () => {
 			await api.utils.tokens.log(token);
 			const time = await api.utils.tokens.getLastSeen([token]);
 
@@ -165,7 +177,7 @@ describe('API tokens', () => {
 			assert(isFinite(time[0]));
 		});
 
-		it('should return null if the token has never been seen', async () => {
+		it("should return null if the token has never been seen", async () => {
 			const time = await api.utils.tokens.getLastSeen([token]);
 
 			assert.strictEqual(time[0], null);

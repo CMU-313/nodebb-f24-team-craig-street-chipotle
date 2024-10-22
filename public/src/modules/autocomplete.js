@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-define('autocomplete', ['api', 'alerts'], function (api, alerts) {
+define("autocomplete", ["api", "alerts"], function (api, alerts) {
 	const autocomplete = {};
 	const _default = {
 		delay: 200,
@@ -14,7 +14,7 @@ define('autocomplete', ['api', 'alerts'], function (api, alerts) {
 			input.autocomplete({
 				...acParams,
 				open: function () {
-					$(this).autocomplete('widget').css('z-index', 100005);
+					$(this).autocomplete("widget").css("z-index", 100005);
 				},
 				select: function (event, ui) {
 					handleOnSelect(input, onSelect, event, ui);
@@ -24,7 +24,7 @@ define('autocomplete', ['api', 'alerts'], function (api, alerts) {
 	};
 
 	autocomplete.user = function (input, params, onSelect) {
-		if (typeof params === 'function') {
+		if (typeof params === "function") {
 			onSelect = params;
 			params = {};
 		}
@@ -36,34 +36,36 @@ define('autocomplete', ['api', 'alerts'], function (api, alerts) {
 			source: (request, response) => {
 				params.query = request.term;
 
-				api.get('/api/users', params, function (err, result) {
+				api.get("/api/users", params, function (err, result) {
 					if (err) {
 						return alerts.error(err);
 					}
 
 					if (result && result.users) {
 						const names = result.users.map(function (user) {
-							const username = $('<div></div>').html(user.username).text();
-							return user && {
-								label: username,
-								value: username,
-								user: {
-									uid: user.uid,
-									name: user.username,
-									slug: user.userslug,
-									username: user.username,
-									userslug: user.userslug,
-									picture: user.picture,
-									banned: user.banned,
-									'icon:text': user['icon:text'],
-									'icon:bgColor': user['icon:bgColor'],
-								},
-							};
+							const username = $("<div></div>").html(user.username).text();
+							return (
+								user && {
+									label: username,
+									value: username,
+									user: {
+										uid: user.uid,
+										name: user.username,
+										slug: user.userslug,
+										username: user.username,
+										userslug: user.userslug,
+										picture: user.picture,
+										banned: user.banned,
+										"icon:text": user["icon:text"],
+										"icon:bgColor": user["icon:bgColor"],
+									},
+								}
+							);
 						});
 						response(names);
 					}
 
-					$('.ui-autocomplete a').attr('data-ajaxify', 'false');
+					$(".ui-autocomplete a").attr("data-ajaxify", "false");
 				});
 			},
 		});
@@ -74,24 +76,30 @@ define('autocomplete', ['api', 'alerts'], function (api, alerts) {
 			input,
 			onSelect,
 			source: (request, response) => {
-				socket.emit('groups.search', {
-					query: request.term,
-				}, function (err, results) {
-					if (err) {
-						return alerts.error(err);
-					}
-					if (results && results.length) {
-						const names = results.map(function (group) {
-							return group && {
-								label: group.name,
-								value: group.name,
-								group: group,
-							};
-						});
-						response(names);
-					}
-					$('.ui-autocomplete a').attr('data-ajaxify', 'false');
-				});
+				socket.emit(
+					"groups.search",
+					{
+						query: request.term,
+					},
+					function (err, results) {
+						if (err) {
+							return alerts.error(err);
+						}
+						if (results && results.length) {
+							const names = results.map(function (group) {
+								return (
+									group && {
+										label: group.name,
+										value: group.name,
+										group: group,
+									}
+								);
+							});
+							response(names);
+						}
+						$(".ui-autocomplete a").attr("data-ajaxify", "false");
+					},
+				);
 			},
 		});
 	};
@@ -102,25 +110,29 @@ define('autocomplete', ['api', 'alerts'], function (api, alerts) {
 			onSelect,
 			delay: 100,
 			source: (request, response) => {
-				socket.emit('topics.autocompleteTags', {
-					query: request.term,
-					cid: ajaxify.data.cid || 0,
-				}, function (err, tags) {
-					if (err) {
-						return alerts.error(err);
-					}
-					if (tags) {
-						response(tags);
-					}
-					$('.ui-autocomplete a').attr('data-ajaxify', 'false');
-				});
+				socket.emit(
+					"topics.autocompleteTags",
+					{
+						query: request.term,
+						cid: ajaxify.data.cid || 0,
+					},
+					function (err, tags) {
+						if (err) {
+							return alerts.error(err);
+						}
+						if (tags) {
+							response(tags);
+						}
+						$(".ui-autocomplete a").attr("data-ajaxify", "false");
+					},
+				);
 			},
 		});
 	};
 
 	function handleOnSelect(input, onselect, event, ui) {
-		onselect = onselect || function () { };
-		const e = jQuery.Event('keypress');
+		onselect = onselect || function () {};
+		const e = jQuery.Event("keypress");
 		e.which = 13;
 		e.keyCode = 13;
 		setTimeout(function () {

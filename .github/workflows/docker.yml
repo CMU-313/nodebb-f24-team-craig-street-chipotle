@@ -4,10 +4,10 @@ name: Run Docker
 on:
   push:
     branches:
-      - 'master'
-      - 'v*.x'
+      - "master"
+      - "v*.x"
     tags:
-      - 'v*'
+      - "v*"
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -19,7 +19,6 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-
       - uses: actions/checkout@v4
 
       - name: Set up QEMU

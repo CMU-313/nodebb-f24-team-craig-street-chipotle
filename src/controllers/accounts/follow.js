@@ -1,17 +1,17 @@
-'use strict';
+"use strict";
 
-const user = require('../../user');
-const helpers = require('../helpers');
-const pagination = require('../../pagination');
+const user = require("../../user");
+const helpers = require("../helpers");
+const pagination = require("../../pagination");
 
 const followController = module.exports;
 
 followController.getFollowing = async function (req, res, next) {
-	await getFollow('account/following', 'following', req, res, next);
+	await getFollow("account/following", "following", req, res, next);
 };
 
 followController.getFollowers = async function (req, res, next) {
-	await getFollow('account/followers', 'followers', req, res, next);
+	await getFollow("account/followers", "followers", req, res, next);
 };
 
 async function getFollow(tpl, name, req, res, next) {
@@ -19,9 +19,7 @@ async function getFollow(tpl, name, req, res, next) {
 	if (!payload) {
 		return next();
 	}
-	const {
-		username, userslug, followerCount, followingCount,
-	} = payload;
+	const { username, userslug, followerCount, followingCount } = payload;
 
 	const page = parseInt(req.query.page, 10) || 1;
 	const resultsPerPage = 50;
@@ -30,14 +28,17 @@ async function getFollow(tpl, name, req, res, next) {
 
 	payload.title = `[[pages:${tpl}, ${username}]]`;
 
-	const method = name === 'following' ? 'getFollowing' : 'getFollowers';
+	const method = name === "following" ? "getFollowing" : "getFollowers";
 	payload.users = await user[method](res.locals.uid, start, stop);
 
-	const count = name === 'following' ? followingCount : followerCount;
+	const count = name === "following" ? followingCount : followerCount;
 	const pageCount = Math.ceil(count / resultsPerPage);
 	payload.pagination = pagination.create(page, pageCount);
 
-	payload.breadcrumbs = helpers.buildBreadcrumbs([{ text: username, url: `/user/${userslug}` }, { text: `[[user:${name}]]` }]);
+	payload.breadcrumbs = helpers.buildBreadcrumbs([
+		{ text: username, url: `/user/${userslug}` },
+		{ text: `[[user:${name}]]` },
+	]);
 
 	res.render(tpl, payload);
 }

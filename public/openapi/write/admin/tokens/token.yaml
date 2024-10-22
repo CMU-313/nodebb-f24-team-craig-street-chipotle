@@ -12,7 +12,7 @@ get:
       description: a valid API token
       example: 4eb506f8-a173-4693-a41b-e23604bc973a
   responses:
-    '200':
+    "200":
       description: token successfully retrieved
       content:
         application/json:
@@ -50,9 +50,9 @@ put:
             description:
               type: string
               description: Optional descriptor to differentiate tokens.
-              example: 'My new token.'
+              example: "My new token."
   responses:
-    '200':
+    "200":
       description: Token metadata updated.
       content:
         application/json:
@@ -77,7 +77,7 @@ delete:
       description: a valid API token
       example: 4eb506f8-a173-4693-a41b-e23604bc973a
   responses:
-    '200':
+    "200":
       description: Token metadata updated.
       content:
         application/json:

@@ -19,7 +19,7 @@ put:
       description: The uid of the user that will be the moderator
       example: 2
   responses:
-    '200':
+    "200":
       description: User successfully made moderator
       content:
         application/json:
@@ -75,16 +75,16 @@ put:
                         picture:
                           type: string
                           description: A URL pointing to a picture to be used as the user's avatar
-                          example: 'https://images.unsplash.com/photo-1560070094-e1f2ddec4337?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=256&h=256&q=80'
+                          example: "https://images.unsplash.com/photo-1560070094-e1f2ddec4337?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=256&h=256&q=80"
                           nullable: true
-                        'icon:text':
+                        "icon:text":
                           type: string
                           description: A single-letter representation of a username. This is used in the auto-generated icon given to users without an avatar
                           example: D
-                        'icon:bgColor':
+                        "icon:bgColor":
                           type: string
                           description: A six-character hexadecimal colour code assigned to the user. This value is used in conjunction with `icon:text` for the user's auto-generated icon
-                          example: '#9c27b0'
+                          example: "#9c27b0"
                         banned:
                           type: number
                           description: A Boolean representing whether a user is banned or not
@@ -162,7 +162,7 @@ delete:
       description: The uid of the user that will be removed from moderators
       example: 2
   responses:
-    '200':
+    "200":
       description: User successfully made moderator
       content:
         application/json:

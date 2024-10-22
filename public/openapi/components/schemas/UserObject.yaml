@@ -17,7 +17,7 @@ UserObject:
       type: string
       description: Email address associated with the user account
       example: dragonfruit@example.org
-    'email:confirmed':
+    "email:confirmed":
       type: number
       description: Whether the user has confirmed their email address or not
       example: 1
@@ -32,7 +32,7 @@ UserObject:
     picture:
       type: string
       description: A URL pointing to a picture to be used as the user's avatar
-      example: 'https://images.unsplash.com/photo-1560070094-e1f2ddec4337?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=256&h=256&q=80'
+      example: "https://images.unsplash.com/photo-1560070094-e1f2ddec4337?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=256&h=256&q=80"
       nullable: true
     fullname:
       type: string
@@ -43,7 +43,7 @@ UserObject:
       example: Dragon Fruit
     location:
       type: string
-      example: 'Toronto, Canada'
+      example: "Toronto, Canada"
       nullable: true
     birthday:
       type: string
@@ -52,7 +52,7 @@ UserObject:
       nullable: true
     website:
       type: string
-      example: 'https://example.org'
+      example: "https://example.org"
       nullable: true
     aboutme:
       type: string
@@ -94,7 +94,7 @@ UserObject:
       type: number
       description: A Boolean representing whether a user is banned or not
       example: 0
-    'banned:expire':
+    "banned:expire":
       type: number
       description: A UNIX timestamp representing the moment the ban will be lifted
       example: 1585337827953
@@ -116,11 +116,11 @@ UserObject:
     followingCount:
       type: number
       example: 5
-    'cover:url':
+    "cover:url":
       type: string
       example: /assets/profile/1-cover.png
       nullable: true
-    'cover:position':
+    "cover:position":
       type: string
       example: 50.0301% 19.2464%
       nullable: true
@@ -142,20 +142,20 @@ UserObject:
     mutedReason:
       type: string
       description: The admin-provided reason for being muted.
-    'icon:text':
+    "icon:text":
       type: string
       description: A single-letter representation of a username. This is used in the auto-generated icon given to users without an avatar
       example: D
-    'icon:bgColor':
+    "icon:bgColor":
       type: string
       description: A six-character hexadecimal colour code assigned to the user. This value is used in conjunction with `icon:text` for the user's auto-generated icon
-      example: '#9c27b0'
+      example: "#9c27b0"
     joindateISO:
       type: string
-      example: '2020-03-27T20:30:36.590Z'
+      example: "2020-03-27T20:30:36.590Z"
     lastonlineISO:
       type: string
-      example: '2020-03-27T20:30:36.590Z'
+      example: "2020-03-27T20:30:36.590Z"
     banned_until:
       type: number
       description: A UNIX timestamp representing the moment a ban will be lifted
@@ -168,7 +168,7 @@ UserObject:
     - uid
     - username
     - userslug
-    - 'email:confirmed'
+    - "email:confirmed"
     - joindate
     - lastonline
     - picture
@@ -184,19 +184,19 @@ UserObject:
     - topiccount
     - lastposttime
     - banned
-    - 'banned:expire'
+    - "banned:expire"
     - status
     - enum
     - flags
     - followerCount
     - followingCount
-    - 'cover:url'
-    - 'cover:position'
+    - "cover:url"
+    - "cover:position"
     - groupTitle
     - groupTitleArray
     - example
-    - 'icon:text'
-    - 'icon:bgColor'
+    - "icon:text"
+    - "icon:bgColor"
     - joindateISO
     - lastonlineISO
     - banned_until
@@ -221,7 +221,7 @@ UserObjectFull:
       type: string
       description: Email address associated with the user account
       example: dragonfruit@example.org
-    'email:confirmed':
+    "email:confirmed":
       type: number
       description: Whether the user has confirmed their email address or not
       example: 1
@@ -236,7 +236,7 @@ UserObjectFull:
     picture:
       type: string
       description: A URL pointing to a picture to be used as the user's avatar
-      example: 'https://images.unsplash.com/photo-1560070094-e1f2ddec4337?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=256&h=256&q=80'
+      example: "https://images.unsplash.com/photo-1560070094-e1f2ddec4337?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=256&h=256&q=80"
       nullable: true
     fullname:
       type: string
@@ -247,14 +247,14 @@ UserObjectFull:
       example: Dragon Fruit
     location:
       type: string
-      example: 'Toronto, Canada'
+      example: "Toronto, Canada"
     birthday:
       type: string
       description: A birthdate given in an ISO format parseable by the Date object
       example: 03/27/2020
     website:
       type: string
-      example: 'https://example.org'
+      example: "https://example.org"
     aboutme:
       type: string
       example: |
@@ -293,7 +293,7 @@ UserObjectFull:
       type: number
       description: A Boolean representing whether a user is banned or not
       example: 0
-    'banned:expire':
+    "banned:expire":
       type: number
       description: A UNIX timestamp representing the moment the ban will be lifted
       example: 1585337827953
@@ -315,11 +315,11 @@ UserObjectFull:
     followingCount:
       type: number
       example: 5
-    'cover:url':
+    "cover:url":
       type: string
       example: /assets/profile/1-cover.png
       nullable: true
-    'cover:position':
+    "cover:position":
       type: string
       example: 50.0301% 19.2464%
       nullable: true
@@ -336,7 +336,7 @@ UserObjectFull:
       items:
         type: string
         description: A valid CSS colour code
-        example: '#fff'
+        example: "#fff"
     muted:
       type: boolean
       description: Whether or not the user has been muted.
@@ -348,20 +348,20 @@ UserObjectFull:
       type: string
       description: The admin-provided reason for being muted.
       nullable: true
-    'icon:text':
+    "icon:text":
       type: string
       description: A single-letter representation of a username. This is used in the auto-generated icon given to users without an avatar
       example: D
-    'icon:bgColor':
+    "icon:bgColor":
       type: string
       description: A six-character hexadecimal colour code assigned to the user. This value is used in conjunction with `icon:text` for the user's auto-generated icon
-      example: '#9c27b0'
+      example: "#9c27b0"
     joindateISO:
       type: string
-      example: '2020-03-27T20:30:36.590Z'
+      example: "2020-03-27T20:30:36.590Z"
     lastonlineISO:
       type: string
-      example: '2020-03-27T20:30:36.590Z'
+      example: "2020-03-27T20:30:36.590Z"
     banned_until:
       type: number
       description: A UNIX timestamp representing the moment a ban will be lifted
@@ -552,7 +552,7 @@ UserObjectSlim:
     picture:
       type: string
       description: A URL pointing to a picture to be used as the user's avatar
-      example: 'https://images.unsplash.com/photo-1560070094-e1f2ddec4337?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=256&h=256&q=80'
+      example: "https://images.unsplash.com/photo-1560070094-e1f2ddec4337?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=256&h=256&q=80"
       nullable: true
     status:
       type: string
@@ -569,7 +569,7 @@ UserObjectSlim:
       type: number
       description: The user's reputation score on the forum. Out-of-the-box, users gain/lose reputation points based on upvotes/downvotes, though plugins can alter the logic and criterion for awarding reputation points
       example: 100
-    'email:confirmed':
+    "email:confirmed":
       type: number
       description: Whether the user has confirmed their email address or not
       example: 1
@@ -585,7 +585,7 @@ UserObjectSlim:
       type: number
       description: A Boolean representing whether a user is banned or not
       example: 0
-    'banned:expire':
+    "banned:expire":
       type: number
       description: A UNIX timestamp representing the moment the ban will be lifted
       example: 1585337827953
@@ -593,20 +593,20 @@ UserObjectSlim:
       type: number
       description: A UNIX timestamp representing the moment the user's account was created
       example: 1585337827953
-    'icon:text':
+    "icon:text":
       type: string
       description: A single-letter representation of a username. This is used in the auto-generated icon given to users without an avatar
       example: D
-    'icon:bgColor':
+    "icon:bgColor":
       type: string
       description: A six-character hexadecimal colour code assigned to the user. This value is used in conjunction with `icon:text` for the user's auto-generated icon
-      example: '#9c27b0'
+      example: "#9c27b0"
     joindateISO:
       type: string
-      example: '2020-03-27T20:30:36.590Z'
+      example: "2020-03-27T20:30:36.590Z"
     lastonlineISO:
       type: string
-      example: '2020-03-27T20:30:36.590Z'
+      example: "2020-03-27T20:30:36.590Z"
     banned_until:
       type: number
       description: A UNIX timestamp representing the moment a ban will be lifted
@@ -662,7 +662,7 @@ UserObjectACP:
     picture:
       type: string
       description: A URL pointing to a picture to be used as the user's avatar
-      example: 'https://images.unsplash.com/photo-1560070094-e1f2ddec4337?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=256&h=256&q=80'
+      example: "https://images.unsplash.com/photo-1560070094-e1f2ddec4337?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=256&h=256&q=80"
       nullable: true
     flags:
       type: number
@@ -672,30 +672,30 @@ UserObjectACP:
       type: number
       description: A UNIX timestamp representing the moment the user was last recorded online on this site
       example: 1585337827953
-    'email:confirmed':
+    "email:confirmed":
       type: number
       description: Whether the user has confirmed their email address or not
       example: 1
-    'email:expired':
+    "email:expired":
       type: boolean
       description: True if confirmation email expired
-    'email:pending':
+    "email:pending":
       type: boolean
       description: True if confirmation email is still pending
-    'icon:text':
+    "icon:text":
       type: string
       description: A single-letter representation of a username. This is used in the auto-generated icon given to users without an avatar
       example: D
-    'icon:bgColor':
+    "icon:bgColor":
       type: string
       description: A six-character hexadecimal colour code assigned to the user. This value is used in conjunction with `icon:text` for the user's auto-generated icon
-      example: '#9c27b0'
+      example: "#9c27b0"
     joindateISO:
       type: string
-      example: '2020-03-27T20:30:36.590Z'
+      example: "2020-03-27T20:30:36.590Z"
     lastonlineISO:
       type: string
-      example: '2020-03-27T20:30:36.590Z'
+      example: "2020-03-27T20:30:36.590Z"
     banned_until_readable:
       type: string
       description: An ISO 8601 formatted date string representing the moment a ban will be lifted, or the words "Not Banned"
@@ -728,7 +728,8 @@ BanMuteArray:
             description: A friendly name for a given user account
           userslug:
             type: string
-            description: An URL-safe variant of the username (i.e. lower-cased, spaces
+            description:
+              An URL-safe variant of the username (i.e. lower-cased, spaces
               removed, etc.)
           picture:
             type: string
@@ -737,12 +738,14 @@ BanMuteArray:
             description: A user identifier
           icon:text:
             type: string
-            description: A single-letter representation of a username. This is used in the
+            description:
+              A single-letter representation of a username. This is used in the
               auto-generated icon given to users without
               an avatar
           icon:bgColor:
             type: string
-            description: A six-character hexadecimal colour code assigned to the user. This
+            description:
+              A six-character hexadecimal colour code assigned to the user. This
               value is used in conjunction with
               `icon:text` for the user's auto-generated
               icon

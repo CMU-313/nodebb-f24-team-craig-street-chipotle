@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const fs = require('fs').promises;
+const fs = require("fs").promises;
 
 const filesApi = module.exports;
 

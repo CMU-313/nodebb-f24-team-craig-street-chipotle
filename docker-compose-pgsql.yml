@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   nodebb:
@@ -6,7 +6,7 @@ services:
     # image: ghcr.io/nodebb/nodebb:latest
     restart: unless-stopped
     ports:
-      - '4567:4567' # comment this out if you don't want to expose NodeBB to the host, or change the first number to any port you want
+      - "4567:4567" # comment this out if you don't want to expose NodeBB to the host, or change the first number to any port you want
     volumes:
       - nodebb-build:/usr/src/app/build
       - nodebb-uploads:/usr/src/app/public/uploads
@@ -26,7 +26,7 @@ services:
   redis:
     image: redis:7.2.4-alpine
     restart: unless-stopped
-    command: ['redis-server', '--appendonly', 'yes', '--loglevel', 'warning']
+    command: ["redis-server", "--appendonly", "yes", "--loglevel", "warning"]
     # command: ["redis-server", "--save", "60", "1", "--loglevel", "warning"] # uncomment if you want to use snapshotting instead of AOF
     volumes:
       - redis-data:/data

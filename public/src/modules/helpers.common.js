@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
 module.exports = function (utils, Benchpress, relative_path) {
-	Benchpress.setGlobal('true', true);
-	Benchpress.setGlobal('false', false);
+	Benchpress.setGlobal("true", true);
+	Benchpress.setGlobal("false", false);
 	const oneDayInMs = 24 * 60 * 60 * 1000;
 
 	const helpers = {
@@ -47,15 +47,27 @@ module.exports = function (utils, Benchpress, relative_path) {
 			return false;
 		}
 
-		if (item.route.match('/users') && data.user && !data.user.privileges['view:users']) {
+		if (
+			item.route.match("/users") &&
+			data.user &&
+			!data.user.privileges["view:users"]
+		) {
 			return false;
 		}
 
-		if (item.route.match('/tags') && data.user && !data.user.privileges['view:tags']) {
+		if (
+			item.route.match("/tags") &&
+			data.user &&
+			!data.user.privileges["view:tags"]
+		) {
 			return false;
 		}
 
-		if (item.route.match('/groups') && data.user && !data.user.privileges['view:groups']) {
+		if (
+			item.route.match("/groups") &&
+			data.user &&
+			!data.user.privileges["view:groups"]
+		) {
 			return false;
 		}
 
@@ -63,24 +75,50 @@ module.exports = function (utils, Benchpress, relative_path) {
 	}
 
 	function buildMetaTag(tag) {
-		const name = tag.name ? 'name="' + tag.name + '" ' : '';
-		const property = tag.property ? 'property="' + tag.property + '" ' : '';
-		const content = tag.content ? 'content="' + tag.content.replace(/\n/g, ' ') + '" ' : '';
+		const name = tag.name ? 'name="' + tag.name + '" ' : "";
+		const property = tag.property ? 'property="' + tag.property + '" ' : "";
+		const content = tag.content
+			? 'content="' + tag.content.replace(/\n/g, " ") + '" '
+			: "";
 
-		return '<meta ' + name + property + content + '/>\n\t';
+		return "<meta " + name + property + content + "/>\n\t";
 	}
 
 	function buildLinkTag(tag) {
-		const attributes = ['link', 'rel', 'as', 'type', 'href', 'sizes', 'title', 'crossorigin'];
-		const [link, rel, as, type, href, sizes, title, crossorigin] = attributes.map(attr => (tag[attr] ? `${attr}="${tag[attr]}" ` : ''));
+		const attributes = [
+			"link",
+			"rel",
+			"as",
+			"type",
+			"href",
+			"sizes",
+			"title",
+			"crossorigin",
+		];
+		const [link, rel, as, type, href, sizes, title, crossorigin] =
+			attributes.map((attr) => (tag[attr] ? `${attr}="${tag[attr]}" ` : ""));
 
-		return '<link ' + link + rel + as + type + sizes + title + href + crossorigin + '/>\n\t';
+		return (
+			"<link " +
+			link +
+			rel +
+			as +
+			type +
+			sizes +
+			title +
+			href +
+			crossorigin +
+			"/>\n\t"
+		);
 	}
 
 	function stringify(obj) {
 		// Turns the incoming object into a JSON string
-		return JSON.stringify(obj).replace(/&/gm, '&amp;').replace(/</gm, '&lt;').replace(/>/gm, '&gt;')
-			.replace(/"/g, '&quot;');
+		return JSON.stringify(obj)
+			.replace(/&/gm, "&amp;")
+			.replace(/</gm, "&lt;")
+			.replace(/>/gm, "&gt;")
+			.replace(/"/g, "&quot;");
 	}
 
 	function escape(str) {
@@ -93,87 +131,102 @@ module.exports = function (utils, Benchpress, relative_path) {
 
 	function buildCategoryIcon(category, size, rounded) {
 		if (!category) {
-			return '';
+			return "";
 		}
 
-		return `<span class="icon d-inline-flex justify-content-center align-items-center align-middle ${rounded}" style="${generateCategoryBackground(category)} width:${size}; height: ${size}; font-size: ${parseInt(size, 10) / 2}px;">${category.icon ? `<i class="fa fa-fw ${category.icon}"></i>` : ''}</span>`;
+		return `<span class="icon d-inline-flex justify-content-center align-items-center align-middle ${rounded}" style="${generateCategoryBackground(category)} width:${size}; height: ${size}; font-size: ${parseInt(size, 10) / 2}px;">${category.icon ? `<i class="fa fa-fw ${category.icon}"></i>` : ""}</span>`;
 	}
 
-	function buildCategoryLabel(category, tag = 'a', className = '') {
+	function buildCategoryLabel(category, tag = "a", className = "") {
 		if (!category) {
-			return '';
+			return "";
 		}
 
-		const href = tag === 'a' ? `href="${relative_path}/category/${category.slug}"` : '';
+		const href =
+			tag === "a" ? `href="${relative_path}/category/${category.slug}"` : "";
 		return `<${tag} ${href} class="badge px-1 text-truncate text-decoration-none ${className}" style="color: ${category.color};background-color: ${category.bgColor};border-color: ${category.bgColor}!important; max-width: 70vw;">
-			${category.icon && category.icon !== 'fa-nbb-none' ? `<i class="fa fa-fw ${category.icon}"></i>` : ''}
+			${category.icon && category.icon !== "fa-nbb-none" ? `<i class="fa fa-fw ${category.icon}"></i>` : ""}
 			${category.name}
 		</${tag}>`;
 	}
 
 	function generateCategoryBackground(category) {
 		if (!category) {
-			return '';
+			return "";
 		}
 		const style = [];
 
 		if (category.bgColor) {
-			style.push('background-color: ' + category.bgColor);
+			style.push("background-color: " + category.bgColor);
 			style.push(`border-color: ${category.bgColor}!important`);
 		}
 
 		if (category.color) {
-			style.push('color: ' + category.color);
+			style.push("color: " + category.color);
 		}
 
 		if (category.backgroundImage) {
-			style.push('background-image: url(' + category.backgroundImage + ')');
+			style.push("background-image: url(" + category.backgroundImage + ")");
 			if (category.imageClass) {
-				style.push('background-size: ' + category.imageClass);
+				style.push("background-size: " + category.imageClass);
 			}
 		}
 
-		return style.join('; ') + ';';
+		return style.join("; ") + ";";
 	}
 
 	function generateChildrenCategories(category) {
-		let html = '';
+		let html = "";
 		if (!category || !category.children || !category.children.length) {
 			return html;
 		}
 		category.children.forEach(function (child) {
 			if (child && !child.isSection) {
-				const link = child.link ? child.link : (relative_path + '/category/' + child.slug);
-				html += '<span class="category-children-item float-start">' +
-					'<div role="presentation" class="icon float-start" style="' + generateCategoryBackground(child) + '">' +
-					'<i class="fa fa-fw ' + child.icon + '"></i>' +
-					'</div>' +
-					'<a href="' + link + '"><small>' + child.name + '</small></a></span>';
+				const link = child.link
+					? child.link
+					: relative_path + "/category/" + child.slug;
+				html +=
+					'<span class="category-children-item float-start">' +
+					'<div role="presentation" class="icon float-start" style="' +
+					generateCategoryBackground(child) +
+					'">' +
+					'<i class="fa fa-fw ' +
+					child.icon +
+					'"></i>' +
+					"</div>" +
+					'<a href="' +
+					link +
+					'"><small>' +
+					child.name +
+					"</small></a></span>";
 			}
 		});
-		html = html ? ('<span class="category-children">' + html + '</span>') : html;
+		html = html ? '<span class="category-children">' + html + "</span>" : html;
 		return html;
 	}
 
 	function generateTopicClass(topic) {
-		const fields = ['locked', 'pinned', 'deleted', 'unread', 'scheduled'];
-		return fields.filter(field => !!topic[field]).join(' ');
+		const fields = ["locked", "pinned", "deleted", "unread", "scheduled"];
+		return fields.filter((field) => !!topic[field]).join(" ");
 	}
 
 	// Groups helpers
-	function membershipBtn(groupObj, btnClass = '') {
-		if (groupObj.isMember && groupObj.name !== 'administrators') {
-			return `<button class="btn btn-danger ${btnClass}" data-action="leave" data-group="${groupObj.displayName}" ${(groupObj.disableLeave ? ' disabled' : '')}><i class="fa fa-times"></i> [[groups:membership.leave-group]]</button>`;
+	function membershipBtn(groupObj, btnClass = "") {
+		if (groupObj.isMember && groupObj.name !== "administrators") {
+			return `<button class="btn btn-danger ${btnClass}" data-action="leave" data-group="${groupObj.displayName}" ${groupObj.disableLeave ? " disabled" : ""}><i class="fa fa-times"></i> [[groups:membership.leave-group]]</button>`;
 		}
 
-		if (groupObj.isPending && groupObj.name !== 'administrators') {
+		if (groupObj.isPending && groupObj.name !== "administrators") {
 			return `<button class="btn btn-warning disabled ${btnClass}"><i class="fa fa-clock-o"></i> [[groups:membership.invitation-pending]]</button>`;
 		} else if (groupObj.isInvited) {
 			return `<button class="btn btn-warning" data-action="rejectInvite" data-group="${groupObj.displayName}">[[groups:membership.reject]]</button><button class="btn btn-success" data-action="acceptInvite" data-group="${groupObj.name}"><i class="fa fa-plus"></i> [[groups:membership.accept-invitation]]</button>`;
-		} else if (!groupObj.disableJoinRequests && groupObj.name !== 'administrators') {
+		} else if (
+			!groupObj.disableJoinRequests &&
+			groupObj.name !== "administrators"
+		) {
 			return `<button class="btn btn-success ${btnClass}" data-action="join" data-group="${groupObj.displayName}"><i class="fa fa-plus"></i> [[groups:membership.join-group]]</button>`;
 		}
-		return '';
+		return "";
 	}
 
 	function spawnPrivilegeStates(member, privileges, types) {
@@ -187,71 +240,127 @@ module.exports = function (utils, Benchpress, relative_path) {
 				});
 			}
 		}
-		return states.map(function (priv) {
-			const guestDisabled = ['groups:moderate', 'groups:posts:upvote', 'groups:posts:downvote', 'groups:local:login', 'groups:group:create'];
-			const spidersEnabled = ['groups:find', 'groups:read', 'groups:topics:read', 'groups:view:users', 'groups:view:tags', 'groups:view:groups'];
-			const globalModDisabled = ['groups:moderate'];
-			const disabled =
-				(member === 'guests' && (guestDisabled.includes(priv.name) || priv.name.startsWith('groups:admin:'))) ||
-				(member === 'spiders' && !spidersEnabled.includes(priv.name)) ||
-				(member === 'Global Moderators' && globalModDisabled.includes(priv.name));
+		return states
+			.map(function (priv) {
+				const guestDisabled = [
+					"groups:moderate",
+					"groups:posts:upvote",
+					"groups:posts:downvote",
+					"groups:local:login",
+					"groups:group:create",
+				];
+				const spidersEnabled = [
+					"groups:find",
+					"groups:read",
+					"groups:topics:read",
+					"groups:view:users",
+					"groups:view:tags",
+					"groups:view:groups",
+				];
+				const globalModDisabled = ["groups:moderate"];
+				const disabled =
+					(member === "guests" &&
+						(guestDisabled.includes(priv.name) ||
+							priv.name.startsWith("groups:admin:"))) ||
+					(member === "spiders" && !spidersEnabled.includes(priv.name)) ||
+					(member === "Global Moderators" &&
+						globalModDisabled.includes(priv.name));
 
-			return `
+				return `
 				<td data-privilege="${priv.name}" data-value="${priv.state}" data-type="${priv.type}">
 					<div class="form-check text-center">
-						<input class="form-check-input float-none" autocomplete="off" type="checkbox"${(priv.state ? ' checked' : '')}${(disabled ? ' disabled="disabled"' : '')} />
+						<input class="form-check-input float-none" autocomplete="off" type="checkbox"${priv.state ? " checked" : ""}${disabled ? ' disabled="disabled"' : ""} />
 					</div>
 				</td>
 			`;
-		}).join('');
+			})
+			.join("");
 	}
 
 	function localeToHTML(locale, fallback) {
-		locale = locale || fallback || 'en-GB';
-		return locale.replace('_', '-');
+		locale = locale || fallback || "en-GB";
+		return locale.replace("_", "-");
 	}
 
 	function renderTopicImage(topicObj) {
 		if (topicObj.thumb) {
-			return '<img src="' + topicObj.thumb + '" class="img-circle user-img" title="' + topicObj.user.username + '" />';
+			return (
+				'<img src="' +
+				topicObj.thumb +
+				'" class="img-circle user-img" title="' +
+				topicObj.user.username +
+				'" />'
+			);
 		}
-		return '<img component="user/picture" data-uid="' + topicObj.user.uid + '" src="' + topicObj.user.picture + '" class="user-img" title="' + topicObj.user.username + '" />';
+		return (
+			'<img component="user/picture" data-uid="' +
+			topicObj.user.uid +
+			'" src="' +
+			topicObj.user.picture +
+			'" class="user-img" title="' +
+			topicObj.user.username +
+			'" />'
+		);
 	}
 
 	function renderDigestAvatar(block) {
 		if (block.teaser) {
 			if (block.teaser.user.picture) {
-				return '<img style="vertical-align: middle; width: 32px; height: 32px; border-radius: 50%;" src="' + block.teaser.user.picture + '" title="' + block.teaser.user.username + '" />';
+				return (
+					'<img style="vertical-align: middle; width: 32px; height: 32px; border-radius: 50%;" src="' +
+					block.teaser.user.picture +
+					'" title="' +
+					block.teaser.user.username +
+					'" />'
+				);
 			}
-			return '<div style="vertical-align: middle; width: 32px; height: 32px; line-height: 32px; font-size: 16px; background-color: ' + block.teaser.user['icon:bgColor'] + '; color: white; text-align: center; display: inline-block; border-radius: 50%;">' + block.teaser.user['icon:text'] + '</div>';
+			return (
+				'<div style="vertical-align: middle; width: 32px; height: 32px; line-height: 32px; font-size: 16px; background-color: ' +
+				block.teaser.user["icon:bgColor"] +
+				'; color: white; text-align: center; display: inline-block; border-radius: 50%;">' +
+				block.teaser.user["icon:text"] +
+				"</div>"
+			);
 		}
 		if (block.user.picture) {
-			return '<img style="vertical-align: middle; width: 32px; height: 32px; border-radius: 50%;" src="' + block.user.picture + '" title="' + block.user.username + '" />';
+			return (
+				'<img style="vertical-align: middle; width: 32px; height: 32px; border-radius: 50%;" src="' +
+				block.user.picture +
+				'" title="' +
+				block.user.username +
+				'" />'
+			);
 		}
-		return '<div style="vertical-align: middle; width: 32px; height: 32px; line-height: 32px; font-size: 16px; background-color: ' + block.user['icon:bgColor'] + '; color: white; text-align: center; display: inline-block; border-radius: 50%;">' + block.user['icon:text'] + '</div>';
+		return (
+			'<div style="vertical-align: middle; width: 32px; height: 32px; line-height: 32px; font-size: 16px; background-color: ' +
+			block.user["icon:bgColor"] +
+			'; color: white; text-align: center; display: inline-block; border-radius: 50%;">' +
+			block.user["icon:text"] +
+			"</div>"
+		);
 	}
 
 	function userAgentIcons(data) {
-		let icons = '';
+		let icons = "";
 
 		switch (data.platform) {
-			case 'Linux':
+			case "Linux":
 				icons += '<i class="fa fa-fw fa-linux"></i>';
 				break;
-			case 'Microsoft Windows':
+			case "Microsoft Windows":
 				icons += '<i class="fa fa-fw fa-windows"></i>';
 				break;
-			case 'Apple Mac':
+			case "Apple Mac":
 				icons += '<i class="fa fa-fw fa-apple"></i>';
 				break;
-			case 'Android':
+			case "Android":
 				icons += '<i class="fa fa-fw fa-android"></i>';
 				break;
-			case 'iPad':
+			case "iPad":
 				icons += '<i class="fa fa-fw fa-tablet"></i>';
 				break;
-			case 'iPod': // intentional fall-through
-			case 'iPhone':
+			case "iPod": // intentional fall-through
+			case "iPhone":
 				icons += '<i class="fa fa-fw fa-mobile"></i>';
 				break;
 			default:
@@ -260,19 +369,19 @@ module.exports = function (utils, Benchpress, relative_path) {
 		}
 
 		switch (data.browser) {
-			case 'Chrome':
+			case "Chrome":
 				icons += '<i class="fa fa-fw fa-chrome"></i>';
 				break;
-			case 'Firefox':
+			case "Firefox":
 				icons += '<i class="fa fa-fw fa-firefox"></i>';
 				break;
-			case 'Safari':
+			case "Safari":
 				icons += '<i class="fa fa-fw fa-safari"></i>';
 				break;
-			case 'IE':
+			case "IE":
 				icons += '<i class="fa fa-fw fa-internet-explorer"></i>';
 				break;
-			case 'Edge':
+			case "Edge":
 				icons += '<i class="fa fa-fw fa-edge"></i>';
 				break;
 			default:
@@ -297,24 +406,25 @@ module.exports = function (utils, Benchpress, relative_path) {
 		if (!userObj) {
 			userObj = this;
 		}
-		classNames = classNames || '';
+		classNames = classNames || "";
 		const attributes = new Map([
-			['title', userObj.username],
-			['data-uid', userObj.uid],
-			['class', `avatar ${classNames}${rounded ? ' avatar-rounded' : ''}`],
+			["title", userObj.username],
+			["data-uid", userObj.uid],
+			["class", `avatar ${classNames}${rounded ? " avatar-rounded" : ""}`],
 		]);
 		const styles = [`--avatar-size: ${size};`];
-		const attr2String = attributes => Array.from(attributes).reduce((output, [prop, value]) => {
-			output += ` ${prop}="${value}"`;
-			return output;
-		}, '');
+		const attr2String = (attributes) =>
+			Array.from(attributes).reduce((output, [prop, value]) => {
+				output += ` ${prop}="${value}"`;
+				return output;
+			}, "");
 
-		let output = '';
+		let output = "";
 
 		if (userObj.picture) {
-			output += `<img${attr2String(attributes)} alt="${userObj.username}" loading="lazy" component="${component || 'avatar/picture'}" src="${userObj.picture}" style="${styles.join(' ')}" onError="this.remove()" itemprop="image" />`;
+			output += `<img${attr2String(attributes)} alt="${userObj.username}" loading="lazy" component="${component || "avatar/picture"}" src="${userObj.picture}" style="${styles.join(" ")}" onError="this.remove()" itemprop="image" />`;
 		}
-		output += `<span${attr2String(attributes)} component="${component || 'avatar/icon'}" style="${styles.join(' ')} background-color: ${userObj['icon:bgColor']}">${userObj['icon:text']}</span>`;
+		output += `<span${attr2String(attributes)} component="${component || "avatar/icon"}" style="${styles.join(" ")} background-color: ${userObj["icon:bgColor"]}">${userObj["icon:text"]}</span>`;
 		return output;
 	}
 
@@ -330,24 +440,30 @@ module.exports = function (utils, Benchpress, relative_path) {
 	}
 
 	function generateRepliedTo(post, timeagoCutoff) {
-		const displayname = post.parent && post.parent.displayname ?
-			post.parent.displayname : '[[global:guest]]';
-		const isBeforeCutoff = post.timestamp < (Date.now() - (timeagoCutoff * oneDayInMs));
-		const langSuffix = isBeforeCutoff ? 'on' : 'ago';
+		const displayname =
+			post.parent && post.parent.displayname
+				? post.parent.displayname
+				: "[[global:guest]]";
+		const isBeforeCutoff =
+			post.timestamp < Date.now() - timeagoCutoff * oneDayInMs;
+		const langSuffix = isBeforeCutoff ? "on" : "ago";
 		return `[[topic:replied-to-user-${langSuffix}, ${post.toPid}, ${relative_path}/post/${post.toPid}, ${displayname}, ${relative_path}/post/${post.pid}, ${post.timestampISO}]]`;
 	}
 
 	function generateWrote(post, timeagoCutoff) {
-		const isBeforeCutoff = post.timestamp < (Date.now() - (timeagoCutoff * oneDayInMs));
-		const langSuffix = isBeforeCutoff ? 'on' : 'ago';
+		const isBeforeCutoff =
+			post.timestamp < Date.now() - timeagoCutoff * oneDayInMs;
+		const langSuffix = isBeforeCutoff ? "on" : "ago";
 		return `[[topic:wrote-${langSuffix}, ${relative_path}/post/${post.pid}, ${post.timestampISO}]]`;
 	}
 
-	function isoTimeToLocaleString(isoTime, locale = 'en-GB') {
-		return new Date(isoTime).toLocaleString([locale], {
-			dateStyle: 'short',
-			timeStyle: 'short',
-		}).replace(/,/g, '&#44;');
+	function isoTimeToLocaleString(isoTime, locale = "en-GB") {
+		return new Date(isoTime)
+			.toLocaleString([locale], {
+				dateStyle: "short",
+				timeStyle: "short",
+			})
+			.replace(/,/g, "&#44;");
 	}
 
 	function shouldHideReplyContainer(post) {
@@ -368,7 +484,7 @@ module.exports = function (utils, Benchpress, relative_path) {
 
 	function generatePlaceholderWave(items) {
 		const html = items.map((i) => {
-			if (i === 'divider') {
+			if (i === "divider") {
 				return '<li class="dropdown-divider"></li>';
 			}
 			return `

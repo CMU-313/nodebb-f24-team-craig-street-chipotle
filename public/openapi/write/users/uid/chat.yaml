@@ -11,7 +11,7 @@ get:
       description: uid of the user to query
       example: 2
   responses:
-    '200':
+    "200":
       description: successfully retrieved private chat room with user
       content:
         application/json:

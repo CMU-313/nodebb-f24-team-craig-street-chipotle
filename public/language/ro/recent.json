@@ -1,11 +1,11 @@
 {
-    "title": "Recente",
-    "day": "Zi",
-    "week": "Săptămână",
-    "month": "Lună",
-    "year": "An",
-    "alltime": "Tot Timpul",
-    "no-recent-topics": "Nu există subiecte recente.",
-    "no-popular-topics": "Nu sunt subiecte populare.",
-    "load-new-posts": "Load new posts"
+  "title": "Recente",
+  "day": "Zi",
+  "week": "Săptămână",
+  "month": "Lună",
+  "year": "An",
+  "alltime": "Tot Timpul",
+  "no-recent-topics": "Nu există subiecte recente.",
+  "no-popular-topics": "Nu sunt subiecte populare.",
+  "load-new-posts": "Load new posts"
 }

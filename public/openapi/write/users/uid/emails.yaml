@@ -14,7 +14,7 @@ get:
       description: A valid user id
       example: 1
   responses:
-    '200':
+    "200":
       description: user emails successfully listed
       content:
         application/json:
@@ -40,13 +40,13 @@ post:
 
     **Note**: The confirmation bypass can only be called by super administrators or users with the `admin:users` privilege.
   parameters:
-  - in: path
-    name: uid
-    schema:
-      type: integer
-    required: true
-    description: uid of the account to add the email
-    example: 1
+    - in: path
+      name: uid
+      schema:
+        type: integer
+      required: true
+      description: uid of the account to add the email
+      example: 1
   requestBody:
     required: true
     content:
@@ -65,7 +65,7 @@ post:
           required:
             - email
   responses:
-    '200':
+    "200":
       description: email successfully added to user account
       content:
         application/json:
@@ -82,5 +82,5 @@ post:
                     items:
                       type: string
                       description: An email address
-    '400':
+    "400":
       description: error occured (aka email taken)

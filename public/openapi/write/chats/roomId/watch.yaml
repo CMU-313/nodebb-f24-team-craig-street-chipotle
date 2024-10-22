@@ -27,7 +27,7 @@ put:
           required:
             - value
   responses:
-    '200':
+    "200":
       description: Chat room notification setting updated.
       content:
         application/json:
@@ -57,7 +57,7 @@ delete:
       description: a valid room id
       example: 1
   responses:
-    '200':
+    "200":
       description: Chat room notification setting updated.
       content:
         application/json:

@@ -1,11 +1,11 @@
 {
-	"title": "Recent",
-	"day": "Day",
-	"week": "Week",
-	"month": "Month",
-	"year": "Year",
-	"alltime": "All Time",
-	"no-recent-topics": "There are no recent topics.",
-	"no-popular-topics": "There are no popular topics.",
-	"load-new-posts": "Load new posts"
+  "title": "Recent",
+  "day": "Day",
+  "week": "Week",
+  "month": "Month",
+  "year": "Year",
+  "alltime": "All Time",
+  "no-recent-topics": "There are no recent topics.",
+  "no-popular-topics": "There are no popular topics.",
+  "load-new-posts": "Load new posts"
 }

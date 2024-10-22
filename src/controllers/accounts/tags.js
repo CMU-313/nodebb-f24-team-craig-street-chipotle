@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-const db = require('../../database');
-const helpers = require('../helpers');
+const db = require("../../database");
+const helpers = require("../helpers");
 
 const tagsController = module.exports;
 
@@ -11,14 +11,18 @@ tagsController.get = async function (req, res) {
 	}
 	const payload = res.locals.userData;
 	const { username, userslug } = payload;
-	const tagData = await db.getSortedSetRange(`uid:${res.locals.uid}:followed_tags`, 0, -1);
+	const tagData = await db.getSortedSetRange(
+		`uid:${res.locals.uid}:followed_tags`,
+		0,
+		-1,
+	);
 
 	payload.tags = tagData;
 	payload.title = `[[pages:account/watched-tags, ${username}]]`;
 	payload.breadcrumbs = helpers.buildBreadcrumbs([
 		{ text: username, url: `/user/${userslug}` },
-		{ text: '[[pages:tags]]' },
+		{ text: "[[pages:tags]]" },
 	]);
 
-	res.render('account/tags', payload);
+	res.render("account/tags", payload);
 };

@@ -1,11 +1,11 @@
 {
-    "title": "Hiljutised",
-    "day": "Päev",
-    "week": "Nädal",
-    "month": "Kuu",
-    "year": "Aasta",
-    "alltime": "Kogu aja vältel",
-    "no-recent-topics": "Hetkel ei ole hiljutisi teemasid.",
-    "no-popular-topics": "Ühtegi populaarset teemat ei leidu.",
-    "load-new-posts": "Load new posts"
+  "title": "Hiljutised",
+  "day": "Päev",
+  "week": "Nädal",
+  "month": "Kuu",
+  "year": "Aasta",
+  "alltime": "Kogu aja vältel",
+  "no-recent-topics": "Hetkel ei ole hiljutisi teemasid.",
+  "no-popular-topics": "Ühtegi populaarset teemat ei leidu.",
+  "load-new-posts": "Load new posts"
 }

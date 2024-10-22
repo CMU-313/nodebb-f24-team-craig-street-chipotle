@@ -72,7 +72,7 @@ CommonProps:
                     type: boolean
                   crossorigin:
                     type: string
-                    enum: ['', 'anonymous', 'use-credentials']
+                    enum: ["", "anonymous", "use-credentials"]
                     description: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/crossorigin
                 required:
                   - rel

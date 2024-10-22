@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-const _ = require('lodash');
-const db = require('../database');
+const _ = require("lodash");
+const db = require("../database");
 
 module.exports = function (Topics) {
 	Topics.search = async function (query, options) {
@@ -11,30 +11,32 @@ module.exports = function (Topics) {
 		query = String(query).toLowerCase();
 
 		// Fetch all topic IDs (or a subset if using pagination)
-		const allTids = await db.getSortedSetRevRange('topics:recent', 0, 1000);
+		const allTids = await db.getSortedSetRevRange("topics:recent", 0, 1000);
 
 		// Fetch topic data based on the IDs
 		let topics = await Topics.getTopicsByTids(allTids, { uid: options.uid });
 
 		// Filter topics by search query
-		topics = topics.filter(topic => topic && (
-			(topic.title && topic.title.toLowerCase().includes(query)) ||
-                (topic.description && topic.description.toLowerCase().includes(query))
-		));
+		topics = topics.filter(
+			(topic) =>
+				topic &&
+				((topic.title && topic.title.toLowerCase().includes(query)) ||
+					(topic.description &&
+						topic.description.toLowerCase().includes(query))),
+		);
 
 		// Do sorting here
-		if (options.sort === 'newest') {
-			topics = _.orderBy(topics, ['timestamp'], ['desc']);
-		} else if (options.sort === 'oldest') {
-			topics = _.orderBy(topics, ['timestamp'], ['asc']);
+		if (options.sort === "newest") {
+			topics = _.orderBy(topics, ["timestamp"], ["desc"]);
+		} else if (options.sort === "oldest") {
+			topics = _.orderBy(topics, ["timestamp"], ["asc"]);
 		}
 
 		return topics;
 	};
 };
 
-
-// 'use strict'; 
+// 'use strict';
 
 // const _ = require('lodash');
 
@@ -45,16 +47,16 @@ module.exports = function (Topics) {
 
 // module.exports = function (Posts) {
 //     Posts.search = async function (data) {
-//         const query = data.query || ''; 
-//         const page = data.page || 1; 
-//         const pid = data.pid || 0; 
+//         const query = data.query || '';
+//         const page = data.page || 1;
+//         const pid = data.pid || 0;
 //         const paginate = data.hasOwnProperty('paginate') ? data.paginate : true;
-//         const searchBy = data.searchBy || 'keywords'; 
+//         const searchBy = data.searchBy || 'keywords';
 
 //         let pids = [];
 //         if (searchBy === 'keywords') {
 //             pids = await searchByKeywords(query);
-//         } 
+//         }
 //         // Add other searchBy options here
 
 //         const result = await plugins.hooks.fire('filter:posts.search', { pids: pids, pid: pid});
@@ -72,7 +74,7 @@ module.exports = function (Topics) {
 //             pids = pids.slice(start, stop);
 //         }
 
-//         return searchResult; 
+//         return searchResult;
 //     }
 
 //     async function searchByKeywords(query) {
@@ -80,12 +82,12 @@ module.exports = function (Topics) {
 //         keywordsArr = keywordsArr.map(keyword => keyword.toLowerCase());
 //         const topics = await db.getSortedSetRevRange('post:pid', 0, -1);
 //         topics = topics.filter(topic => {
-//             keywordsArr.some(keyword => 
-//                 topic.title.toLowerCase().includes(keyword) || 
+//             keywordsArr.some(keyword =>
+//                 topic.title.toLowerCase().includes(keyword) ||
 //                 topic.content.toLowerCase().includes(keyword))
 //         })
 
 //         const pids = topics.map(topic => topic.pid);
 //         return pids;
 //     }
-// }; 
+// };

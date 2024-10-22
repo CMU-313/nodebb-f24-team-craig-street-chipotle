@@ -19,7 +19,7 @@ put:
       description: a valid chat message id
       example: 1
   responses:
-    '200':
+    "200":
       description: Chat message successfully pinned
       content:
         application/json:
@@ -52,7 +52,7 @@ delete:
       description: a valid chat message id
       example: 1
   responses:
-    '200':
+    "200":
       description: Chat message successfully unpinned
       content:
         application/json:

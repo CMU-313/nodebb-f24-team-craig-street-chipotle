@@ -1,104 +1,158 @@
-'use strict';
+"use strict";
 
-const winston = require('winston');
-const plugins = require('.');
-const utils = require('../utils');
-const als = require('../als');
+const winston = require("winston");
+const plugins = require(".");
+const utils = require("../utils");
+const als = require("../als");
 
 const Hooks = module.exports;
 
 Hooks._deprecated = new Map([
-	['filter:email.send', {
-		new: 'static:email.send',
-		since: 'v1.17.0',
-		until: 'v2.0.0',
-	}],
-	['filter:router.page', {
-		new: 'response:router.page',
-		since: 'v1.15.3',
-		until: 'v2.1.0',
-	}],
-	['filter:post.purge', {
-		new: 'filter:posts.purge',
-		since: 'v1.19.6',
-		until: 'v2.1.0',
-	}],
-	['action:post.purge', {
-		new: 'action:posts.purge',
-		since: 'v1.19.6',
-		until: 'v2.1.0',
-	}],
-	['filter:user.verify.code', {
-		new: 'filter:user.verify',
-		since: 'v2.2.0',
-		until: 'v3.0.0',
-	}],
-	['filter:flags.getFilters', {
-		new: 'filter:flags.init',
-		since: 'v2.7.0',
-		until: 'v3.0.0',
-	}],
-	['filter:privileges.global.list', {
-		new: 'static:privileges.global.init',
-		since: 'v3.5.0',
-		until: 'v4.0.0',
-	}],
-	['filter:privileges.global.groups.list', {
-		new: 'static:privileges.global.init',
-		since: 'v3.5.0',
-		until: 'v4.0.0',
-	}],
-	['filter:privileges.global.list_human', {
-		new: 'static:privileges.global.init',
-		since: 'v3.5.0',
-		until: 'v4.0.0',
-	}],
-	['filter:privileges.global.groups.list_human', {
-		new: 'static:privileges.global.init',
-		since: 'v3.5.0',
-		until: 'v4.0.0',
-	}],
-	['filter:privileges.list', {
-		new: 'static:privileges.categories.init',
-		since: 'v3.5.0',
-		until: 'v4.0.0',
-	}],
-	['filter:privileges.groups.list', {
-		new: 'static:privileges.categories.init',
-		since: 'v3.5.0',
-		until: 'v4.0.0',
-	}],
-	['filter:privileges.list_human', {
-		new: 'static:privileges.categories.init',
-		since: 'v3.5.0',
-		until: 'v4.0.0',
-	}],
-	['filter:privileges.groups.list_human', {
-		new: 'static:privileges.categories.init',
-		since: 'v3.5.0',
-		until: 'v4.0.0',
-	}],
+	[
+		"filter:email.send",
+		{
+			new: "static:email.send",
+			since: "v1.17.0",
+			until: "v2.0.0",
+		},
+	],
+	[
+		"filter:router.page",
+		{
+			new: "response:router.page",
+			since: "v1.15.3",
+			until: "v2.1.0",
+		},
+	],
+	[
+		"filter:post.purge",
+		{
+			new: "filter:posts.purge",
+			since: "v1.19.6",
+			until: "v2.1.0",
+		},
+	],
+	[
+		"action:post.purge",
+		{
+			new: "action:posts.purge",
+			since: "v1.19.6",
+			until: "v2.1.0",
+		},
+	],
+	[
+		"filter:user.verify.code",
+		{
+			new: "filter:user.verify",
+			since: "v2.2.0",
+			until: "v3.0.0",
+		},
+	],
+	[
+		"filter:flags.getFilters",
+		{
+			new: "filter:flags.init",
+			since: "v2.7.0",
+			until: "v3.0.0",
+		},
+	],
+	[
+		"filter:privileges.global.list",
+		{
+			new: "static:privileges.global.init",
+			since: "v3.5.0",
+			until: "v4.0.0",
+		},
+	],
+	[
+		"filter:privileges.global.groups.list",
+		{
+			new: "static:privileges.global.init",
+			since: "v3.5.0",
+			until: "v4.0.0",
+		},
+	],
+	[
+		"filter:privileges.global.list_human",
+		{
+			new: "static:privileges.global.init",
+			since: "v3.5.0",
+			until: "v4.0.0",
+		},
+	],
+	[
+		"filter:privileges.global.groups.list_human",
+		{
+			new: "static:privileges.global.init",
+			since: "v3.5.0",
+			until: "v4.0.0",
+		},
+	],
+	[
+		"filter:privileges.list",
+		{
+			new: "static:privileges.categories.init",
+			since: "v3.5.0",
+			until: "v4.0.0",
+		},
+	],
+	[
+		"filter:privileges.groups.list",
+		{
+			new: "static:privileges.categories.init",
+			since: "v3.5.0",
+			until: "v4.0.0",
+		},
+	],
+	[
+		"filter:privileges.list_human",
+		{
+			new: "static:privileges.categories.init",
+			since: "v3.5.0",
+			until: "v4.0.0",
+		},
+	],
+	[
+		"filter:privileges.groups.list_human",
+		{
+			new: "static:privileges.categories.init",
+			since: "v3.5.0",
+			until: "v4.0.0",
+		},
+	],
 
-	['filter:privileges.admin.list', {
-		new: 'static:privileges.admin.init',
-		since: 'v3.5.0',
-		until: 'v4.0.0',
-	}],
-	['filter:privileges.admin.groups.list', {
-		new: 'static:privileges.admin.init',
-		since: 'v3.5.0',
-		until: 'v4.0.0',
-	}],
-	['filter:privileges.admin.list_human', {
-		new: 'static:privileges.admin.init',
-		since: 'v3.5.0',
-		until: 'v4.0.0',
-	}],
-	['filter:privileges.admin.groups.list_human', {
-		new: 'static:privileges.admin.init',
-		since: 'v3.5.0',
-		until: 'v4.0.0',
-	}],
+	[
+		"filter:privileges.admin.list",
+		{
+			new: "static:privileges.admin.init",
+			since: "v3.5.0",
+			until: "v4.0.0",
+		},
+	],
+	[
+		"filter:privileges.admin.groups.list",
+		{
+			new: "static:privileges.admin.init",
+			since: "v3.5.0",
+			until: "v4.0.0",
+		},
+	],
+	[
+		"filter:privileges.admin.list_human",
+		{
+			new: "static:privileges.admin.init",
+			since: "v3.5.0",
+			until: "v4.0.0",
+		},
+	],
+	[
+		"filter:privileges.admin.groups.list_human",
+		{
+			new: "static:privileges.admin.init",
+			since: "v3.5.0",
+			until: "v4.0.0",
+		},
+	],
 ]);
 
 Hooks.internals = {
@@ -123,14 +177,17 @@ const hookTypeToMethod = {
 */
 Hooks.register = function (id, data) {
 	if (!data.hook || !data.method) {
-		winston.warn(`[plugins/${id}] registerHook called with invalid data.hook/method`, data);
+		winston.warn(
+			`[plugins/${id}] registerHook called with invalid data.hook/method`,
+			data,
+		);
 		return;
 	}
 
 	// `hasOwnProperty` needed for hooks with no alternative (set to null)
 	if (Hooks._deprecated.has(data.hook)) {
 		const deprecation = Hooks._deprecated.get(data.hook);
-		if (!deprecation.hasOwnProperty('affected')) {
+		if (!deprecation.hasOwnProperty("affected")) {
 			deprecation.affected = new Set();
 		}
 		deprecation.affected.add(id);
@@ -142,14 +199,19 @@ Hooks.register = function (id, data) {
 		data.priority = 10;
 	}
 
-	if (Array.isArray(data.method) && data.method.every(method => typeof method === 'function' || typeof method === 'string')) {
+	if (
+		Array.isArray(data.method) &&
+		data.method.every(
+			(method) => typeof method === "function" || typeof method === "string",
+		)
+	) {
 		// Go go gadget recursion!
 		data.method.forEach((method) => {
 			const singularData = { ...data, method: method };
 			Hooks.register(id, singularData);
 		});
-	} else if (typeof data.method === 'string' && data.method.length > 0) {
-		const method = data.method.split('.').reduce((memo, prop) => {
+	} else if (typeof data.method === "string" && data.method.length > 0) {
+		const method = data.method.split(".").reduce((memo, prop) => {
 			if (memo && memo[prop]) {
 				return memo[prop];
 			}
@@ -161,22 +223,30 @@ Hooks.register = function (id, data) {
 		data.method = method;
 
 		Hooks.internals._register(data);
-	} else if (typeof data.method === 'function') {
+	} else if (typeof data.method === "function") {
 		Hooks.internals._register(data);
 	} else {
-		winston.warn(`[plugins/${id}] Hook method mismatch: ${data.hook} => ${data.method}`);
+		winston.warn(
+			`[plugins/${id}] Hook method mismatch: ${data.hook} => ${data.method}`,
+		);
 	}
 };
 
 Hooks.unregister = function (id, hook, method) {
 	const hooks = plugins.loadedHooks[hook] || [];
-	plugins.loadedHooks[hook] = hooks.filter(hookData => hookData && hookData.id !== id && hookData.method !== method);
+	plugins.loadedHooks[hook] = hooks.filter(
+		(hookData) => hookData && hookData.id !== id && hookData.method !== method,
+	);
 };
 
 Hooks.fire = async function (hook, params) {
 	const hookList = plugins.loadedHooks[hook];
-	const hookType = hook.split(':')[0];
-	if (global.env === 'development' && hook !== 'action:plugins.firehook' && hook !== 'filter:plugins.firehook') {
+	const hookType = hook.split(":")[0];
+	if (
+		global.env === "development" &&
+		hook !== "action:plugins.firehook" &&
+		hook !== "filter:plugins.firehook"
+	) {
 		winston.debug(`[plugins/fireHook] ${hook}`);
 	}
 
@@ -185,18 +255,29 @@ Hooks.fire = async function (hook, params) {
 		return;
 	}
 	let deleteCaller = false;
-	if (params && typeof params === 'object' && !Array.isArray(params) && !params.hasOwnProperty('caller')) {
+	if (
+		params &&
+		typeof params === "object" &&
+		!Array.isArray(params) &&
+		!params.hasOwnProperty("caller")
+	) {
 		params.caller = als.getStore();
 		deleteCaller = true;
 	}
 	const result = await hookTypeToMethod[hookType](hook, hookList, params);
 
-	if (hook !== 'action:plugins.firehook' && hook !== 'filter:plugins.firehook') {
-		const payload = await Hooks.fire('filter:plugins.firehook', { hook: hook, params: result || params });
-		Hooks.fire('action:plugins.firehook', payload);
+	if (
+		hook !== "action:plugins.firehook" &&
+		hook !== "filter:plugins.firehook"
+	) {
+		const payload = await Hooks.fire("filter:plugins.firehook", {
+			hook: hook,
+			params: result || params,
+		});
+		Hooks.fire("action:plugins.firehook", payload);
 	}
 	if (result !== undefined) {
-		if (deleteCaller && result && result.hasOwnProperty('caller')) {
+		if (deleteCaller && result && result.hasOwnProperty("caller")) {
 			delete result.caller;
 		}
 		return result;
@@ -212,27 +293,30 @@ function hookHandlerPromise(hook, hookObj, params) {
 		let resolved = false;
 		function _resolve(result) {
 			if (resolved) {
-				winston.warn(`[plugins] ${hook} already resolved in plugin ${hookObj.id}`);
+				winston.warn(
+					`[plugins] ${hook} already resolved in plugin ${hookObj.id}`,
+				);
 				return;
 			}
 			resolved = true;
 			resolve(result);
 		}
 		const returned = hookObj.method(params, (err, result) => {
-			if (err) reject(err); else _resolve(result);
+			if (err) reject(err);
+			else _resolve(result);
 		});
 
 		if (utils.isPromise(returned)) {
 			returned.then(
-				payload => _resolve(payload),
-				err => reject(err)
+				(payload) => _resolve(payload),
+				(err) => reject(err),
 			);
 			return;
 		}
 
-		if (hook.startsWith('filter:') && returned !== undefined) {
+		if (hook.startsWith("filter:") && returned !== undefined) {
 			_resolve(returned);
-		} else if (hook.startsWith('static:') && hookObj.method.length <= 1) {
+		} else if (hook.startsWith("static:") && hookObj.method.length <= 1) {
 			// make sure it is resolved if static hook doesn't use callback
 			_resolve();
 		}
@@ -245,14 +329,19 @@ async function fireFilterHook(hook, hookList, params) {
 	}
 
 	async function fireMethod(hookObj, params) {
-		if (typeof hookObj.method !== 'function') {
-			if (global.env === 'development') {
-				winston.warn(`[plugins] Expected method for hook '${hook}' in plugin '${hookObj.id}' not found, skipping.`);
+		if (typeof hookObj.method !== "function") {
+			if (global.env === "development") {
+				winston.warn(
+					`[plugins] Expected method for hook '${hook}' in plugin '${hookObj.id}' not found, skipping.`,
+				);
 			}
 			return params;
 		}
 
-		if (hookObj.method.constructor && hookObj.method.constructor.name === 'AsyncFunction') {
+		if (
+			hookObj.method.constructor &&
+			hookObj.method.constructor.name === "AsyncFunction"
+		) {
 			return await hookObj.method(params);
 		}
 		return hookHandlerPromise(hook, hookObj, params);
@@ -270,9 +359,11 @@ async function fireActionHook(hook, hookList, params) {
 		return;
 	}
 	for (const hookObj of hookList) {
-		if (typeof hookObj.method !== 'function') {
-			if (global.env === 'development') {
-				winston.warn(`[plugins] Expected method for hook '${hook}' in plugin '${hookObj.id}' not found, skipping.`);
+		if (typeof hookObj.method !== "function") {
+			if (global.env === "development") {
+				winston.warn(
+					`[plugins] Expected method for hook '${hook}' in plugin '${hookObj.id}' not found, skipping.`,
+				);
 			}
 		} else {
 			// eslint-disable-next-line
@@ -297,18 +388,27 @@ async function fireStaticHook(hook, hookList, params) {
 		return;
 	}
 	// don't bubble errors from these hooks, so bad plugins don't stop startup
-	const noErrorHooks = ['static:app.load', 'static:assets.prepare', 'static:app.preload'];
+	const noErrorHooks = [
+		"static:app.load",
+		"static:assets.prepare",
+		"static:app.preload",
+	];
 
 	async function fireMethod(hookObj, params) {
-		if (typeof hookObj.method !== 'function') {
-			if (global.env === 'development') {
-				winston.warn(`[plugins] Expected method for hook '${hook}' in plugin '${hookObj.id}' not found, skipping.`);
+		if (typeof hookObj.method !== "function") {
+			if (global.env === "development") {
+				winston.warn(
+					`[plugins] Expected method for hook '${hook}' in plugin '${hookObj.id}' not found, skipping.`,
+				);
 			}
 			return params;
 		}
 
-		if (hookObj.method.constructor && hookObj.method.constructor.name === 'AsyncFunction') {
-			return timeout(hookObj.method(params), 10000, 'timeout');
+		if (
+			hookObj.method.constructor &&
+			hookObj.method.constructor.name === "AsyncFunction"
+		) {
+			return timeout(hookObj.method(params), 10000, "timeout");
 		}
 
 		return hookHandlerPromise(hook, hookObj, params);
@@ -319,14 +419,18 @@ async function fireStaticHook(hook, hookList, params) {
 			// eslint-disable-next-line
 			await fireMethod(hookObj, params);
 		} catch (err) {
-			if (err && err.message === 'timeout') {
-				winston.warn(`[plugins] Callback timed out, hook '${hook}' in plugin '${hookObj.id}'`);
+			if (err && err.message === "timeout") {
+				winston.warn(
+					`[plugins] Callback timed out, hook '${hook}' in plugin '${hookObj.id}'`,
+				);
 			} else {
 				if (!noErrorHooks.includes(hook)) {
 					throw err;
 				}
 
-				winston.error(`[plugins] Error executing '${hook}' in plugin '${hookObj.id}'\n${err.stack}`);
+				winston.error(
+					`[plugins] Error executing '${hook}' in plugin '${hookObj.id}'\n${err.stack}`,
+				);
 			}
 		}
 	}
@@ -337,9 +441,11 @@ async function fireResponseHook(hook, hookList, params) {
 		return;
 	}
 	for (const hookObj of hookList) {
-		if (typeof hookObj.method !== 'function') {
-			if (global.env === 'development') {
-				winston.warn(`[plugins] Expected method for hook '${hook}' in plugin '${hookObj.id}' not found, skipping.`);
+		if (typeof hookObj.method !== "function") {
+			if (global.env === "development") {
+				winston.warn(
+					`[plugins] Expected method for hook '${hook}' in plugin '${hookObj.id}' not found, skipping.`,
+				);
 			}
 		} else {
 			// Skip remaining hooks if headers have been sent

@@ -11,7 +11,7 @@ get:
       description: uid of the user whose status to check
       example: 2
   responses:
-    '200':
+    "200":
       description: successfully retrieved user status
       content:
         application/json:
@@ -25,4 +25,4 @@ get:
                 properties:
                   status:
                     type: string
-                    enum: ['online', 'offline', 'dnd', 'away']
+                    enum: ["online", "offline", "dnd", "away"]

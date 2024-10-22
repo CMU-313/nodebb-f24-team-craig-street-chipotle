@@ -1,11 +1,11 @@
 {
-    "title": "Terkini",
-    "day": "Hari",
-    "week": "Pekan",
-    "month": "Bulan",
-    "year": "Tahun",
-    "alltime": "Sepanjang Waktu",
-    "no-recent-topics": "Tidak ada topik terbaru.",
-    "no-popular-topics": "There are no popular topics.",
-    "load-new-posts": "Load new posts"
+  "title": "Terkini",
+  "day": "Hari",
+  "week": "Pekan",
+  "month": "Bulan",
+  "year": "Tahun",
+  "alltime": "Sepanjang Waktu",
+  "no-recent-topics": "Tidak ada topik terbaru.",
+  "no-popular-topics": "There are no popular topics.",
+  "load-new-posts": "Load new posts"
 }

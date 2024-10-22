@@ -1,11 +1,11 @@
 {
-    "title": "Senaste",
-    "day": "Dag",
-    "week": "Vecka",
-    "month": "Månad",
-    "year": "År",
-    "alltime": "Alltid",
-    "no-recent-topics": "Det finns inga olästa ämnen.",
-    "no-popular-topics": "Det finns inga populära ämnen.",
-    "load-new-posts": "Load new posts"
+  "title": "Senaste",
+  "day": "Dag",
+  "week": "Vecka",
+  "month": "Månad",
+  "year": "År",
+  "alltime": "Alltid",
+  "no-recent-topics": "Det finns inga olästa ämnen.",
+  "no-popular-topics": "Det finns inga populära ämnen.",
+  "load-new-posts": "Load new posts"
 }

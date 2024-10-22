@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-const helpers = require('../helpers');
-const api = require('../../api');
+const helpers = require("../helpers");
+const api = require("../../api");
 
 const Files = module.exports;
 
