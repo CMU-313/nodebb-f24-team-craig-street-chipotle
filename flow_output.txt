@@ -1,0 +1,130 @@
+
+> my-flow-project@1.0.0 flow
+> flow status
+
+Error ---------------------------------------------------------------------------------------- src/topics/create.js:4:19
+
+Cannot resolve module `lodash`. [cannot-resolve-module]
+
+   4| const _ = require('lodash');
+                        ^^^^^^^^
+
+
+Error --------------------------------------------------------------------------------------- src/topics/create.js:18:28
+
+Cannot build a typed interface for this module. You should annotate the exports of this module with types. Missing type
+annotation at identifier: [signature-verification-failure]
+
+   18| module.exports = function (Topics) {
+                                  ^^^^^^
+
+
+Error --------------------------------------------------------------------------------------- src/topics/create.js:48:14
+
+Cannot assign `data.tags.join(...)` to `topicData.tags` because property `tags` is missing in object literal [1].
+[prop-missing]
+
+   src/topics/create.js:48:14
+   48| 			topicData.tags = data.tags.join(',');
+                    ^^^^
+
+References:
+   src/topics/create.js:27:19
+                         v
+   27| 		let topicData = {
+   28| 			tid: tid,
+   29| 			uid: data.uid,
+   30| 			cid: data.cid,
+   31| 			mainPid: 0,
+   32| 			title: data.title,
+   33| 			slug: `${tid}/${slugify(data.title) || 'topic'}`,
+   34| 			timestamp: timestamp,
+   35| 			lastposttime: 0,
+   36| 			postcount: 0,
+   37| 			viewcount: 0,
+   38| 		};
+       		^ [1]
+
+
+Error -------------------------------------------------------------------------------------- src/topics/create.js:245:27
+
+Missing an annotation on `postData`. [missing-local-annot]
+
+   245| 	async function onNewPost(postData, data) {
+                                  ^^^^^^^^
+
+
+Error -------------------------------------------------------------------------------------- src/topics/create.js:245:37
+
+Missing an annotation on `data`. [missing-local-annot]
+
+   245| 	async function onNewPost(postData, data) {
+                                            ^^^^
+
+
+Error -------------------------------------------------------------------------------------- src/topics/create.js:286:17
+
+Missing an annotation on `item`. [missing-local-annot]
+
+   286| 	function check(item, min, max, minError, maxError) {
+                        ^^^^
+
+
+Error -------------------------------------------------------------------------------------- src/topics/create.js:286:23
+
+Missing an annotation on `min`. [missing-local-annot]
+
+   286| 	function check(item, min, max, minError, maxError) {
+                              ^^^
+
+
+Error -------------------------------------------------------------------------------------- src/topics/create.js:286:28
+
+Missing an annotation on `max`. [missing-local-annot]
+
+   286| 	function check(item, min, max, minError, maxError) {
+                                   ^^^
+
+
+Error -------------------------------------------------------------------------------------- src/topics/create.js:286:33
+
+Missing an annotation on `minError`. [missing-local-annot]
+
+   286| 	function check(item, min, max, minError, maxError) {
+                                        ^^^^^^^^
+
+
+Error -------------------------------------------------------------------------------------- src/topics/create.js:286:43
+
+Missing an annotation on `maxError`. [missing-local-annot]
+
+   286| 	function check(item, min, max, minError, maxError) {
+                                                  ^^^^^^^^
+
+
+Error -------------------------------------------------------------------------------------- src/topics/create.js:299:34
+
+Missing an annotation on `data`. [missing-local-annot]
+
+   299| 	async function guestHandleValid(data) {
+                                         ^^^^
+
+
+Error -------------------------------------------------------------------------------------- src/topics/create.js:311:26
+
+Missing an annotation on `data`. [missing-local-annot]
+
+   311| 	async function canReply(data, topicData) {
+                                 ^^^^
+
+
+Error -------------------------------------------------------------------------------------- src/topics/create.js:311:32
+
+Missing an annotation on `topicData`. [missing-local-annot]
+
+   311| 	async function canReply(data, topicData) {
+                                       ^^^^^^^^^
+
+
+
+Found 13 errors
