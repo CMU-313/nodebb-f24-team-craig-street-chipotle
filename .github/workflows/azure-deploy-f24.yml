@@ -19,7 +19,7 @@ jobs:
       ./.github/workflows/test.yaml
 
   build-and-deploy:
-    if: github.repository == 'cmu-313/NodeBB'
+    if: github.repository == 'CMU-313/nodebb-f24-team-craig-street-chipotle'
     needs: lint-and-test
 
     runs-on: ubuntu-latest
@@ -30,11 +30,11 @@ jobs:
       - name: Set up Node.js version
         uses: actions/setup-node@v3
         with:
-          node-version: '20.x'
+          node-version: '20.17.0'
 
       - name: Set up NodeBB
         run: |
-          ./nodebb setup '{"url":"https://nodebb-f24.azurewebsites.net:443",
+          ./nodebb setup '{"url":"https://nodebb-craig-street-chipotle.azurewebsites.net:443",
             "admin:username": "admin",
             "admin:password": "${{ secrets.ADMIN_PASSWORD }}",
             "admin:password:confirm": "${{ secrets.ADMIN_PASSWORD }}",
@@ -48,7 +48,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'nodebb-f24'
+          app-name: 'nodebb-craig-street-chipotle'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_BFAB97B1AB1441ACA7C63280F91AD3F3 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CDCB637260324B3399F0397137C3FD97 }}
           package: .
