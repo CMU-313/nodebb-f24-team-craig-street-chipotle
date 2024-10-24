@@ -41,8 +41,8 @@ module.exports = function (Topics) {
 			user.displayname = 'Anonymous';
 		}
 		// this line is to see console output
-		console.log('Incoming data:', data);
-		console.log('Topic data to be saved:', topicData);
+		// console.log('Incoming data:', data);
+		// console.log('Topic data to be saved:', topicData);
 
 		if (Array.isArray(data.tags) && data.tags.length) {
 			topicData.tags = data.tags.join(',');
