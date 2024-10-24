@@ -12,7 +12,7 @@
     "scripts": {
         "start": "node loader.js",
         "lint": "eslint --cache ./nodebb .",
-        "test": "nyc --reporter=html --reporter=text-summary mocha",
+        "test": "standard && node my-tests.js",
         "coverage": "nyc report --reporter=text-lcov > ./coverage/lcov.info",
         "coveralls": "nyc report --reporter=text-lcov | coveralls && rm -r coverage"
     },
@@ -160,6 +160,7 @@
         "eslint": "8.57.0",
         "eslint-config-nodebb": "0.2.1",
         "eslint-plugin-import": "2.29.1",
+        "standard": "*",
         "grunt": "1.6.1",
         "grunt-contrib-watch": "1.1.0",
         "husky": "8.0.3",
