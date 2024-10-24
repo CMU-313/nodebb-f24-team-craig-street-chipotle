@@ -56,7 +56,7 @@ module.exports = function (Topics) {
 			'topics:tid',
 			`cid:${topicData.cid}:tids`,
 			`cid:${topicData.cid}:tids:create`,
-			// `cid:${topicData.cid}:uid:${topicData.uid}:tids`,
+			`cid:${topicData.cid}:uid:${topicData.uid}:tids`,
 			// commented out to prevent the creation of a tag for anonymous users
 		];
 
