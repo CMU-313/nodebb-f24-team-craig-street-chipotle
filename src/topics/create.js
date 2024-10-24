@@ -41,8 +41,8 @@ module.exports = function (Topics) {
 			user.displayname = 'Anonymous';
 		}
 		// this line is to see console output
-		console.log('Incoming data:', data);
-		console.log('Topic data to be saved:', topicData);
+		// console.log('Incoming data:', data);
+		// console.log('Topic data to be saved:', topicData);
 
 		if (Array.isArray(data.tags) && data.tags.length) {
 			topicData.tags = data.tags.join(',');
@@ -56,7 +56,7 @@ module.exports = function (Topics) {
 			'topics:tid',
 			`cid:${topicData.cid}:tids`,
 			`cid:${topicData.cid}:tids:create`,
-			// `cid:${topicData.cid}:uid:${topicData.uid}:tids`,
+			`cid:${topicData.cid}:uid:${topicData.uid}:tids`,
 			// commented out to prevent the creation of a tag for anonymous users
 		];
 
