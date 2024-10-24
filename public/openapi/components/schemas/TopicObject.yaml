@@ -282,5 +282,8 @@ TopicObjectSlim:
         numThumbs:
           type: number
           description: The number of thumbnails associated with this topic
+        anonymous:
+          type: boolean
+          description: Whether or not the user who created this topic is anonymous
       required:
         - tid
