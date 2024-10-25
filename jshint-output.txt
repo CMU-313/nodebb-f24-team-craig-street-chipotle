@@ -1,0 +1,83 @@
+Original Input: jshint public/src/client/register.js
+
+public/src/client/register.js: line 1, col 1, Use the function form of "use strict".
+public/src/client/register.js: line 7, col 5, 'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+public/src/client/register.js: line 8, col 5, 'let' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+public/src/client/register.js: line 9, col 5, 'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+public/src/client/register.js: line 12, col 9, 'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+public/src/client/register.js: line 13, col 9, 'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+public/src/client/register.js: line 14, col 9, 'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+public/src/client/register.js: line 15, col 9, 'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+public/src/client/register.js: line 21, col 9, 'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+public/src/client/register.js: line 62, col 13, 'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+public/src/client/register.js: line 63, col 13, 'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+public/src/client/register.js: line 84, col 29, 'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+public/src/client/register.js: line 86, col 29, 'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+public/src/client/register.js: line 88, col 29, 'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+public/src/client/register.js: line 120, col 9, 'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+public/src/client/register.js: line 122, col 9, 'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+public/src/client/register.js: line 123, col 9, 'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+public/src/client/register.js: line 132, col 26, 'template literal syntax' is only available in ES6 (use 'esversion: 6').
+public/src/client/register.js: line 133, col 26, 'template literal syntax' is only available in ES6 (use 'esversion: 6').
+public/src/client/register.js: line 134, col 29, 'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+public/src/client/register.js: line 135, col 39, 'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+public/src/client/register.js: line 147, col 9, 'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+public/src/client/register.js: line 148, col 9, 'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+public/src/client/register.js: line 149, col 9, 'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+public/src/client/register.js: line 170, col 9, 'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+public/src/client/register.js: line 171, col 9, 'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+public/src/client/register.js: line 172, col 9, 'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+public/src/client/register.js: line 210, col 13, 'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+public/src/client/register.js: line 211, col 13, 'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+public/src/client/register.js: line 4, col 1, 'define' is not defined.
+public/src/client/register.js: line 12, col 26, '$' is not defined.
+public/src/client/register.js: line 13, col 26, '$' is not defined.
+public/src/client/register.js: line 14, col 34, '$' is not defined.
+public/src/client/register.js: line 15, col 26, '$' is not defined.
+public/src/client/register.js: line 19, col 9, '$' is not defined.
+public/src/client/register.js: line 23, col 13, '$' is not defined.
+public/src/client/register.js: line 28, col 13, '$' is not defined.
+public/src/client/register.js: line 51, col 13, '$' is not defined.
+public/src/client/register.js: line 62, col 33, '$' is not defined.
+public/src/client/register.js: line 63, col 29, '$' is not defined.
+public/src/client/register.js: line 88, col 59, '$' is not defined.
+public/src/client/register.js: line 114, col 9, '$' is not defined.
+public/src/client/register.js: line 120, col 33, '$' is not defined.
+public/src/client/register.js: line 122, col 31, '$' is not defined.
+public/src/client/register.js: line 147, col 31, '$' is not defined.
+public/src/client/register.js: line 148, col 33, '$' is not defined.
+public/src/client/register.js: line 149, col 41, '$' is not defined.
+public/src/client/register.js: line 155, col 30, '$' is not defined.
+public/src/client/register.js: line 170, col 38, '$' is not defined.
+public/src/client/register.js: line 171, col 33, '$' is not defined.
+public/src/client/register.js: line 172, col 41, '$' is not defined.
+public/src/client/register.js: line 210, col 28, '$' is not defined.
+public/src/client/register.js: line 211, col 28, '$' is not defined.
+public/src/client/register.js: line 21, col 23, 'utils' is not defined.
+public/src/client/register.js: line 84, col 46, 'utils' is not defined.
+public/src/client/register.js: line 86, col 44, 'utils' is not defined.
+public/src/client/register.js: line 128, col 21, 'utils' is not defined.
+public/src/client/register.js: line 153, col 13, 'utils' is not defined.
+public/src/client/register.js: line 59, col 29, 'document' is not defined.
+public/src/client/register.js: line 59, col 66, 'document' is not defined.
+public/src/client/register.js: line 76, col 41, 'config' is not defined.
+public/src/client/register.js: line 99, col 65, 'config' is not defined.
+public/src/client/register.js: line 101, col 56, 'config' is not defined.
+public/src/client/register.js: line 209, col 30, 'config' is not defined.
+public/src/client/register.js: line 209, col 53, 'config' is not defined.
+public/src/client/register.js: line 211, col 79, 'config' is not defined.
+public/src/client/register.js: line 90, col 29, 'window' is not defined.
+public/src/client/register.js: line 101, col 33, 'window' is not defined.
+public/src/client/register.js: line 94, col 33, 'ajaxify' is not defined.
+public/src/client/register.js: line 124, col 31, 'ajaxify' is not defined.
+public/src/client/register.js: line 124, col 87, 'ajaxify' is not defined.
+public/src/client/register.js: line 126, col 38, 'ajaxify' is not defined.
+public/src/client/register.js: line 131, col 13, 'Promise' is not defined.
+public/src/client/register.js: line 209, col 14, 'app' is not defined.
+
+74 errors
+
+Quick Analysis: noted on website that "Only 15% of all programs linted on jshint.com pass the JSHint checks. 
+In all other cases, JSHint finds some red flags that could've been bugs or potential problems.", has issues over-analyzing
+aspects such as "app" and "ajaxify" not defined which is technically true within the file, however the analysis is arbitrary
+and unhelpful
