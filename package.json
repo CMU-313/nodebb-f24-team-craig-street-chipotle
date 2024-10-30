@@ -163,6 +163,7 @@
         "eslint-plugin-import": "2.29.1",
         "grunt": "1.6.1",
         "grunt-contrib-watch": "1.1.0",
+        "grunt-retire": "^1.0.9",
         "husky": "8.0.3",
         "jsdom": "24.0.0",
         "lint-staged": "15.2.2",
