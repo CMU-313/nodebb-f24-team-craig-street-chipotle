@@ -37,7 +37,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - run: cp install/package.json package.json
-
+      
       - name: Install Node
         uses: actions/setup-node@v4
         with:
@@ -73,9 +73,12 @@ jobs:
             }
         run: |
           node app --setup="${SETUP}" --ci="${CI}"
-
+      
       - name: Run ESLint
         run: npm run lint
+        
+      - name: Run Flow
+        run: npm run flow
 
       - name: Node tests
         run: npm test
