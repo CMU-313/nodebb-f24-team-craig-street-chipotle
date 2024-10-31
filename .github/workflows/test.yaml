@@ -78,7 +78,7 @@ jobs:
         run: npm run lint
         
       - name: Run Flow
-        run: npm run flow init
+        run: npm run flow
 
       - name: Node tests
         run: npm test
