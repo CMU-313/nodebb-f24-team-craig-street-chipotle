@@ -76,6 +76,9 @@ jobs:
 
       - name: Run ESLint
         run: npm run lint
+        
+      - name: Run Flow
+        run: npm run flow
 
       - name: Node tests
         run: npm test
@@ -85,6 +88,3 @@ jobs:
 
       - name: Test coverage
         uses: coverallsapp/github-action@v2
-
-      - name: Run Flow
-        run: npm run flow
