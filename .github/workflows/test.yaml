@@ -78,7 +78,7 @@ jobs:
         run: npm run lint
         
       - name: Run Flow
-        run: npm install --save-dev @babel/core @babel/cli @babel/preset-flow babel-plugin-syntax-hermes-parser | npm install --save-dev flow-bin | npm run flow
+        run: npm run flow init
 
       - name: Node tests
         run: npm test
