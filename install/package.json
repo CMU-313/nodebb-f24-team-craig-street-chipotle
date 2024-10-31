@@ -16,6 +16,14 @@
         "coverage": "nyc report --reporter=text-lcov > ./coverage/lcov.info",
         "coveralls": "nyc report --reporter=text-lcov | coveralls && rm -r coverage"
     },
+    "name": "my-flow-project",
+    "version": "1.0.0",
+    "devDependencies": {
+    "flow-bin": "^0.251.1"
+    },
+    "scripts": {
+      "flow": "flow"
+    }
     "nyc": {
         "exclude": [
             "src/upgrades/*",
