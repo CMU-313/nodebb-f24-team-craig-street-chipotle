@@ -14,16 +14,9 @@
         "lint": "eslint --cache ./nodebb .",
         "test": "nyc --reporter=html --reporter=text-summary mocha",
         "coverage": "nyc report --reporter=text-lcov > ./coverage/lcov.info",
-        "coveralls": "nyc report --reporter=text-lcov | coveralls && rm -r coverage"
+        "coveralls": "nyc report --reporter=text-lcov | coveralls && rm -r coverage",
+        "flow": "flow"
     },
-    "name": "my-flow-project",
-    "version": "1.0.0",
-    "devDependencies": {
-    "flow-bin": "^0.251.1"
-    },
-    "scripts": {
-      "flow": "flow"
-    }
     "nyc": {
         "exclude": [
             "src/upgrades/*",
@@ -168,6 +161,7 @@
         "eslint": "8.57.0",
         "eslint-config-nodebb": "0.2.1",
         "eslint-plugin-import": "2.29.1",
+        "flow-bin": "^0.251.1",
         "grunt": "1.6.1",
         "grunt-contrib-watch": "1.1.0",
         "husky": "8.0.3",
