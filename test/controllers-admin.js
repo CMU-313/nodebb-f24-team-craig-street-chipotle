@@ -65,16 +65,6 @@ describe('Admin Controllers', () => {
 		});
 	});
 
-	// it('should 403 if user is not admin', async () => {
-	// 	({ jar } = await helpers.loginUser('admin', 'barbar'));
-	// 	const { response, body } = await request.get(`${nconf.get('url')}/admin`, {
-	// 		jar: jar,
-	// 	});
-
-	// 	assert.equal(response.statusCode, 403);
-	// 	assert(body);
-	// });
-
 	it('should load admin dashboard', async () => {
 		await groups.join('administrators', adminUid);
 		const dashboards = [
