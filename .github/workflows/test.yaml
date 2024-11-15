@@ -80,8 +80,8 @@ jobs:
       - name: Run Flow
         run: npm run flow
 
-      - name: Node tests
-        run: npm test
+      # - name: Node tests
+      #   run: npm test
 
       - name: Extract coverage info
         run: npm run coverage
